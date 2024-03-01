@@ -8,7 +8,7 @@
     <link href="/2023/12/15/FirstTest/"/>
     <url>/2023/12/15/FirstTest/</url>
     
-    <content type="html"><![CDATA[<hr><p>这是我的第一篇博客，用于记录自己的学习过程。</p><p>​                 By Fantasylee</p>]]></content>
+    <content type="html"><![CDATA[<hr><p>这是我的第一篇博客，用于记录自己的学习过程。</p><p>下面是我创建过程中的一些tips</p><h6 id="1"><a href="#1" class="headerlink" title="1."></a>1.</h6><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hexo n -p post <span class="hljs-built_in">dir</span>/post1<br></code></pre></td></tr></table></figure><p>通过这个指令会在<code>source/_post/dir</code>目录下创建<code>post1.md</code></p><h6 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h6><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">hexo s</span><br></code></pre></td></tr></table></figure><p>这个指令启动本地服务器</p><h6 id="3"><a href="#3" class="headerlink" title="3."></a>3.</h6><ul><li><p>删除已有静态文件：<code>hexo clean</code>（为了避免可能的错误）</p></li><li><p>重新生成静态文件：<code>hexo g</code></p></li><li><p>重新部署：<code>hexo d</code>，稍等一段时间后刷新网页，发现主题生效</p><p align="right">By Fantasylee<p/></li></ul>]]></content>
     
     
     
