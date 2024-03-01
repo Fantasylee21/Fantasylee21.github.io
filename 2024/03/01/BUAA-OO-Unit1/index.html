@@ -16,22 +16,25 @@
   <meta name="author" content="Fantasylee">
   <meta name="keywords" content="">
   
-    <meta name="description" content="这是我的第一篇博客，用于记录自己的学习过程。 下面是我创建过程中的一些tips 1.1hexo n -p post dir&#x2F;post1 通过这个指令会在source&#x2F;_post&#x2F;dir目录下创建post1.md 2.1hexo s 这个指令启动本地服务器 3. 删除已有静态文件：hexo clean（为了避免可能的错误）  重新生成静态文件：hexo g  重新部署：hexo d，稍等一段时间后">
+    <meta name="description" content="BUAA_OO_Unit1总结一、第一次作业hw1前言耗时数天完成了代码书写及代码调试，感悟良多，归功于Training中的内容，我在本次作业中也选择了对应的递归下降的思路构造语法树，同时在根据语法树利用逆向思路将解析完的表达式转化为多项式形式，最后多项式存入TreeMap中按要求降序输出结果 1.代码UML框架 2.代码架构分析2.1 预处理 根据表达式的形式化表达我们可以得到以下结论：  表">
 <meta property="og:type" content="article">
-<meta property="og:title" content="FirstTest">
-<meta property="og:url" content="http://example.com/2023/12/15/FirstTest/index.html">
+<meta property="og:title" content="BUAA_OO_Unit1">
+<meta property="og:url" content="http://example.com/2024/03/01/BUAA-OO-Unit1/index.html">
 <meta property="og:site_name" content="Fantasylee&#39;s Blog">
-<meta property="og:description" content="这是我的第一篇博客，用于记录自己的学习过程。 下面是我创建过程中的一些tips 1.1hexo n -p post dir&#x2F;post1 通过这个指令会在source&#x2F;_post&#x2F;dir目录下创建post1.md 2.1hexo s 这个指令启动本地服务器 3. 删除已有静态文件：hexo clean（为了避免可能的错误）  重新生成静态文件：hexo g  重新部署：hexo d，稍等一段时间后">
+<meta property="og:description" content="BUAA_OO_Unit1总结一、第一次作业hw1前言耗时数天完成了代码书写及代码调试，感悟良多，归功于Training中的内容，我在本次作业中也选择了对应的递归下降的思路构造语法树，同时在根据语法树利用逆向思路将解析完的表达式转化为多项式形式，最后多项式存入TreeMap中按要求降序输出结果 1.代码UML框架 2.代码架构分析2.1 预处理 根据表达式的形式化表达我们可以得到以下结论：  表">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-12-15T15:12:37.000Z">
-<meta property="article:modified_time" content="2024-03-01T03:27:34.345Z">
+<meta property="og:image" content="http://example.com/2024/03/01/BUAA-OO-Unit1/uml.png">
+<meta property="og:image" content="http://example.com/2024/03/01/BUAA-OO-Unit1/image-20240301204258960.png">
+<meta property="article:published_time" content="2024-03-01T03:40:07.000Z">
+<meta property="article:modified_time" content="2024-03-01T14:06:46.914Z">
 <meta property="article:author" content="Fantasylee">
-<meta property="article:tag" content="Test">
+<meta property="article:tag" content="BUAA_OO">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2024/03/01/BUAA-OO-Unit1/uml.png">
   
   
   
-  <title>FirstTest - Fantasylee&#39;s Blog</title>
+  <title>BUAA_OO_Unit1 - Fantasylee&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -197,7 +200,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="FirstTest"></span>
+            <span id="subtitle" data-typed-text="BUAA_OO_Unit1"></span>
           
         </div>
 
@@ -208,8 +211,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-12-15 23:12" pubdate>
-          2023年12月15日 晚上
+        <time datetime="2024-03-01 11:40" pubdate>
+          2024年3月1日 中午
         </time>
       </span>
     
@@ -220,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          102 字
+          524 字
         
       </span>
     
@@ -231,7 +234,7 @@
         
         
         
-          1 分钟
+          5 分钟
         
       </span>
     
@@ -268,27 +271,55 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">FirstTest</h1>
+            <h1 id="seo-header">BUAA_OO_Unit1</h1>
             
             
               <div class="markdown-body">
                 
                 <hr>
-<p>这是我的第一篇博客，用于记录自己的学习过程。</p>
-<p>下面是我创建过程中的一些tips</p>
-<h6 id="1"><a href="#1" class="headerlink" title="1."></a>1.</h6><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hexo n -p post <span class="hljs-built_in">dir</span>/post1<br></code></pre></td></tr></table></figure>
-<p>通过这个指令会在<code>source/_post/dir</code>目录下创建<code>post1.md</code></p>
-<h6 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h6><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">hexo s</span><br></code></pre></td></tr></table></figure>
-<p>这个指令启动本地服务器</p>
-<h6 id="3"><a href="#3" class="headerlink" title="3."></a>3.</h6><ul>
-<li><p>删除已有静态文件：<code>hexo clean</code>（为了避免可能的错误）</p>
+<h1 id="BUAA-OO-Unit1总结"><a href="#BUAA-OO-Unit1总结" class="headerlink" title="BUAA_OO_Unit1总结"></a>BUAA_OO_Unit1总结</h1><h2 id="一、第一次作业hw1"><a href="#一、第一次作业hw1" class="headerlink" title="一、第一次作业hw1"></a>一、第一次作业hw1</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>耗时数天完成了代码书写及代码调试，感悟良多，归功于Training中的内容，我在本次作业中也选择了对应的递归下降的思路构造语法树，同时在根据语法树利用逆向思路将解析完的表达式转化为多项式形式，最后多项式存入TreeMap中按要求降序输出结果</p>
+<h3 id="1-代码UML框架"><a href="#1-代码UML框架" class="headerlink" title="1.代码UML框架"></a>1.代码UML框架</h3><p><img src="uml.png" srcset="/img/loading.gif" lazyload alt="UML框架"></p>
+<h3 id="2-代码架构分析"><a href="#2-代码架构分析" class="headerlink" title="2.代码架构分析"></a>2.代码架构分析</h3><h4 id="2-1-预处理"><a href="#2-1-预处理" class="headerlink" title="2.1 预处理"></a>2.1 预处理</h4><p><img src="image-20240301204258960.png" srcset="/img/loading.gif" lazyload alt="形式化表述"></p>
+<p>根据表达式的形式化表达我们可以得到以下结论：</p>
+<ol>
+<li>表达式中最多三个连续的<code>+</code>或者<code>-</code></li>
+<li>常数因子可以有前导0</li>
+<li>指数符号后只可能是<code>token.ADD</code>或者<code>token.NUM</code></li>
+<li>表达式中可能存在大量 <code>space</code>和<code>\t</code></li>
+<li>表达式或<code>(</code>后可能存在符号</li>
+</ol>
+<p>于是为了简化后续操作我选择进行的以下操作</p>
+<ol>
+<li>若读到<code>+</code>且前面存在其他符号或位于开头则去掉加号</li>
+<li>若读到<code>-</code>且前面存在<code>(</code>或者位于开头则在前面加上0，若减号连续则将其换为一个<code>+</code></li>
+<li>去掉所有空格</li>
+</ol>
+<h4 id="2-2-词法分析与解析部分"><a href="#2-2-词法分析与解析部分" class="headerlink" title="2.2 词法分析与解析部分"></a>2.2 词法分析与解析部分</h4><h5 id="2-2-1-Lexer部分"><a href="#2-2-1-Lexer部分" class="headerlink" title="2.2.1 Lexer部分"></a>2.2.1 Lexer部分</h5><ol>
+<li>在读取到<code>token.NUM</code>时去除前缀0（但是谨记保证数不会被全部去掉）</li>
+<li>在读取到未知符号时我们选择抛出异常（强烈建议此方法，后续可以快速定位bug）</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RuntimeException</span>(<span class="hljs-string">&quot;Invalid token&quot;</span>);<br></code></pre></td></tr></table></figure>
+<h5 id="2-2-2-Parse"><a href="#2-2-2-Parse" class="headerlink" title="2.2.2 Parse"></a>2.2.2 Parse</h5><p>该部分是代码词法解析的核心部分</p>
+<ol>
+<li><p>我完成了<code>parseExpr()、parseTerm()、parseFactor()</code>的书写并采用递归下降的方法调用</p>
 </li>
-<li><p>重新生成静态文件：<code>hexo g</code></p>
+<li><p>由于预处理我们可以只对Term加上正负属性并且在这里完成项的正负号的确定</p>
 </li>
-<li><p>重新部署：<code>hexo d</code>，稍等一段时间后刷新网页，发现主题生效</p>
-<p></p><p align="right">By Fantasylee</p><p></p>
+<li><p>在解析项时去掉指数符号，将其全部转化为因子形式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-type">Factor</span> <span class="hljs-variable">factor</span> <span class="hljs-operator">=</span> parseFactor();<br>        <span class="hljs-keyword">if</span> (factor.getExponent() == <span class="hljs-number">0</span>) &#123;<br>            term.addFactor(<span class="hljs-keyword">new</span> <span class="hljs-title class_">NumFactor</span>(BigInteger.ONE));<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; factor.getExponent(); i++) &#123;<br>            term.addFactor(factor);<br>        &#125;<br></code></pre></td></tr></table></figure>
 </li>
-</ul>
+</ol>
+<ol>
+<li><p>同上在解析未知符号是我们选择抛出异常便于debug</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RuntimeException</span>(<span class="hljs-string">&quot;Invalid token&quot;</span>);<br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="2-3-根据解析结果转化为多项式"><a href="#2-3-根据解析结果转化为多项式" class="headerlink" title="2.3 根据解析结果转化为多项式"></a>2.3 根据解析结果转化为多项式</h4><p>该部分核心思路还是递归思路</p>
+<p>Expr -&gt; Term -&gt; Factor</p>
+<p>然后多项式中存入<code>TreeMap&lt;Integer,BigInteger&gt; polynomial</code></p>
+<p>最后我们要得到如下形式</p>
+<script type="math/tex; mode=display">
+Expr = \sum_{i = 0} a_i*x^{b_i}</script><p>好处：保证有序性和便于得到$a_i$和$b_i$，在此基础上得到一个字符串即可</p>
 
                 
               </div>
@@ -297,11 +328,32 @@
             <div>
               <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/BUAA-Learning/" class="category-chain-item">BUAA_Learning</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
   
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Test/" class="print-no-link">#Test</a>
+        <a href="/tags/BUAA-OO/" class="print-no-link">#BUAA_OO</a>
       
     </div>
   
@@ -313,8 +365,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>FirstTest</div>
-      <div>http://example.com/2023/12/15/FirstTest/</div>
+      <div>BUAA_OO_Unit1</div>
+      <div>http://example.com/2024/03/01/BUAA-OO-Unit1/</div>
     </div>
     <div class="license-meta">
       
@@ -326,7 +378,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年12月15日</div>
+          <div>2024年3月1日</div>
         </div>
       
       
@@ -358,15 +410,15 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/03/01/BUAA-OO-Unit1/" title="BUAA_OO_Unit1">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">BUAA_OO_Unit1</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2023/12/15/FirstTest/" title="FirstTest">
+                        <span class="hidden-mobile">FirstTest</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
@@ -420,6 +472,12 @@
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -613,6 +671,49 @@
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 
