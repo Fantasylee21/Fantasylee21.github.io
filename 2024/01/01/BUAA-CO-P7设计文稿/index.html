@@ -1,0 +1,976 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon.png">
+  <link rel="icon" href="/img/icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Fantasylee">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="P7CPU设计文稿1.总体架构 任务清单 新增指令：mfc0, mtc0, eret, syscall P7 与之前的 project 相比，涉及的内容较多，所以在实现的时候很容易手忙脚乱，这里列出完成 P7 需要的事宜：     任务 解释     计时器 课程组提供实现代码，只需要结合代码和文档理解应用即可。   系统桥 为 CPU 提供统一的访问外设的接口，需要按规格自行实现。   协处理器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BUAA_CO_P7设计文稿">
+<meta property="og:url" content="https://fantasylee21.github.io/2024/01/01/BUAA-CO-P7%E8%AE%BE%E8%AE%A1%E6%96%87%E7%A8%BF/index.html">
+<meta property="og:site_name" content="Fantasylee&#39;s Blog">
+<meta property="og:description" content="P7CPU设计文稿1.总体架构 任务清单 新增指令：mfc0, mtc0, eret, syscall P7 与之前的 project 相比，涉及的内容较多，所以在实现的时候很容易手忙脚乱，这里列出完成 P7 需要的事宜：     任务 解释     计时器 课程组提供实现代码，只需要结合代码和文档理解应用即可。   系统桥 为 CPU 提供统一的访问外设的接口，需要按规格自行实现。   协处理器">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/01/01/BUAA-CO-P7%E8%AE%BE%E8%AE%A1%E6%96%87%E7%A8%BF/Structure.png">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/01/01/BUAA-CO-P7%E8%AE%BE%E8%AE%A1%E6%96%87%E7%A8%BF/p6cpu.jpg">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/01/01/BUAA-CO-P7%E8%AE%BE%E8%AE%A1%E6%96%87%E7%A8%BF/strict.png">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/01/01/BUAA-CO-P7%E8%AE%BE%E8%AE%A1%E6%96%87%E7%A8%BF/mode0.jpg">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/01/01/BUAA-CO-P7%E8%AE%BE%E8%AE%A1%E6%96%87%E7%A8%BF/mode1.jpg">
+<meta property="article:published_time" content="2024-01-01T09:15:46.000Z">
+<meta property="article:modified_time" content="2024-03-06T09:19:20.170Z">
+<meta property="article:author" content="Fantasylee">
+<meta property="article:tag" content="计算机组成CO">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://fantasylee21.github.io/2024/01/01/BUAA-CO-P7%E8%AE%BE%E8%AE%A1%E6%96%87%E7%A8%BF/Structure.png">
+  
+  
+  
+  <title>BUAA_CO_P7设计文稿 - Fantasylee&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"fantasylee21.github.io","root":"/","version":"1.9.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fantasylee&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="BUAA_CO_P7设计文稿"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-01 17:15" pubdate>
+          2024年1月1日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          18 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">BUAA_CO_P7设计文稿</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="P7CPU设计文稿"><a href="#P7CPU设计文稿" class="headerlink" title="P7CPU设计文稿"></a>P7CPU设计文稿</h1><h2 id="1-总体架构"><a href="#1-总体架构" class="headerlink" title="1.总体架构"></a>1.总体架构</h2><p><img src="Structure.png" srcset="/img/loading.gif" lazyload alt="Structure.png"></p>
+<p><strong>任务清单</strong></p>
+<p>新增指令：<strong>mfc0,</strong> <strong>mtc0,</strong> <strong>eret,</strong> <strong>syscall</strong></p>
+<p>P7 与之前的 project 相比，涉及的内容较多，所以在实现的时候很容易手忙脚乱，这里列出完成 P7 需要的事宜：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">任务</th>
+<th style="text-align:left">解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">计时器</td>
+<td style="text-align:left">课程组提供实现代码，只需要结合代码和文档理解应用即可。</td>
+</tr>
+<tr>
+<td style="text-align:left">系统桥</td>
+<td style="text-align:left">为 CPU 提供统一的访问外设的接口，需要按规格自行实现。</td>
+</tr>
+<tr>
+<td style="text-align:left">协处理器 CP0</td>
+<td style="text-align:left">设置 CPU 的异常处理功能，反馈 CPU 的异常信息，需要按规格自行实现。</td>
+</tr>
+<tr>
+<td style="text-align:left">内部异常检测与流水</td>
+<td style="text-align:left">CPU 需要具有可以检测内部指令执行错误的能力。</td>
+</tr>
+<tr>
+<td style="text-align:left">外部中断响应</td>
+<td style="text-align:left">CPU 需要具有初步响应外部中断信号的能力。</td>
+</tr>
+<tr>
+<td style="text-align:left">异常处理指令</td>
+<td style="text-align:left">在异常处理程序中，会有一些特殊的指令需要实现。</td>
+</tr>
+<tr>
+<td style="text-align:left">单周期 CPU 的封装</td>
+<td style="text-align:left">让 CPU 从外部看上去是一个单周期 CPU。</td>
+</tr>
+<tr>
+<td style="text-align:left">异常处理程序</td>
+<td style="text-align:left">利用 MARS 编写简单的异常处理程序用于测试。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img src="p6cpu.jpg" srcset="/img/loading.gif" lazyload alt="p6cpu"></p>
+<h2 id="2-具体实现"><a href="#2-具体实现" class="headerlink" title="2.具体实现"></a>2.具体实现</h2><h3 id="1-CP0"><a href="#1-CP0" class="headerlink" title="1.CP0"></a>1.CP0</h3><p>将CP0置于M级，故宏观PC为M级对于PC</p>
+<p> CP0 的端口声明如下：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">端口</th>
+<th style="text-align:left">方向</th>
+<th style="text-align:left">位数</th>
+<th style="text-align:left">解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">clk</td>
+<td style="text-align:left">I</td>
+<td style="text-align:left">1</td>
+<td style="text-align:left">时钟信号。</td>
+</tr>
+<tr>
+<td style="text-align:left">reset</td>
+<td style="text-align:left">I</td>
+<td style="text-align:left">1</td>
+<td style="text-align:left">复位信号。</td>
+</tr>
+<tr>
+<td style="text-align:left">en</td>
+<td style="text-align:left">I</td>
+<td style="text-align:left">1</td>
+<td style="text-align:left">写使能信号。</td>
+</tr>
+<tr>
+<td style="text-align:left">CP0Addr</td>
+<td style="text-align:left">I</td>
+<td style="text-align:left">5</td>
+<td style="text-align:left">寄存器地址。</td>
+</tr>
+<tr>
+<td style="text-align:left">CP0In</td>
+<td style="text-align:left">I</td>
+<td style="text-align:left">32</td>
+<td style="text-align:left">CP0 写入数据。</td>
+</tr>
+<tr>
+<td style="text-align:left">CP0Out</td>
+<td style="text-align:left">O</td>
+<td style="text-align:left">32</td>
+<td style="text-align:left">CP0 读出数据。</td>
+</tr>
+<tr>
+<td style="text-align:left">VPC</td>
+<td style="text-align:left">I</td>
+<td style="text-align:left">32</td>
+<td style="text-align:left">受害 PC。</td>
+</tr>
+<tr>
+<td style="text-align:left">BDIn</td>
+<td style="text-align:left">I</td>
+<td style="text-align:left">1</td>
+<td style="text-align:left">是否是延迟槽指令。</td>
+</tr>
+<tr>
+<td style="text-align:left">ExcCodeIn</td>
+<td style="text-align:left">I</td>
+<td style="text-align:left">5</td>
+<td style="text-align:left">记录异常类型。</td>
+</tr>
+<tr>
+<td style="text-align:left">HWInt</td>
+<td style="text-align:left">I</td>
+<td style="text-align:left">6</td>
+<td style="text-align:left">输入中断信号。</td>
+</tr>
+<tr>
+<td style="text-align:left">EXLClr</td>
+<td style="text-align:left">I</td>
+<td style="text-align:left">1</td>
+<td style="text-align:left">用来复位 EXL。</td>
+</tr>
+<tr>
+<td style="text-align:left">EPCOut</td>
+<td style="text-align:left">O</td>
+<td style="text-align:left">32</td>
+<td style="text-align:left">EPC 的值。</td>
+</tr>
+<tr>
+<td style="text-align:left">Req</td>
+<td style="text-align:left">O</td>
+<td style="text-align:left">1</td>
+<td style="text-align:left">进入处理程序请求。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>CP0位置确定</p>
+<h3 id="2-约定"><a href="#2-约定" class="headerlink" title="2.约定"></a>2.约定</h3><ol>
+<li>如果发生异常的指令是延迟槽指令，那么返回程序时仍然返回这条指令所属的跳转指令。也就是说“异常延迟槽回到跳转”。</li>
+<li>如果发生异常的指令是跳转指令，那么我们要求执行完延迟槽。</li>
+<li>如果发生异常的指令是乘除指令的下一条，乘除指令不被撤回。也就是对于 M错误指令，W乘除指令 的情况，此时乘除槽正在计算，本来在异常处理时可能会覆盖乘除槽的结果，但是我们约定不会这么做。但是注意，如果是 E乘除指令，M错误指令，你要保证乘除指令不执行。</li>
+</ol>
+<p><strong>范围约定</strong></p>
+<p><img src="strict.png" srcset="/img/loading.gif" lazyload alt="strict"></p>
+<h3 id="3-中断异常"><a href="#3-中断异常" class="headerlink" title="3.中断异常"></a>3.中断异常</h3><p><strong>中断异常约束</strong></p>
+<ul>
+<li><p>异常入口：《SMRL》的表 5.1 中定义了 MIPS 的异常入口，但考虑到简化设计以及与 MARS 保持一致，我们只支持 0x4180 一个入口地址，所有异常与中断都将从这里进入。</p>
+</li>
+<li><p>嵌套中断异常：本实验不要求支持中断异常嵌套的情况。</p>
+</li>
+<li><p>优先级：中断优先级高于异常优先级，即当有异常提交至 CP0 寄存器时，若有中断发生，则硬件应先响应中断，并重新执行受害指令及其后续指令；若没有中断发生，则处理异常。</p>
+</li>
+<li><p>精确异常：</p>
+<ul>
+<li><p>除下面的情况外，对所有中断异常的处理都应遵循精确异常的处理规则。</p>
+</li>
+<li><p>在进入中断或异常状态时，如果受害指令及其后续指令</p>
+<p>已经改变</p>
+<p>了 MDU 的状态，则无需恢复。假设 CP0 在 M 级，MDU 在 E 级，考虑以下情况：</p>
+<ul>
+<li><code>mult</code> 在 E 级启动了乘法运算，流水到 M 级时产生了中断，此时无需停止乘法计算，其它乘除法指令同理。</li>
+<li><code>mthi</code> 在 E 级修改了 HI 寄存器，流水到 M 级时产生了中断，此时无需恢复 HI 寄存器的值，<code>mtlo</code> 同理。</li>
+<li><code>mult</code> 在 E 级，受害指令在 M 级，此时还未改变 MDU 状态，不应开始乘法计算，其它乘除法指令同理。</li>
+<li><code>mthi</code> 在 E 级，受害指令在 M 级，此时还未改变 MDU 状态，不应修改 HI 寄存器的值，<code>mtlo</code> 同理。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>中断规范：</p>
+<ul>
+<li>Timer0 输出的中断信号接入 HWInt[0] (最低中断位)，Timer1 输出的中断信号接入 HWInt[1]，来自中断发生器的中断信号接入 HWInt[2]。</li>
+<li>规定中断产生时的受害指令为宏观 PC 对应的指令，此时应将宏观 PC 写入 EPC。</li>
+</ul>
+</li>
+<li><p>MIPS 微系统需要支持的异常：</p>
+<p>| ExcCode | 助记符  | 描述                                             |<br>| :——— | :——— | :———————————————————————- |<br>| 0       | Int     | 中断。                                           |<br>| 4       | AdEL    | 取数或取指时地址错误。                           |<br>| 5       | AdES    | 存数时地址错误。                                 |<br>| 8       | Syscall | 系统调用。                                       |<br>| 10      | RI      | 不认识的（或者非法的）指令码。                   |<br>| 12      | Ov      | 自陷形式的整数算术指令（例如 <code>add</code>）导致的溢出。 |</p>
+</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">异常与中断码</th>
+<th style="text-align:left">助记符与名称</th>
+<th style="text-align:left">指令与指令类型</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">0</td>
+<td style="text-align:left"><code>Int</code> （外部中断）</td>
+<td style="text-align:left">所有指令</td>
+<td style="text-align:left">中断请求，来源于计时器与外部中断。</td>
+</tr>
+<tr>
+<td style="text-align:left">4</td>
+<td style="text-align:left"><code>AdEL</code> （取指异常）</td>
+<td style="text-align:left">所有指令</td>
+<td style="text-align:left">PC 地址未字对齐。</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">PC 地址超过 <code>0x3000 ~ 0x6ffc</code>。</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><code>AdEL</code> （取数异常）</td>
+<td style="text-align:left"><code>lw</code></td>
+<td style="text-align:left">取数地址未与 4 字节对齐。</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"><code>lh</code></td>
+<td style="text-align:left">取数地址未与 2 字节对齐。</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"><code>lh</code>, <code>lb</code></td>
+<td style="text-align:left">取 Timer 寄存器的值。</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">load 型指令</td>
+<td style="text-align:left">计算地址时加法溢出。</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">load 型指令</td>
+<td style="text-align:left">取数地址超出 DM、Timer0、Timer1、中断发生器的范围。</td>
+</tr>
+<tr>
+<td style="text-align:left">5</td>
+<td style="text-align:left"><code>AdES</code> （存数异常）</td>
+<td style="text-align:left"><code>sw</code></td>
+<td style="text-align:left">存数地址未 4 字节对齐。</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"><code>sh</code></td>
+<td style="text-align:left">存数地址未 2 字节对齐。</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"><code>sh</code>, <code>sb</code></td>
+<td style="text-align:left">存 Timer 寄存器的值。</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">store 型指令</td>
+<td style="text-align:left">计算地址加法溢出。</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">store 型指令</td>
+<td style="text-align:left">向计时器的 Count 寄存器存值。</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">store 型指令</td>
+<td style="text-align:left">存数地址超出 DM、Timer0、Timer1、中断发生器的范围。</td>
+</tr>
+<tr>
+<td style="text-align:left">8</td>
+<td style="text-align:left"><code>Syscall</code> （系统调用）</td>
+<td style="text-align:left"><code>syscall</code></td>
+<td style="text-align:left">系统调用。</td>
+</tr>
+<tr>
+<td style="text-align:left">10</td>
+<td style="text-align:left"><code>RI</code>（未知指令）</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">未知的指令码。</td>
+</tr>
+<tr>
+<td style="text-align:left">12</td>
+<td style="text-align:left"><code>Ov</code>（溢出异常）</td>
+<td style="text-align:left"><code>add</code>, <code>addi</code>, <code>sub</code></td>
+<td style="text-align:left">算术溢出。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="4-eret指令"><a href="#4-eret指令" class="headerlink" title="4.eret指令"></a>4.eret指令</h3><p>eret 将保存在 CP0 的 EPC 寄存器中的现场(被中断指令的下一条地址)写入 PC，从而实现从中断、 异常或指令执行错误的处理程序中返回</p>
+<h2 id="3-思考题"><a href="#3-思考题" class="headerlink" title="3.思考题"></a>3.思考题</h2><h3 id="1-问题"><a href="#1-问题" class="headerlink" title="1.问题"></a>1.问题</h3><p>1、请查阅相关资料，说明鼠标和键盘的输入信号是如何被 CPU 知晓的？</p>
+<p>2、请思考为什么我们的 CPU 处理中断异常必须是已经指定好的地址？如果你的 CPU 支持用户自定义入口地址，即处理中断异常的程序由用户提供，其还能提供我们所希望的功能吗？如果可以，请说明这样可能会出现什么问题？否则举例说明。（假设用户提供的中断处理程序合法）</p>
+<p>3、为何与外设通信需要 Bridge？</p>
+<p>4、请阅读官方提供的定时器源代码，阐述两种中断模式的异同，并分别针对每一种模式绘制状态移图。</p>
+<p>5、倘若中断信号流入的时候，在检测宏观 PC 的一级如果是一条空泡（你的 CPU 该级所有信息均为空）指令，此时会发生什么问题？在此例基础上请思考：在 P7 中，清空流水线产生的空泡指令应该保留原指令的哪些信息？</p>
+<p>6、为什么 <code>jalr</code> 指令为什么不能写成 <code>jalr $31, $31</code>？</p>
+<h3 id="2-答案"><a href="#2-答案" class="headerlink" title="2.答案"></a>2.答案</h3><ol>
+<li><p>鼠标和键盘的输入信号是通过它们的接口（例如 USB）发送给计算机的主板。主板上的输入/输出控制器会将这些信号转换成数字信号，然后发送给中央处理器（CPU）。CPU会解析这些信号并根据用户的操作来执行相应的指令。IO设备的输入输出有好几种方式，键盘、鼠标这类的低速设备是通过中断请求的方式进行IO操作的。即当键盘上按下一个按键的时候，键盘会发出一个中断信号，中断信号经过中断控制器传到CPU，然后CPU根据不同的中断号执行不同的中断响应程序，然后进行相应的IO操作，把按下的按键编码读到寄存器（或者鼠标的操作），最后放入内存中。</p>
+</li>
+<li><p>保证设计的统一性，即通过协议保证接口更加兼容。用户使用自定义处理可能出现不兼容的问题</p>
+</li>
+<li><p>正如教程所说，系统桥是连接 CPU 和外设的功能设备，它会给 CPU 提供一种接口，使得 CPU 可以像读写普通存储器一样（即按地址读写）来读写复杂多变的外设，不用管数据是从哪来，怎么来，只用发挥CPU本身功能就可以。系统桥统一且简化了 CPU 的对外接口，CPU 不必为每种外设单独提供接口，符合高内聚，低耦合的设计思想。</p>
+</li>
+<li><p>模式0通常用于产生定时中断  ,当计数器倒计数为 0 后，计数器停止计数，Ctrl 寄存器的计数使能自动变为 0，并且中断信号始终保持有效，直到屏蔽中断或重新开始计数。</p>
+<p><img src="mode0.jpg" srcset="/img/loading.gif" lazyload alt="mode0"></p>
+<p>模式1当计数器倒计数为 0 后， 初值寄存器值被自动加载至计数器， 计数器继续倒计数。模式 1 通常用于产生周期性脉冲</p>
+<p><img src="mode1.jpg" srcset="/img/loading.gif" lazyload alt="mode1"></p>
+</li>
+<li><p>会导致宏观PC突然为0或者为x。在清空流水线的时候，应该保留PC信息。</p>
+</li>
+<li><p>PC &lt;- GPR[rs]和GPR[rd] &lt;- PC + 4的进行顺序未知，存在二义</p>
+</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/BUAA-Learning/" class="category-chain-item">BUAA_Learning</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90CO/" class="print-no-link">#计算机组成CO</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>BUAA_CO_P7设计文稿</div>
+      <div>https://fantasylee21.github.io/2024/01/01/BUAA-CO-P7设计文稿/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Fantasylee</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/03/01/BUAA-OO-Unit1/" title="BUAA_OO_Unit1">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">BUAA_OO_Unit1</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/01/BUAA-CO-P5%E5%92%8CP6CPU%E8%AE%BE%E8%AE%A1%E6%96%87%E7%A8%BF/" title="BUAA_CO_P5和P6CPU设计文稿">
+                        <span class="hidden-mobile">BUAA_CO_P5和P6CPU设计文稿</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

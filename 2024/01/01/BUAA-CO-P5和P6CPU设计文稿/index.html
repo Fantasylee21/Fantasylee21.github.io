@@ -1,0 +1,1468 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon.png">
+  <link rel="icon" href="/img/icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Fantasylee">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="P5——CPU设计文稿1.总示意图 2.命名规范1.模块以及接口加上各级前缀 2.属于某模块在级后面在加模块名 3.模块定义1）Datapath1、E_ALU模块同指导书，改为case来操作     信号名 方向 描述     E_ALU_A [31 : 0] I 32位输入信号   E_ALU_B [31 : 0] I 32位输入信号   E_ALU_Shamt [4 : 0] I 五位输入信号">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BUAA_CO_P5和P6CPU设计文稿">
+<meta property="og:url" content="https://fantasylee21.github.io/2024/01/01/BUAA-CO-P5%E5%92%8CP6CPU%E8%AE%BE%E8%AE%A1%E6%96%87%E7%A8%BF/index.html">
+<meta property="og:site_name" content="Fantasylee&#39;s Blog">
+<meta property="og:description" content="P5——CPU设计文稿1.总示意图 2.命名规范1.模块以及接口加上各级前缀 2.属于某模块在级后面在加模块名 3.模块定义1）Datapath1、E_ALU模块同指导书，改为case来操作     信号名 方向 描述     E_ALU_A [31 : 0] I 32位输入信号   E_ALU_B [31 : 0] I 32位输入信号   E_ALU_Shamt [4 : 0] I 五位输入信号">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/01/01/BUAA-CO-P5%E5%92%8CP6CPU%E8%AE%BE%E8%AE%A1%E6%96%87%E7%A8%BF/p5cpu.jpg">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/01/01/BUAA-CO-P5%E5%92%8CP6CPU%E8%AE%BE%E8%AE%A1%E6%96%87%E7%A8%BF/p6cpu.jpg">
+<meta property="article:published_time" content="2024-01-01T09:11:52.000Z">
+<meta property="article:modified_time" content="2024-03-06T09:24:45.685Z">
+<meta property="article:author" content="Fantasylee">
+<meta property="article:tag" content="计算机组成CO">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://fantasylee21.github.io/2024/01/01/BUAA-CO-P5%E5%92%8CP6CPU%E8%AE%BE%E8%AE%A1%E6%96%87%E7%A8%BF/p5cpu.jpg">
+  
+  
+  
+  <title>BUAA_CO_P5和P6CPU设计文稿 - Fantasylee&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"fantasylee21.github.io","root":"/","version":"1.9.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fantasylee&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="BUAA_CO_P5和P6CPU设计文稿"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-01 17:11" pubdate>
+          2024年1月1日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          17 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">BUAA_CO_P5和P6CPU设计文稿</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="P5——CPU设计文稿"><a href="#P5——CPU设计文稿" class="headerlink" title="P5——CPU设计文稿"></a>P5——CPU设计文稿</h1><h2 id="1-总示意图"><a href="#1-总示意图" class="headerlink" title="1.总示意图"></a>1.总示意图</h2><p><img src="p5cpu.jpg" srcset="/img/loading.gif" lazyload alt="&quot;p5cpu.jpg&quot;"></p>
+<h2 id="2-命名规范"><a href="#2-命名规范" class="headerlink" title="2.命名规范"></a>2.命名规范</h2><p>1.模块以及接口加上各级前缀</p>
+<p>2.属于某模块在级后面在加模块名</p>
+<h2 id="3-模块定义"><a href="#3-模块定义" class="headerlink" title="3.模块定义"></a>3.模块定义</h2><h3 id="1）Datapath"><a href="#1）Datapath" class="headerlink" title="1）Datapath"></a>1）Datapath</h3><h4 id="1、E-ALU模块"><a href="#1、E-ALU模块" class="headerlink" title="1、E_ALU模块"></a>1、E_ALU模块</h4><p>同指导书，改为case来操作</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">E_ALU_A [31 : 0]</td>
+<td style="text-align:center">I</td>
+<td style="text-align:left">32位输入信号</td>
+</tr>
+<tr>
+<td style="text-align:center">E_ALU_B [31 : 0]</td>
+<td style="text-align:center">I</td>
+<td style="text-align:left">32位输入信号</td>
+</tr>
+<tr>
+<td style="text-align:center">E_ALU_Shamt [4 : 0]</td>
+<td style="text-align:center">I</td>
+<td style="text-align:left">五位输入信号</td>
+</tr>
+<tr>
+<td style="text-align:center">E_ALUop [2 : 0]</td>
+<td style="text-align:center">I</td>
+<td style="text-align:left">操作选择控制    <br>E_ALUop == 3’b000 A +B；<br>E_ALUop == 3’b001 A - B;<br>E_ALUop == 3’b010 A \</td>
+<td>B; <br>E_ALUop == 3’b011 A &amp; B;<br>E_ALUop == 3’b100 B左移Shamt位<br>E_ALUop == 3’b101 B加载到高位</td>
+</tr>
+<tr>
+<td style="text-align:center">E_ALU_Result [31 : 0]</td>
+<td style="text-align:center">O</td>
+<td style="text-align:left">32位输出信号</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="2、D-CMP模块"><a href="#2、D-CMP模块" class="headerlink" title="2、D_CMP模块"></a>2、D_CMP模块</h4><p>从原来的ALU模块分离出来到译码阶段</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>信号名</th>
+<th>方向</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D_CMP_A [31: 0]</td>
+<td>I</td>
+<td>32位输入</td>
+</tr>
+<tr>
+<td>D_CMP_B [31: 0]</td>
+<td>I</td>
+<td>32位输入</td>
+</tr>
+<tr>
+<td>D_CMP_Equal</td>
+<td>O</td>
+<td>相等 ？ 1  ：0</td>
+</tr>
+<tr>
+<td>D_CMP_Less</td>
+<td>O</td>
+<td>小于 ？ 1  ：0</td>
+</tr>
+<tr>
+<td>D_CMP_Greater</td>
+<td>O</td>
+<td>大于 ？ 1 ： 0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="3、E-EXT模块"><a href="#3、E-EXT模块" class="headerlink" title="3、E_EXT模块"></a>3、E_EXT模块</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>信号名</th>
+<th>方向</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D_EXT_Imm [15: 0 ]</td>
+<td>I</td>
+<td>16位待扩展立即数</td>
+</tr>
+<tr>
+<td>D_EXTop [1:0]</td>
+<td>I</td>
+<td>扩展选择<br>D_EXTop == 2’b00 符号扩展<br>D_EXTop == 2’b01 无符号扩展</td>
+</tr>
+<tr>
+<td>D_EXT_Result [31:0]</td>
+<td>O</td>
+<td>扩展结果</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="4、F-PC模块"><a href="#4、F-PC模块" class="headerlink" title="4、F_PC模块"></a>4、F_PC模块</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>信号名</th>
+<th>方向</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F_PC_clk</td>
+<td>I</td>
+<td>时钟信号</td>
+</tr>
+<tr>
+<td>F_PC_reset</td>
+<td>I</td>
+<td>复位信号</td>
+</tr>
+<tr>
+<td>F_PC_en</td>
+<td>I</td>
+<td>使能信号</td>
+</tr>
+<tr>
+<td>F_PC_ NPC [31:0]</td>
+<td>I</td>
+<td>32位输入信号</td>
+</tr>
+<tr>
+<td>F_PC_PC [31:0]</td>
+<td>O</td>
+<td>输出信号</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="5、F-IM模块"><a href="#5、F-IM模块" class="headerlink" title="5、F_IM模块"></a>5、F_IM模块</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>信号名</th>
+<th>方向</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F_IM_PC [31:0]</td>
+<td>I</td>
+<td>32位取址信号</td>
+</tr>
+<tr>
+<td>F_IM_Instr [31 :0]</td>
+<td>O</td>
+<td>32位结果</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="6、D-NPC模块"><a href="#6、D-NPC模块" class="headerlink" title="6、D_NPC模块"></a>6、D_NPC模块</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>信号名</th>
+<th>方向</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D_NPC_PC[31:0]</td>
+<td>I</td>
+<td>32位PC信号</td>
+</tr>
+<tr>
+<td>D_NPC_Imm[26:0]</td>
+<td>I</td>
+<td>26位立即数地址</td>
+</tr>
+<tr>
+<td>D_NPC_RA[31:0]</td>
+<td>I</td>
+<td>$RA</td>
+</tr>
+<tr>
+<td>D_NPC_Branch[2 :0]</td>
+<td>I</td>
+<td>对应不同Branch<br>3’b000表示不是Branch<br>若为3’b001对应beq</td>
+</tr>
+<tr>
+<td>D_NPC_J</td>
+<td>I</td>
+<td>对应J跳转指令</td>
+</tr>
+<tr>
+<td>D_NPC_JR</td>
+<td>I</td>
+<td>对应Jr跳转指令</td>
+</tr>
+<tr>
+<td>D_NPC_Equal</td>
+<td>I</td>
+<td>比较结果</td>
+</tr>
+<tr>
+<td>D_NPC_Great</td>
+<td>I</td>
+<td>比较结果</td>
+</tr>
+<tr>
+<td>D_NPC_Less</td>
+<td>I</td>
+<td>比较结果</td>
+</tr>
+<tr>
+<td>D_NPC_NPC[31:0]</td>
+<td>O</td>
+<td></td>
+</tr>
+<tr>
+<td>D_Jump</td>
+<td>O</td>
+<td>判断地址是否跳转</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="7、D-GRF模块"><a href="#7、D-GRF模块" class="headerlink" title="7、D_GRF模块"></a>7、D_GRF模块</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">D_GRF_A1 [4:0]</td>
+<td style="text-align:center">I</td>
+<td style="text-align:left">5位地址输入信号，输入rs指定的寄存器并将其结果读出到RD1</td>
+</tr>
+<tr>
+<td style="text-align:center">D_GRF_A2 [4:0]</td>
+<td style="text-align:center">I</td>
+<td style="text-align:left">5位地址输入信号，输入rt指定的寄存器并将其结果读出到RD2</td>
+</tr>
+<tr>
+<td style="text-align:center">D_GRF_A3 [4:0]</td>
+<td style="text-align:center">I</td>
+<td style="text-align:left">5位地址输入信号，输入rd指定的寄存器并将WD写入</td>
+</tr>
+<tr>
+<td style="text-align:center">D_GRF_WD [31:0]</td>
+<td style="text-align:center">I</td>
+<td style="text-align:left">32位输入信号</td>
+</tr>
+<tr>
+<td style="text-align:center">D_GRF_clk</td>
+<td style="text-align:center">I</td>
+<td style="text-align:left">时钟信号</td>
+</tr>
+<tr>
+<td style="text-align:center">D_GRF_reset</td>
+<td style="text-align:center">I</td>
+<td style="text-align:left">异步复位信号</td>
+</tr>
+<tr>
+<td style="text-align:center">D_GRF_WE</td>
+<td style="text-align:center">I</td>
+<td style="text-align:left">使能信号</td>
+</tr>
+<tr>
+<td style="text-align:center">D_GRF_RD1 [31:0]</td>
+<td style="text-align:center">O</td>
+<td style="text-align:left">输出A1指定寄存器的32位数据</td>
+</tr>
+<tr>
+<td style="text-align:center">D_GRF_RD2 [31:0]</td>
+<td style="text-align:center">O</td>
+<td style="text-align:left">输出A2指定寄存器的32位数据</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="8、M-DM模块"><a href="#8、M-DM模块" class="headerlink" title="8、M_DM模块"></a>8、M_DM模块</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">M_DM_clk</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">时钟信号</td>
+</tr>
+<tr>
+<td style="text-align:center">M_DM_reset</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">复位信号</td>
+</tr>
+<tr>
+<td style="text-align:center">M_Mem_Write</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">写信号</td>
+</tr>
+<tr>
+<td style="text-align:center">M_signed</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">输出是否符号位扩展信号</td>
+</tr>
+<tr>
+<td style="text-align:center">Size</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">决定是字、半字、字节</td>
+</tr>
+<tr>
+<td style="text-align:center">M_ALU_Result[31:0]</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">储存地址</td>
+</tr>
+<tr>
+<td style="text-align:center">M_WriteData[31:0]</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">储存数据</td>
+</tr>
+<tr>
+<td style="text-align:center">M_PC[31:0]]</td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">PC</td>
+</tr>
+<tr>
+<td style="text-align:center">M_Read_Data</td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">load结果</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="9、Controller"><a href="#9、Controller" class="headerlink" title="9、Controller"></a>9、Controller</h4><p>根据名称要求更改，采取重构</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">opcode[5:0]</td>
+<td style="text-align:center">I</td>
+</tr>
+<tr>
+<td style="text-align:center">funct[5:0]</td>
+<td style="text-align:center">I</td>
+</tr>
+<tr>
+<td style="text-align:center">D_EXTop [1:0]</td>
+<td style="text-align:center">O</td>
+</tr>
+<tr>
+<td style="text-align:center">D_NPC_Branch [2:0]</td>
+<td style="text-align:center">O</td>
+</tr>
+<tr>
+<td style="text-align:center">D_NPC_J</td>
+<td style="text-align:center">O</td>
+</tr>
+<tr>
+<td style="text-align:center">D_NPC_JR</td>
+<td style="text-align:center">O</td>
+</tr>
+<tr>
+<td style="text-align:center">E_Reg_Dst [1:0]</td>
+<td style="text-align:center">O</td>
+</tr>
+<tr>
+<td style="text-align:center">E_ALU_Src [1:0]</td>
+<td style="text-align:center">O</td>
+</tr>
+<tr>
+<td style="text-align:center">E_ALUop [2:0]</td>
+<td style="text-align:center">O</td>
+</tr>
+<tr>
+<td style="text-align:center">M_Mem_Write</td>
+<td style="text-align:center">O</td>
+</tr>
+<tr>
+<td style="text-align:center">M_DM_Size[1:0]</td>
+<td style="text-align:center">O</td>
+</tr>
+<tr>
+<td style="text-align:center">M_Signed</td>
+<td style="text-align:center">O</td>
+</tr>
+<tr>
+<td style="text-align:center">W_MemtoReg [1:0]</td>
+<td style="text-align:center">O</td>
+</tr>
+<tr>
+<td style="text-align:center">W_RegWrite</td>
+<td style="text-align:center">O</td>
+</tr>
+<tr>
+<td style="text-align:center">D_Rs_Tuse</td>
+<td style="text-align:center">O</td>
+</tr>
+<tr>
+<td style="text-align:center">D_Rt_Tuse</td>
+<td style="text-align:center">O</td>
+</tr>
+<tr>
+<td style="text-align:center">D_Tnew</td>
+<td style="text-align:center">O</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>其真值表对应如下，同时改为case结构，代码长度显著增加，但便于debug</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">指令</th>
+<th>D_EXTop[1:0]</th>
+<th>D_NPC_Branch[2:0]</th>
+<th>D_NPC_J</th>
+<th>D_NPC_JR</th>
+<th>D_Reg_Dst[1:0]</th>
+<th>E_ALU_Src[1:0]</th>
+<th>E_ALUop[2:0]</th>
+<th>M_Mem_Write</th>
+<th>M_DM_Size[1:0]</th>
+<th>M_signed</th>
+<th>W_MemtoReg[1:0]</th>
+<th>W_RegWrite</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Add</td>
+<td>00</td>
+<td>000</td>
+<td>0</td>
+<td>0</td>
+<td>01</td>
+<td>00</td>
+<td>000</td>
+<td>0</td>
+<td>00</td>
+<td>0</td>
+<td>01</td>
+<td>1</td>
+</tr>
+<tr>
+<td style="text-align:center">Sub</td>
+<td>00</td>
+<td>000</td>
+<td>0</td>
+<td>0</td>
+<td>01</td>
+<td>00</td>
+<td>001</td>
+<td>0</td>
+<td>00</td>
+<td>0</td>
+<td>01</td>
+<td>1</td>
+</tr>
+<tr>
+<td style="text-align:center">Jr</td>
+<td>00</td>
+<td>000</td>
+<td>0</td>
+<td>1</td>
+<td>00</td>
+<td>00</td>
+<td>000</td>
+<td>0</td>
+<td>00</td>
+<td>0</td>
+<td>00</td>
+<td>0</td>
+</tr>
+<tr>
+<td style="text-align:center">Ori</td>
+<td>01</td>
+<td>000</td>
+<td>0</td>
+<td>0</td>
+<td>00</td>
+<td>01</td>
+<td>010</td>
+<td>0</td>
+<td>00</td>
+<td>0</td>
+<td>01</td>
+<td>1</td>
+</tr>
+<tr>
+<td style="text-align:center">Lw</td>
+<td>00</td>
+<td>000</td>
+<td>0</td>
+<td>0</td>
+<td>00</td>
+<td>01</td>
+<td>000</td>
+<td>0</td>
+<td>00</td>
+<td>0</td>
+<td>00</td>
+<td>1</td>
+</tr>
+<tr>
+<td style="text-align:center">Sw</td>
+<td>00</td>
+<td>000</td>
+<td>0</td>
+<td>0</td>
+<td>00</td>
+<td>01</td>
+<td>000</td>
+<td>1</td>
+<td>00</td>
+<td>0</td>
+<td>00</td>
+<td>0</td>
+</tr>
+<tr>
+<td style="text-align:center">Beq</td>
+<td>00</td>
+<td>001</td>
+<td>0</td>
+<td>0</td>
+<td>00</td>
+<td>00</td>
+<td>000</td>
+<td>0</td>
+<td>00</td>
+<td>0</td>
+<td>00</td>
+<td>0</td>
+</tr>
+<tr>
+<td style="text-align:center">Lui</td>
+<td>00</td>
+<td>000</td>
+<td>0</td>
+<td>0</td>
+<td>00</td>
+<td>01</td>
+<td>101</td>
+<td>0</td>
+<td>00</td>
+<td>0</td>
+<td>01</td>
+<td>1</td>
+</tr>
+<tr>
+<td style="text-align:center">J</td>
+<td>00</td>
+<td>000</td>
+<td>1</td>
+<td>0</td>
+<td>00</td>
+<td>00</td>
+<td>00</td>
+<td>0</td>
+<td>00</td>
+<td>0</td>
+<td>00</td>
+<td>0</td>
+</tr>
+<tr>
+<td style="text-align:center">Jal</td>
+<td>00</td>
+<td>000</td>
+<td>1</td>
+<td>0</td>
+<td>10</td>
+<td>01</td>
+<td>000</td>
+<td>0</td>
+<td>00</td>
+<td>0</td>
+<td>10</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="2）RiskUnit-冒险处理"><a href="#2）RiskUnit-冒险处理" class="headerlink" title="2）RiskUnit 冒险处理"></a>2）RiskUnit 冒险处理</h3><p>D_Tuse与D_Tnew表格，每次走过一个寄存器，T_new都会减一</p>
+<p>Tuse&lt;Tnew 暂停</p>
+<p>对不需要使用寄存器的Tuse置最大值。</p>
+<p>注意：不转发0</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">指令</th>
+<th style="text-align:center">D_Rs_Tuse</th>
+<th style="text-align:center">D_Rt_Tuse</th>
+<th style="text-align:center">D_Tnew</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Add</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+</tr>
+<tr>
+<td style="text-align:center">Sub</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+</tr>
+<tr>
+<td style="text-align:center">Jr</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">M</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">Ori</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">M</td>
+<td style="text-align:center">2</td>
+</tr>
+<tr>
+<td style="text-align:center">Lw</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">M</td>
+<td style="text-align:center">3</td>
+</tr>
+<tr>
+<td style="text-align:center">Sw</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">Beq</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">Lui</td>
+<td style="text-align:center">M</td>
+<td style="text-align:center">M</td>
+<td style="text-align:center">2</td>
+</tr>
+<tr>
+<td style="text-align:center">J</td>
+<td style="text-align:center">M</td>
+<td style="text-align:center">M</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">Jal</td>
+<td style="text-align:center">M</td>
+<td style="text-align:center">M</td>
+<td style="text-align:center">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="4-测试数据"><a href="#4-测试数据" class="headerlink" title="4.测试数据"></a>4.测试数据</h2><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><code class="hljs julia"><span class="hljs-string">`0x0000000000000000:  34 1C 00 00    ori <span class="hljs-variable">$gp</span>, <span class="hljs-variable">$zero</span>, 0`</span> <br><br><span class="hljs-string">`0x0000000000000004:  34 1D 00 00    ori <span class="hljs-variable">$sp</span>, <span class="hljs-variable">$zero</span>, 0`</span> <br><br><span class="hljs-string">`0x0000000000000008:  34 01 10 10    ori <span class="hljs-variable">$at</span>, <span class="hljs-variable">$zero</span>, 0x1010`</span> <br><br><span class="hljs-string">`0x000000000000000c:  3C 02 87 23    lui <span class="hljs-variable">$v0</span>, 0x8723`</span> <br><br><span class="hljs-string">`0x0000000000000010:  34 03 78 56    ori <span class="hljs-variable">$v1</span>, <span class="hljs-variable">$zero</span>, 0x7856`</span> <br><br><span class="hljs-string">`0x0000000000000014:  3C 04 85 FF    lui <span class="hljs-variable">$a0</span>, 0x85ff`</span> <br><br><span class="hljs-string">`0x0000000000000018:  34 05 00 01    ori <span class="hljs-variable">$a1</span>, <span class="hljs-variable">$zero</span>, 1`</span> <br><br><span class="hljs-string">`0x000000000000001c:  3C 06 FF FF    lui <span class="hljs-variable">$a2</span>, 0xffff`</span> <br><br><span class="hljs-string">`0x0000000000000020:  34 07 FF FF    ori <span class="hljs-variable">$a3</span>, <span class="hljs-variable">$zero</span>, 0xffff`</span> <br><br><span class="hljs-string">`0x0000000000000024:  00 22 08 20    add <span class="hljs-variable">$at</span>, <span class="hljs-variable">$at</span>, <span class="hljs-variable">$v0</span>`</span> <br><br><span class="hljs-string">`0x0000000000000028:  00 23 48 20    add <span class="hljs-variable">$t1</span>, <span class="hljs-variable">$at</span>, <span class="hljs-variable">$v1</span>`</span> <br><br><span class="hljs-string">`0x000000000000002c:  00 22 40 22    sub <span class="hljs-variable">$t0</span>, <span class="hljs-variable">$at</span>, <span class="hljs-variable">$v0</span>`</span> <br><br><span class="hljs-string">`0x0000000000000030:  00 E0 00 22    sub <span class="hljs-variable">$zero</span>, <span class="hljs-variable">$a3</span>, <span class="hljs-variable">$zero</span>`</span> <br><br><span class="hljs-string">`0x0000000000000034:  13 91 00 03    beq <span class="hljs-variable">$gp</span>, <span class="hljs-variable">$s1</span>, 0x44`</span> <br><br><span class="hljs-string">`0x0000000000000038:  00 00 00 00    nop`</span>  <br><br><span class="hljs-string">`0x000000000000003c:  10 00 00 15    b   0x94`</span> <br><br><span class="hljs-string">`0x0000000000000040:  00 00 00 00    nop`</span>  <br><br><span class="hljs-string">`0x0000000000000044:  10 22 00 13    beq <span class="hljs-variable">$at</span>, <span class="hljs-variable">$v0</span>, 0x94`</span> <br><br><span class="hljs-string">`0x0000000000000048:  00 00 00 00    nop`</span>  <br><br><span class="hljs-string">`0x000000000000004c:  34 02 00 0C    ori <span class="hljs-variable">$v0</span>, <span class="hljs-variable">$zero</span>, 0xc`</span> <br><br><span class="hljs-string">`0x0000000000000050:  00 00 00 00    nop`</span>  <br><br><span class="hljs-string">`0x0000000000000054:  00 00 00 00    nop`</span>  <br><br><span class="hljs-string">`0x0000000000000058:  00 00 00 00    nop`</span> <br><br><span class="hljs-string">`0x000000000000005c:  0C 00 0C 1B    jal 0x306c`</span> <br><br><span class="hljs-string">`0x0000000000000060:  AC 41 00 00    sw  <span class="hljs-variable">$at</span>, (<span class="hljs-variable">$v0</span>)`</span> <br><br><span class="hljs-string">`0x0000000000000064:  10 00 00 0B    b   0x94`</span> <br><br><span class="hljs-string">`0x0000000000000068:  00 22 08 20    add <span class="hljs-variable">$at</span>, <span class="hljs-variable">$at</span>, <span class="hljs-variable">$v0</span>`</span> <br><br><span class="hljs-string">`0x000000000000006c:  00 22 08 20    add <span class="hljs-variable">$at</span>, <span class="hljs-variable">$at</span>, <span class="hljs-variable">$v0</span>`</span> <br><br><span class="hljs-string">`0x0000000000000070:  00 22 08 20    add <span class="hljs-variable">$at</span>, <span class="hljs-variable">$at</span>, <span class="hljs-variable">$v0</span>`</span><br><br> <span class="hljs-string">`0x0000000000000074:  00 22 08 20    add <span class="hljs-variable">$at</span>, <span class="hljs-variable">$at</span>, <span class="hljs-variable">$v0</span>`</span> <br><br><span class="hljs-string">`0x0000000000000078:  AC 5F 00 00    sw  <span class="hljs-variable">$ra</span>, (<span class="hljs-variable">$v0</span>)`</span> <br><br><span class="hljs-string">`0x000000000000007c:  8C 41 00 00    lw  <span class="hljs-variable">$at</span>, (<span class="hljs-variable">$v0</span>)`</span> <br><br><span class="hljs-string">`0x0000000000000080:  00 00 00 00    nop`</span>  <br><br><span class="hljs-string">`0x0000000000000084:  00 00 00 00    nop`</span>  <br><br><span class="hljs-string">`0x0000000000000088:  00 00 00 00    nop`</span>  <br><br><span class="hljs-string">`0x000000000000008c:  00 20 00 08    jr  <span class="hljs-variable">$at</span>`</span> <br><br><span class="hljs-string">`0x0000000000000090:  AC 5F 00 00    sw  <span class="hljs-variable">$ra</span>, (<span class="hljs-variable">$v0</span>)`</span> <br><br><span class="hljs-string">`0x0000000000000094:  10 00 FF FF    b   0x94`</span> <br><br><span class="hljs-string">`0x0000000000000098:  00 00 00 00    nop`</span> <br></code></pre></td></tr></table></figure>
+<h2 id="5-思考题"><a href="#5-思考题" class="headerlink" title="5.思考题"></a>5.思考题</h2><p>1.在D级就直接就直接计算出是否需要跳转，若需要发生跳转，由于NPC是组合逻辑，下一条指令的地址直接传出到PC模块，这样只会多读跳转指令下一条的指令，即使将分支判断提到 D 级，发生跳转的时候，F 级指令依然是需要作废的。但是我们如果约定 F 级指令不作废呢？也就是说，不论判断结果如何，我们都将执行分支或跳转指令的下一条指令。这也就是所谓的“<strong>延迟槽</strong>”。那么指令执行的效率就提高了。</p>
+<p>2.Jal需要将jal下一条指令的位置写入$ra寄存器，由于延迟槽的地址是PC+4，所以实际应该写回PC +8了。</p>
+<p>3.流水线中的各个阶段需要在特定的时钟周期内完成其任务。如果数据来自功能部件，可能会增加流水线的复杂性，导致更难以保持稳定的时序。通过限制数据转发只能来自寄存器，可以简化流水线的设计，提高稳定性。</p>
+<p>4.当前 GPR 被写入的值会即时反馈到读取端上。具体的说，当读寄存器时的地址与同周期写寄存器的地址相同时，我们将读取的内容改为写寄存器的内容，而不是该地址可以索引到的寄存器文件中的值。这也就对应着图中的两个四选一多路选择器。利用冲突单元生成选择信号即可</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs Verilog"><span class="hljs-keyword">assign</span> D_ForwardA = <br>    (D_Rs == M_Write_Reg &amp;&amp; M_MemtoReg == <span class="hljs-number">2&#x27;b01</span> &amp;&amp; M_Reg_Write == <span class="hljs-number">1&#x27;b1</span> &amp;&amp; M_Write_Reg != <span class="hljs-number">5&#x27;b00000</span>) ? `M_Data_ALU :<br>    (D_Rs == M_Write_Reg &amp;&amp; M_MemtoReg == <span class="hljs-number">2&#x27;b10</span> &amp;&amp; M_Reg_Write == <span class="hljs-number">1&#x27;b1</span> &amp;&amp; M_Write_Reg != <span class="hljs-number">5&#x27;b00000</span>) ? `M_Data_PC8 :<br>    (D_Rs == W_Write_Reg &amp;&amp; W_Reg_Write == <span class="hljs-number">1&#x27;b1</span>  &amp;&amp; W_Write_Reg != <span class="hljs-number">5&#x27;b00000</span>) ? `W_Data :<br>                                                `D_Data ;<br></code></pre></td></tr></table></figure>
+<p>5.需求者：D级：CMP，E级：ALU</p>
+<p>​    提供者：M级：ALU_Result,PC8</p>
+<p>​                    W级：因为已经被选择过，过Writeback_Data就已经可以满足需求</p>
+<p>6.大致可将指令分为三类</p>
+<p>​    1）计算指令，主要对ALU模块进行增加操作，如Add指令</p>
+<p>​    2）跳转指令，可能需要调整ALU模块或者NPC，由于这里是流水线，ALU模块的输出不能直接和单周期一样课上直接连在NPC模块，可能需要考虑在增加D级就增加符合跳转的运算</p>
+<p>​    3）访存指令，DM中已经支持字、半字、字节的存取，根据题意做ALU，NPC等对应的增添即可</p>
+<p>7.采取分散式译码</p>
+<p>译码结果较易观察，且不容易产生bug，不同指令之间完全分离，缺点就是代码冗长。</p>
+<p>选做2，采取交叉式出现</p>
+<h1 id="P6——CPU"><a href="#P6——CPU" class="headerlink" title="P6——CPU"></a>P6——CPU</h1><p>支持指令：<strong>add,</strong> <strong>sub,</strong> <strong>and,</strong> <strong>or,</strong> <strong>slt,</strong> <strong>sltu,</strong> <strong>lui</strong> <strong>addi,</strong> <strong>andi,</strong> <strong>ori</strong> <strong>lb,</strong> <strong>lh,</strong> <strong>lw,</strong> <strong>sb,</strong> <strong>sh,</strong> <strong>sw</strong> <strong>mult,</strong> <strong>multu,</strong> <strong>div,</strong> <strong>divu,</strong> <strong>mfhi,</strong> <strong>mflo,</strong> <strong>mthi,</strong> <strong>mtlo</strong> <strong>beq,</strong> <strong>bne,</strong> <strong>jal,</strong> <strong>jr</strong></p>
+<h2 id="1-模块定义"><a href="#1-模块定义" class="headerlink" title="1.模块定义"></a>1.模块定义</h2><p>增加E_MUDI乘除模块与M_DE模块，删除看F_IM与M_DM模块</p>
+<h4 id="1、M-BE"><a href="#1、M-BE" class="headerlink" title="1、M_BE"></a>1、M_BE</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号名</th>
+<th style="text-align:center">方向</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">M_BE_A[1:0]</td>
+<td style="text-align:center">I</td>
+<td style="text-align:left">最低两位的地址</td>
+</tr>
+<tr>
+<td style="text-align:center">M_BE_Din[31:0]</td>
+<td style="text-align:center">I</td>
+<td style="text-align:left">输入的 32 位数据</td>
+</tr>
+<tr>
+<td style="text-align:center">M_BE_Op[2:0]</td>
+<td style="text-align:center">I</td>
+<td style="text-align:left">数据扩展控制码 000：<br>无扩展 001：无符号字节数据扩展 <br>010：符号字节数据扩展 <br>011：无符号半字数据扩展 <br>100：符号半字数据扩展</td>
+</tr>
+<tr>
+<td style="text-align:center">M_BE_Dout[31:0]</td>
+<td style="text-align:center">O</td>
+<td style="text-align:left">扩展后的 32 位数据</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="2、E-MUDI"><a href="#2、E-MUDI" class="headerlink" title="2、E_MUDI"></a>2、E_MUDI</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>信号名</th>
+<th>方向</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E_MUDI_clk</td>
+<td>I</td>
+<td>时钟信号</td>
+</tr>
+<tr>
+<td>E_MUDI_reset</td>
+<td>I</td>
+<td>复位信号</td>
+</tr>
+<tr>
+<td>E_MUDI_A [31:0]</td>
+<td>I</td>
+<td>运算数据A</td>
+</tr>
+<tr>
+<td>E_MUDI_B [31:0]</td>
+<td>I</td>
+<td>运算数据B</td>
+</tr>
+<tr>
+<td>E_MUDI_Start</td>
+<td>I</td>
+<td>开始计算信号</td>
+</tr>
+<tr>
+<td>E_MUDI_op [2:0]</td>
+<td>I</td>
+<td>运算选择信号</td>
+</tr>
+<tr>
+<td>E_HI_Write</td>
+<td>I</td>
+<td>高位写信号</td>
+</tr>
+<tr>
+<td>E_LO_Write</td>
+<td>I</td>
+<td>地位写信号</td>
+</tr>
+<tr>
+<td>E_HI [31:0]</td>
+<td>O</td>
+<td>高位寄存器输出结果</td>
+</tr>
+<tr>
+<td>E_LO[31:0]</td>
+<td>O</td>
+<td>低位寄存器输出结果</td>
+</tr>
+<tr>
+<td>E_MUDI_Busy</td>
+<td>O</td>
+<td>计算中信号</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="2-总示意图"><a href="#2-总示意图" class="headerlink" title="2.总示意图"></a>2.总示意图</h2><p><img src="p6cpu.jpg" srcset="/img/loading.gif" lazyload alt="&quot;p6cpu.jpg&quot;"></p>
+<h2 id="3-思考题"><a href="#3-思考题" class="headerlink" title="3.思考题"></a>3.思考题</h2><p>1.乘除法运算效率远低于ALU内的各个计算，需要耗费大量时间，放在一起会大大拖慢效率，独立的HI、LO也是为了高效率，因为只有乘除法会用到高位寄存器，低位寄存器，与其他不一致，分开便于控制。</p>
+<p>2.真实的流水线 CPU 使用乘法和除法指令来实现乘除法运算。在执行乘法和除法指令时，CPU会将操作数加载到寄存器中，然后通过一系列的算术逻辑单元(ALU)来进行乘法或除法计算。这些计算通常会在多个时钟周期内完成，因为乘法和除法是比较复杂的运算。乘法：乘法可以通过一系列的加法和移位来实现。处理器中的乘法单元通常包括：部分积生成器（Partial Product Generator）：将两个乘数的每一位相乘，生成部分积。部分积累加器（Partial Product Accumulator）： 将所有部分积相加，得到最终的乘积。这个过程可能需要多个时钟周期，因此在流水线中可能会有多个阶段用于处理不同的部分。除法：除法通常比乘法更为复杂，可能涉及到迭代的过程。处理器中的除法单元通常包括：部分商生成器（Partial Quotient Generator）： 生成每一位的部分商。部分商累加器（Partial Quotient Accumulator）： 将所有部分商相加，得到最终的商。这个过程同样可能需要多个时钟周期，并且可能需要进行多轮迭代来得到最终的结果。</p>
+<p>在流水线中，这些乘法和除法的阶段可能被划分为多个子阶段，以便在每个时钟周期内执行一些部分操作。流水线的设计需要考虑到数据相关性、控制信号的传递以及流水线暂停和刷新等问题，以确保正确且高效地执行指令。</p>
+<p>3.当且仅当Busy且指令为乘除有关的那八条指令时阻塞</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Verilog"><span class="hljs-keyword">assign</span> MUDI_Stall = (E_MUDI_Busy == <span class="hljs-number">1&#x27;b1</span>  || E_MUDI_Start == <span class="hljs-number">1&#x27;b1</span>) &amp;&amp; (D_MD_MT_MF == <span class="hljs-number">1&#x27;b1</span>) ? <span class="hljs-number">1&#x27;b1</span> : <span class="hljs-number">1&#x27;b0</span>;<br></code></pre></td></tr></table></figure>
+<p>4.清晰性：每个字节的写分开，互不干扰，统一性：各个字节的控制信号仍然来自m_data_byteen[3:0]</p>
+<p>5.不是，如果只实现按字使能，就不得不先读取值再进行更改，这样数据通路就延长了，导致效率下降。</p>
+<p>6.对于选择信号以及条件尽可能实现宏定义来实现，避免出现6‘b100000这种无缘无故的常数，方便查找bug</p>
+<p>7.连续的乘除有关的那八条指令，同3进行阻塞或者转发实现，测试数据</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-keyword">ori </span>$<span class="hljs-built_in">t1</span> $<span class="hljs-built_in">t1</span> <span class="hljs-number">0x1234</span><br><span class="hljs-keyword">mult </span>$<span class="hljs-built_in">t0</span> $<span class="hljs-built_in">t1</span><br><span class="hljs-keyword">mfhi </span>$<span class="hljs-built_in">s0</span><br></code></pre></td></tr></table></figure>
+<p>8.多增加连续的乘除有关的那八条指令，其余同P5构造</p>
+<p><strong>{</strong>temp_hi<strong>,</strong> temp_lo<strong>}</strong> <strong>&lt;=</strong> <strong>{</strong>hi<strong>,</strong> lo<strong>}</strong> <strong>+</strong> $signed<strong>(</strong>$signed<strong>(64’d0</strong>) <strong>+</strong> $signed<strong>(</strong>rs<strong>)</strong> <strong>*</strong> $signed<strong>(</strong>rt<strong>));</strong></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/BUAA-Learning/" class="category-chain-item">BUAA_Learning</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90CO/" class="print-no-link">#计算机组成CO</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>BUAA_CO_P5和P6CPU设计文稿</div>
+      <div>https://fantasylee21.github.io/2024/01/01/BUAA-CO-P5和P6CPU设计文稿/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Fantasylee</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/01/01/BUAA-CO-P7%E8%AE%BE%E8%AE%A1%E6%96%87%E7%A8%BF/" title="BUAA_CO_P7设计文稿">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">BUAA_CO_P7设计文稿</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/12/15/FirstTest/" title="FirstTest">
+                        <span class="hidden-mobile">FirstTest</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://fantasylee21.github.io/2024/03/01/BUAA-OO-Unit1/uml.png">
 <meta property="og:image" content="https://fantasylee21.github.io/2024/03/01/BUAA-OO-Unit1/image-20240301204258960.png">
 <meta property="article:published_time" content="2024-03-01T03:40:07.000Z">
-<meta property="article:modified_time" content="2024-03-04T10:03:42.381Z">
+<meta property="article:modified_time" content="2024-03-06T06:42:20.772Z">
 <meta property="article:author" content="Fantasylee">
 <meta property="article:tag" content="BUAA_OO">
 <meta name="twitter:card" content="summary_large_image">
@@ -223,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          588 字
+          707 字
         
       </span>
     
@@ -234,7 +234,7 @@
         
         
         
-          5 分钟
+          6 分钟
         
       </span>
     
@@ -324,6 +324,10 @@
 <p>最后随机在生成式之间添加空格</p>
 <h5 id="3-12-测试比对"><a href="#3-12-测试比对" class="headerlink" title="3.12 测试比对"></a>3.12 测试比对</h5><p>依赖于sympy自带的化简功能实现</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">execute_java</span> (stdin, <span class="hljs-built_in">str</span>):<br>    cmd = [<span class="hljs-string">&quot;java&quot;</span>, <span class="hljs-string">&quot;-jar&quot;</span>, <span class="hljs-built_in">str</span> + <span class="hljs-string">&quot;.jar&quot;</span>]  <span class="hljs-comment"># 更改为自己的.jar包名</span><br>    proc = subprocess.Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT)<br>    stdout, stderr = proc.communicate(stdin.encode(<span class="hljs-string">&#x27;utf-8&#x27;</span>))<br>    <span class="hljs-keyword">return</span> stdout.decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>).strip()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">isEqual</span>(<span class="hljs-params">javaInput,javaOutput</span>):<br>    javaInput = sp.simplify(javaInput)<br>    javaOutput = sp.simplify(javaOutput)<br>    <span class="hljs-keyword">return</span> javaInput.equals(javaOutput)<br></code></pre></td></tr></table></figure>
+<h2 id="二、第二次作业hw2"><a href="#二、第二次作业hw2" class="headerlink" title="二、第二次作业hw2"></a>二、第二次作业hw2</h2><h4 id="前言-1"><a href="#前言-1" class="headerlink" title="前言"></a>前言</h4><ol>
+<li>关于使用替换进行函数展开，要注意不要引入新的形参。例如f(y, x)=y+x，展开f(x, x^2)时，若不加任何修改直接用x替换形参y，f就会变为x+x， 再直接用x^2替换所有形参x，就会变为x^2+x^2的错误结果。因此，可以先将所有形参变为其他形式， 如f(v,u) = v+u，再替换形参v和u就不会发生上述错误。表达式解析</li>
+<li>深拷贝与浅拷贝学习</li>
+</ol>
 
                 
               </div>
@@ -418,8 +422,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/12/15/FirstTest/" title="FirstTest">
-                        <span class="hidden-mobile">FirstTest</span>
+                      <a href="/2024/01/01/BUAA-CO-P7%E8%AE%BE%E8%AE%A1%E6%96%87%E7%A8%BF/" title="BUAA_CO_P7设计文稿">
+                        <span class="hidden-mobile">BUAA_CO_P7设计文稿</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
