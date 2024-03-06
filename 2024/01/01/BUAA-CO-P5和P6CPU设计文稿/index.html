@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://fantasylee21.github.io/2024/01/01/BUAA-CO-P5%E5%92%8CP6CPU%E8%AE%BE%E8%AE%A1%E6%96%87%E7%A8%BF/p5cpu.jpg">
 <meta property="og:image" content="https://fantasylee21.github.io/2024/01/01/BUAA-CO-P5%E5%92%8CP6CPU%E8%AE%BE%E8%AE%A1%E6%96%87%E7%A8%BF/p6cpu.jpg">
 <meta property="article:published_time" content="2024-01-01T09:11:52.000Z">
-<meta property="article:modified_time" content="2024-03-06T09:24:45.685Z">
+<meta property="article:modified_time" content="2024-03-06T10:33:56.988Z">
 <meta property="article:author" content="Fantasylee">
 <meta property="article:tag" content="计算机组成CO">
 <meta name="twitter:card" content="summary_large_image">
@@ -276,7 +276,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="P5——CPU设计文稿"><a href="#P5——CPU设计文稿" class="headerlink" title="P5——CPU设计文稿"></a>P5——CPU设计文稿</h1><h2 id="1-总示意图"><a href="#1-总示意图" class="headerlink" title="1.总示意图"></a>1.总示意图</h2><p><img src="p5cpu.jpg" srcset="/img/loading.gif" lazyload alt="&quot;p5cpu.jpg&quot;"></p>
+                <h1 id="P5——CPU设计文稿"><a href="#P5——CPU设计文稿" class="headerlink" title="P5——CPU设计文稿"></a>P5——CPU设计文稿</h1><h2 id="1-总示意图"><a href="#1-总示意图" class="headerlink" title="1.总示意图"></a>1.总示意图</h2><p><img src="p5cpu.jpg" srcset="/img/loading.gif" lazyload alt="p5CPU"></p>
 <h2 id="2-命名规范"><a href="#2-命名规范" class="headerlink" title="2.命名规范"></a>2.命名规范</h2><p>1.模块以及接口加上各级前缀</p>
 <p>2.属于某模块在级后面在加模块名</p>
 <h2 id="3-模块定义"><a href="#3-模块定义" class="headerlink" title="3.模块定义"></a>3.模块定义</h2><h3 id="1）Datapath"><a href="#1）Datapath" class="headerlink" title="1）Datapath"></a>1）Datapath</h3><h4 id="1、E-ALU模块"><a href="#1、E-ALU模块" class="headerlink" title="1、E_ALU模块"></a>1、E_ALU模块</h4><p>同指导书，改为case来操作</p>
@@ -1083,7 +1083,7 @@
 </tbody>
 </table>
 </div>
-<h2 id="2-总示意图"><a href="#2-总示意图" class="headerlink" title="2.总示意图"></a>2.总示意图</h2><p><img src="p6cpu.jpg" srcset="/img/loading.gif" lazyload alt="&quot;p6cpu.jpg&quot;"></p>
+<h2 id="2-总示意图"><a href="#2-总示意图" class="headerlink" title="2.总示意图"></a>2.总示意图</h2><p><img src="p6cpu.jpg" srcset="/img/loading.gif" lazyload alt="p6CPU"></p>
 <h2 id="3-思考题"><a href="#3-思考题" class="headerlink" title="3.思考题"></a>3.思考题</h2><p>1.乘除法运算效率远低于ALU内的各个计算，需要耗费大量时间，放在一起会大大拖慢效率，独立的HI、LO也是为了高效率，因为只有乘除法会用到高位寄存器，低位寄存器，与其他不一致，分开便于控制。</p>
 <p>2.真实的流水线 CPU 使用乘法和除法指令来实现乘除法运算。在执行乘法和除法指令时，CPU会将操作数加载到寄存器中，然后通过一系列的算术逻辑单元(ALU)来进行乘法或除法计算。这些计算通常会在多个时钟周期内完成，因为乘法和除法是比较复杂的运算。乘法：乘法可以通过一系列的加法和移位来实现。处理器中的乘法单元通常包括：部分积生成器（Partial Product Generator）：将两个乘数的每一位相乘，生成部分积。部分积累加器（Partial Product Accumulator）： 将所有部分积相加，得到最终的乘积。这个过程可能需要多个时钟周期，因此在流水线中可能会有多个阶段用于处理不同的部分。除法：除法通常比乘法更为复杂，可能涉及到迭代的过程。处理器中的除法单元通常包括：部分商生成器（Partial Quotient Generator）： 生成每一位的部分商。部分商累加器（Partial Quotient Accumulator）： 将所有部分商相加，得到最终的商。这个过程同样可能需要多个时钟周期，并且可能需要进行多轮迭代来得到最终的结果。</p>
 <p>在流水线中，这些乘法和除法的阶段可能被划分为多个子阶段，以便在每个时钟周期内执行一些部分操作。流水线的设计需要考虑到数据相关性、控制信号的传递以及流水线暂停和刷新等问题，以确保正确且高效地执行指令。</p>
