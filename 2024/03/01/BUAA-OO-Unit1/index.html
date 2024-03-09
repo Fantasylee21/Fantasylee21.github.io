@@ -25,8 +25,9 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://fantasylee21.github.io/2024/03/01/BUAA-OO-Unit1/uml.png">
 <meta property="og:image" content="https://fantasylee21.github.io/2024/03/01/BUAA-OO-Unit1/image-20240301204258960.png">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/03/01/BUAA-OO-Unit1/UML_Unit1.2.png">
 <meta property="article:published_time" content="2024-03-01T03:40:07.000Z">
-<meta property="article:modified_time" content="2024-03-06T06:42:20.772Z">
+<meta property="article:modified_time" content="2024-03-09T12:10:24.846Z">
 <meta property="article:author" content="Fantasylee">
 <meta property="article:tag" content="BUAA_OO">
 <meta name="twitter:card" content="summary_large_image">
@@ -223,7 +224,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          707 字
+          1.5k 字
         
       </span>
     
@@ -234,7 +235,7 @@
         
         
         
-          6 分钟
+          13 分钟
         
       </span>
     
@@ -324,10 +325,26 @@
 <p>最后随机在生成式之间添加空格</p>
 <h5 id="3-12-测试比对"><a href="#3-12-测试比对" class="headerlink" title="3.12 测试比对"></a>3.12 测试比对</h5><p>依赖于sympy自带的化简功能实现</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">execute_java</span> (stdin, <span class="hljs-built_in">str</span>):<br>    cmd = [<span class="hljs-string">&quot;java&quot;</span>, <span class="hljs-string">&quot;-jar&quot;</span>, <span class="hljs-built_in">str</span> + <span class="hljs-string">&quot;.jar&quot;</span>]  <span class="hljs-comment"># 更改为自己的.jar包名</span><br>    proc = subprocess.Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT)<br>    stdout, stderr = proc.communicate(stdin.encode(<span class="hljs-string">&#x27;utf-8&#x27;</span>))<br>    <span class="hljs-keyword">return</span> stdout.decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>).strip()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">isEqual</span>(<span class="hljs-params">javaInput,javaOutput</span>):<br>    javaInput = sp.simplify(javaInput)<br>    javaOutput = sp.simplify(javaOutput)<br>    <span class="hljs-keyword">return</span> javaInput.equals(javaOutput)<br></code></pre></td></tr></table></figure>
-<h2 id="二、第二次作业hw2"><a href="#二、第二次作业hw2" class="headerlink" title="二、第二次作业hw2"></a>二、第二次作业hw2</h2><h4 id="前言-1"><a href="#前言-1" class="headerlink" title="前言"></a>前言</h4><ol>
-<li>关于使用替换进行函数展开，要注意不要引入新的形参。例如f(y, x)=y+x，展开f(x, x^2)时，若不加任何修改直接用x替换形参y，f就会变为x+x， 再直接用x^2替换所有形参x，就会变为x^2+x^2的错误结果。因此，可以先将所有形参变为其他形式， 如f(v,u) = v+u，再替换形参v和u就不会发生上述错误。表达式解析</li>
-<li>深拷贝与浅拷贝学习</li>
+<h2 id="二、第二次作业hw2"><a href="#二、第二次作业hw2" class="headerlink" title="二、第二次作业hw2"></a>二、第二次作业hw2</h2><h4 id="前言-1"><a href="#前言-1" class="headerlink" title="前言"></a>前言</h4><p>本次作业花费大多时间在构思解决最后的化简上，同时在debug时也遇到了不少问题，但最终一一解决，虽代码相比第一次变化不小，但总体思路大致相同</p>
+<h4 id="1-代码UML框架-1"><a href="#1-代码UML框架-1" class="headerlink" title="1.代码UML框架"></a>1.代码UML框架</h4><p><img src="UML_Unit1.2.png" srcset="/img/loading.gif" lazyload alt="UML"></p>
+<h4 id="2-作业体会"><a href="#2-作业体会" class="headerlink" title="2.作业体会"></a>2.作业体会</h4><ol>
+<li>关于使用替换进行函数展开，要注意不要引入新的形参。例如f(y, x)=y+x，展开f(x, x^2)时，若不加任何修改直接用x替换形参y，f就会变为x+x， 再直接用x^2替换所有形参x，就会变为x^2+x^2的错误结果。因此，可以先将所有形参变为其他形式， 如f(v,u) = v+u，再替换形参v和u就不会发生上述错误。对于<code>exp(x)</code>,由于<code>exp</code>中包含x，可能会影响我们后续对于x的替换，所以在一开始我们可以选择将<code>exp</code>替换为<code>e</code></li>
+<li>深拷贝与浅拷贝学习，由于JAVA默认一般是浅拷贝，如下我们正常写法应该是<code>return this.defineFunctions</code>,但是函数的参数替换时可能会涉及多次形参的替换，如果不采用深拷贝的话，会导致第一遍替换后会影响我们到后续的替换。        </li>
 </ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> ArrayList&lt;DefineFunction&gt; <span class="hljs-title function_">getDefineFunctions</span><span class="hljs-params">()</span> &#123;<br>    ArrayList&lt;DefineFunction&gt; dfs = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>    <span class="hljs-keyword">for</span> (DefineFunction defineFunction : <span class="hljs-built_in">this</span>.defineFunctions) &#123;<br>        dfs.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">DefineFunction</span>(defineFunction.getName(), defineFunction.getBody()));<br>        dfs.get(dfs.size() - <span class="hljs-number">1</span>).setParameters(defineFunction.getParameters());<br>    &#125;<br>    <span class="hljs-keyword">return</span> dfs;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>实现深拷贝也有很多种方法，对于String 类型的我们可以new一个String类型对象后赋值，对于某一个自定义对象，我们可以通过以下方法实现：</p>
+<ul>
+<li><p>重写<code>clone（）</code>方法，但是这种方法某一类有多少个引用类型，我们就要重写多少次，如果存在很多引用类型，那么代码量显然会很大，所以这种方法不太合适。</p>
+</li>
+<li><p>利用序列化序，列化是将对象写到流中便于传输，而反序列化则是把对象从流中读取出来。这里写到流中的对象则是原始对象的一个拷贝，因为原始对象还存在 JVM 中，所以我们可以利用对象的序列化产生克隆对象，然后通过反序列化获取这个对象。 注意每个需要序列化的类都要实现 Serializable 接口，如果有某个属性不需要序列化，可以将其声明为 transient，即将其排除在克隆属性之外。下面是一个例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.io.Serial;<br><span class="hljs-keyword">import</span> java.io.Serializable;<br><span class="hljs-keyword">import</span> java.io.ByteArrayOutputStream;<br><span class="hljs-keyword">import</span> java.io.ObjectOutputStream;<br><span class="hljs-keyword">import</span> java.io.ByteArrayInputStream;<br><span class="hljs-keyword">import</span> java.io.ObjectInputStream;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">test</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Serializable</span> &#123;<br>    <span class="hljs-comment">//Serializable的作用是为了实现对象的序列化，只有实现了Serializable接口的类才能被序列化</span><br>    <span class="hljs-meta">@Serial</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">long</span> <span class="hljs-variable">serialVersionUID</span> <span class="hljs-operator">=</span> <span class="hljs-number">1L</span>;<br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">transient</span> <span class="hljs-type">int</span> age; <span class="hljs-comment">//transient关键字修饰的变量不会被序列化</span><br>    <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">deepClone</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-comment">//序列化</span><br>        <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">bos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>(); <span class="hljs-comment">//创建字节数组输出流</span><br>        <span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">oos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(bos);<br>        oos.writeObject(<span class="hljs-built_in">this</span>);<br>        <span class="hljs-comment">//反序列化</span><br>        <span class="hljs-type">ByteArrayInputStream</span> <span class="hljs-variable">bis</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayInputStream</span>(bos.toByteArray());<br>        <span class="hljs-type">ObjectInputStream</span> <span class="hljs-variable">ois</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectInputStream</span>(bis);<br>        <span class="hljs-keyword">return</span> ois.readObject();<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="3-代码架构分析"><a href="#3-代码架构分析" class="headerlink" title="3.代码架构分析"></a>3.代码架构分析</h4><p>本次迭代继承了上次大部分的思路，增加了DefineFunction，FunctionList两个类用于读取和储存自定义函数，同时根据提示题意增加了需要的DefineFunctionFactor、ExpFuncFactor类适应新的需求</p>
+<h5 id="3-1-自定义函数的替换"><a href="#3-1-自定义函数的替换" class="headerlink" title="3.1 自定义函数的替换"></a>3.1 自定义函数的替换</h5><p>由于在于处理中一直没有好的思路实现替换，于是我决定牺牲部分运行的时间，先解析一遍表达式，再将Expr通过递归思路转化为String形式，在这个过程中在DefineFunctionFactor下的toString()方法实现替换，但在这里要注意调用我们储存好的FunctionList的内容时要实现深拷贝</p>
+<h5 id="3-2-多项式的化简"><a href="#3-2-多项式的化简" class="headerlink" title="3.2 多项式的化简"></a>3.2 多项式的化简</h5><p>本次单项式相比上次多了Poly类对象对应exp（）内部的多项式，多项式类采用以下储存</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">private</span> ArrayList&lt;Monomial&gt; monomials;<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> TreeMap&lt;BigInteger, HashMap&lt;Poly, BigInteger&gt;&gt; polyMap;<br></code></pre></td></tr></table></figure>
+<p>最开始先不断在monomials中添加单项式，后再往polyMap中添加实现化简，注意由于HashMap的key是自定义类，我们需要重写equals（）方法和hashcode()方法</p>
 
                 
               </div>
