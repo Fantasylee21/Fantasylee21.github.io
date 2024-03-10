@@ -16,18 +16,22 @@
   <meta name="author" content="Fantasylee">
   <meta name="keywords" content="">
   
-    <meta name="description" content="操作系统lab0学习日记1 debug阶段1.1 脚本执行参数不能丢在.&#x2F;search.sh 时未输入一下参数会爆出重定向有歧义（只是其中之一） 1grep -n &quot;$2&quot; $1 | awk -F &#x27;:&#x27; &#x27;&#123;print $1&#125;&#x27; &gt; $3 1.2 Makefile中的问题 .PHONY后面跟的目标都被称为伪目标">
+    <meta name="description" content="操作系统lab0学习日记1 学习阶段1.1 基础命令和快捷键 Ctrl+C 终止当前程序的执行 Ctrl+Z 挂起当前程序  Ctrl+D 终止输入（若正在使用 shell，则退出当前 shell） Ctrl+L 清屏  12345678语法:gcc [选项]... [参数]... 选项（常用）：-o 指定生成的输出文件 -S 将 C 代码转换为汇编代码 -Wall 显示一些警告信息 -c 仅执行">
 <meta property="og:type" content="article">
 <meta property="og:title" content="BUAA_OS_lab0">
 <meta property="og:url" content="https://fantasylee21.github.io/2024/03/06/BUAA-OS-lab0/index.html">
 <meta property="og:site_name" content="Fantasylee&#39;s Blog">
-<meta property="og:description" content="操作系统lab0学习日记1 debug阶段1.1 脚本执行参数不能丢在.&#x2F;search.sh 时未输入一下参数会爆出重定向有歧义（只是其中之一） 1grep -n &quot;$2&quot; $1 | awk -F &#x27;:&#x27; &#x27;&#123;print $1&#125;&#x27; &gt; $3 1.2 Makefile中的问题 .PHONY后面跟的目标都被称为伪目标">
+<meta property="og:description" content="操作系统lab0学习日记1 学习阶段1.1 基础命令和快捷键 Ctrl+C 终止当前程序的执行 Ctrl+Z 挂起当前程序  Ctrl+D 终止输入（若正在使用 shell，则退出当前 shell） Ctrl+L 清屏  12345678语法:gcc [选项]... [参数]... 选项（常用）：-o 指定生成的输出文件 -S 将 C 代码转换为汇编代码 -Wall 显示一些警告信息 -c 仅执行">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/03/06/BUAA-OS-lab0/git.png">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/03/06/BUAA-OS-lab0/gitPrinciple.png">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/03/06/BUAA-OS-lab0/gitBranch.png">
 <meta property="article:published_time" content="2024-03-06T14:07:31.000Z">
-<meta property="article:modified_time" content="2024-03-06T15:07:06.698Z">
+<meta property="article:modified_time" content="2024-03-10T13:13:41.814Z">
 <meta property="article:author" content="Fantasylee">
 <meta property="article:tag" content="操作系统OS">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://fantasylee21.github.io/2024/03/06/BUAA-OS-lab0/git.png">
   
   
   
@@ -220,7 +224,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          285 字
+          1.7k 字
         
       </span>
     
@@ -231,7 +235,7 @@
         
         
         
-          3 分钟
+          15 分钟
         
       </span>
     
@@ -273,14 +277,91 @@
             
               <div class="markdown-body">
                 
-                <h1 id="操作系统lab0学习日记"><a href="#操作系统lab0学习日记" class="headerlink" title="操作系统lab0学习日记"></a>操作系统lab0学习日记</h1><h3 id="1-debug阶段"><a href="#1-debug阶段" class="headerlink" title="1 debug阶段"></a>1 debug阶段</h3><h4 id="1-1-脚本执行参数不能丢"><a href="#1-1-脚本执行参数不能丢" class="headerlink" title="1.1 脚本执行参数不能丢"></a>1.1 脚本执行参数不能丢</h4><p>在./search.sh 时未输入一下参数会爆出重定向有歧义（只是其中之一）</p>
+                <h1 id="操作系统lab0学习日记"><a href="#操作系统lab0学习日记" class="headerlink" title="操作系统lab0学习日记"></a>操作系统lab0学习日记</h1><h3 id="1-学习阶段"><a href="#1-学习阶段" class="headerlink" title="1 学习阶段"></a>1 学习阶段</h3><h4 id="1-1-基础命令和快捷键"><a href="#1-1-基础命令和快捷键" class="headerlink" title="1.1 基础命令和快捷键"></a>1.1 基础命令和快捷键</h4><ul>
+<li>Ctrl+C 终止当前程序的执行</li>
+<li>Ctrl+Z 挂起当前程序 </li>
+<li>Ctrl+D 终止输入（若正在使用 shell，则退出当前 shell）</li>
+<li>Ctrl+L 清屏</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell">语法:gcc [选项]... [参数]... <br>选项（常用）：<br>-o 指定生成的输出文件 <br>-S 将 C 代码转换为汇编代码 <br>-Wall 显示一些警告信息 <br>-c 仅执行编译操作，不进行链接操作<br>-M 列出依赖<br>-I 编译时指定头文件目录，使用标准库时不需要指定目录，-I 参数可以用相对 ,→ 路径，比如头文件在当前目录，可以用-I. 来指定<br></code></pre></td></tr></table></figure>
+<h4 id="1-2-ctags"><a href="#1-2-ctags" class="headerlink" title="1.2 ctags"></a>1.2 ctags</h4><p>回到命令行界面，执行命令<code>ctags -R *</code>，会发现在该目录下出现了新的文 件 tags，接下来就可以使用一些 ctags 的功能了：</p>
+<p>按下 Ctrl+ ]，便可以跳转到函数定义处；再按下 Ctrl+T 或 Ctrl+O（有 些浏览器 Ctrl+T 是新建页面，会出现热键冲突），便可以回到跳转前的位置。</p>
+<h4 id="1-3-git"><a href="#1-3-git" class="headerlink" title="1.3 git"></a>1.3 git</h4><p>git四种状态：</p>
+<p><img src="git.png" srcset="/img/loading.gif" lazyload alt="Git"></p>
+<p><img src="gitPrinciple.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>详见指导书p22，图中我们可以看出此时 HEAD 实际是指向 master 分支的一个“指针”。所以图示 的命令中出现 HEAD 的地方可以用 master 来替换。</p>
+<p>当执行 <code>git rm --cached&lt;file&gt;</code>命令时，会直接从暂存区删除文件，工作区则 不做出改变，实现从暂存区删去不想继续跟踪的文件</p>
+<p><code>git checkout -- &lt;file&gt;</code>如果在工作区中对多个文件经过多次修改后，发现编译 无法通过了。如果尚未执行 <code>git add</code>，则可使用本命令将工作区恢复成原来的样子。作用和<code>git restore</code>类似</p>
+<p><code>git reset HEAD &lt;file&gt;</code>上一条命令是在未执行 <code>git add</code>命令便修改文件生效并 放入暂存区，可使用<code>git checkout</code> 命令。那么如果不慎已经执行了<code>git add</code>，则 可使用本命令。再对需要恢复的文件使用上一条命令即可。</p>
+<p><code>git reset --hard</code>进行版本回退，使用这条命令可以进行版本回退或者切换到任何一个版本。它有两种用法：第一 种是使用<code>HEAD</code>类似形式，如果想退回上个版本就用<code>HEAD^</code>，上上个版本的话就用<code>HEAD^^</code>，要是回退到前 50 个版本则可使用<code>HEAD~50</code>来代替；第二种就是使用<code>hash</code>值，使用<code>hash</code>值可以在不同版本之间任意切换，足见<code>hash</code>值的强大。但是，它强制覆盖了工作目录中的文件。若该文件还未提交，Git 会覆盖它从 而导致无法恢复。</p>
+<p><code>git branch</code>,</p>
+<p>选项：</p>
+<p><code>-D</code>  强制删除一个指定分支</p>
+<p><code>-a</code>   查看所有的原地和本地分支</p>
+<p><img src="gitBranch.png" srcset="/img/loading.gif" lazyload alt="image-20240310203856334"></p>
+<h4 id="1-4-linux进阶"><a href="#1-4-linux进阶" class="headerlink" title="1.4 linux进阶"></a>1.4 linux进阶</h4><p><code>find</code>:使用 find 命令并加上 -name 选项可以在当前目录下递归地查找符合参数所示文件 名的文件，并将文件的路径输出至屏幕上。</p>
+<p><code>grep</code>:grep 命令可以从文件中查找包含 pattern 部分字符串的行，并将 该文件的路径和该行输出至屏幕</p>
+<p><code>chmod</code>:+ 表示增加权限、- 表示取消权限、= 表示唯一设定权 限。r 表示可读取，w 表示可写入，x 表示可执行，X 表示只有当该文件是个子目录或者 该文件已经被设定过为可执行。</p>
+<p><code>diff</code>:比较文件差异，-b 不检查空白字符的不同，-B不检查空行，-q仅显示有无差异不显示详细信息</p>
+<p><code>sed</code>:</p>
+<p>选项（常用）：</p>
+<ul>
+<li>-n 安静模式，只显示经过 sed 处理的内容。否则显示输入文本的所有内容。</li>
+<li>-i 直接修改读取的档案内容，而不是输出到屏幕。否则，只输出不编辑。</li>
+</ul>
+<p>命令（常用）：</p>
+<ul>
+<li>[行号]a[内容] 新增，在行号后新增一行相应内容。行号可以是“数字”，在这一行之后新增，不写行号时，在每一行之后新增。使用 $ 表示最后一行。后面的命令同理。</li>
+<li>[行号]c[内容] 取代。用内容取代相应行的文本。</li>
+<li>[行号]i[内容] 插入。在当前行的上面插入一行文本。</li>
+<li>[行号]d 删除当前行的内容。</li>
+<li>[行号]p 输出选择的内容。通常与选项-n 一起使用。</li>
+<li>s/re/string 将 re（正则表达式）匹配的内容替换为 string。</li>
+</ul>
+<p><code>awk</code>:awk ‘pattern action’ file，pattern 为条件，action 为命 令，file 为文件。</p>
+<h4 id="1-5-shell"><a href="#1-5-shell" class="headerlink" title="1.5 shell"></a>1.5 shell</h4><p><code>$n</code>就表示第几个参数，<code>$#</code>表示传递参数的个数，<code>$*</code>表示传递的全部参数</p>
+<h3 id="2-Thinking"><a href="#2-Thinking" class="headerlink" title="2 Thinking"></a>2 Thinking</h3><h4 id="Thinking-0-1"><a href="#Thinking-0-1" class="headerlink" title="Thinking 0.1"></a>Thinking 0.1</h4><p>问题：思考下列有关 Git 的问题：</p>
+<ul>
+<li>在前述已初始化的 ~/learnGit 目录下，创建一个名为 README.txt 的文件。执 行命令 git status &gt; Untracked.txt（其中的 &gt; 为输出重定向，我们将在 0.6.3 中 详细介绍）。 </li>
+<li>在 README.txt 文件中添加任意文件内容，然后使用 add 命令，再执行命令 git status &gt; Stage.txt。 </li>
+<li>提交 README.txt，并在提交说明里写入自己的学号。</li>
+<li>执行命令 cat Untracked.txt 和 cat Stage.txt，对比两次运行的结果，体会 README.txt 两次所处位置的不同。</li>
+<li>修改 README.txt 文件，再执行命令 git status &gt; Modified.txt。</li>
+<li>执行命令 cat Modified.txt，观察其结果和第一次执行 add 命令之前的 status 是 否一样，并思考原因。</li>
+</ul>
+<p>解答：新建<code>README.txt</code>文件后，文件处于Untracked状态，文件中添加部分内容，git add后会处于staged状态。先git commit文件接下来再修改文件，文件会处于Modified状态</p>
+<h4 id="Thinking-0-2"><a href="#Thinking-0-2" class="headerlink" title="Thinking 0.2"></a>Thinking 0.2</h4><p>问题：上图中思考一下箭头中的 add the file 、stage the file 和 commit 分别对应的是 Git 里的哪些命令呢？ </p>
+<p>解答：</p>
+<ul>
+<li><code>git add</code></li>
+<li><code>git add</code></li>
+<li><code>git commit</code></li>
+</ul>
+<h4 id="Thinking-0-3"><a href="#Thinking-0-3" class="headerlink" title="Thinking 0.3"></a>Thinking 0.3</h4><p>问题：</p>
+<ol>
+<li>代码文件 print.c 被错误删除时，应当使用什么命令将其恢复？ </li>
+<li>代码文件 print.c 被错误删除后，执行了 git rm print.c 命令，此时应当 使用什么命令将其恢复？</li>
+<li>无关文件 hello.txt 已经被添加到暂存区时，如何在不删除此文件的前提下将其移出暂存区</li>
+</ol>
+<p>解答：</p>
+<ul>
+<li><code>git checkout --print.c</code></li>
+<li><code>git reset HEAD print.c &amp;&amp; git checkout --print.c</code></li>
+<li><code>git rm -- chched print.c</code></li>
+</ul>
+<h4 id="Thinking-0-4"><a href="#Thinking-0-4" class="headerlink" title="Thinking 0.4"></a>Thinking 0.4</h4><p>使用 hash 值可以在不同版本之间任意切换，足见 hash 值的强大。</p>
+<h4 id="Thinking-0-5"><a href="#Thinking-0-5" class="headerlink" title="Thinking 0.5"></a>Thinking 0.5</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell">执行如下命令, 并查看结果<br>• echo first #输出first<br>• echo second &gt; output.txt #将second输出到output.txt<br>• echo third &gt; output.txt<br><span class="hljs-meta prompt_">#</span><span class="language-bash">将third输出到output.txt并覆盖</span><br>• echo forth &gt;&gt; output.txt<br><span class="hljs-meta prompt_">#</span><span class="language-bash">将forth输出到output.txt但不覆盖</span><br><br></code></pre></td></tr></table></figure>
+<h4 id="Thinking-0-6"><a href="#Thinking-0-6" class="headerlink" title="Thinking 0.6"></a>Thinking 0.6</h4><p>echo echo Shell Start 直接把“echo Shell Start” 作为字符串输出；</p>
+<p>echo (反顿号)echo Shell Start(反顿号)是将 “echo Shell Start” 的输出作为 外层echo 的输入，故会输出 Shell Start；</p>
+<p>echo (单引号)echo Shell Start(单引号)直接把“echo Shell Start” 作为字符串输出</p>
+<h3 id="3-lab0作业debug阶段"><a href="#3-lab0作业debug阶段" class="headerlink" title="3 lab0作业debug阶段"></a>3 lab0作业debug阶段</h3><h4 id="3-1-脚本执行参数不能丢"><a href="#3-1-脚本执行参数不能丢" class="headerlink" title="3.1 脚本执行参数不能丢"></a>3.1 脚本执行参数不能丢</h4><p>在./search.sh 时未输入一下参数会爆出重定向有歧义（只是其中之一）</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">grep -n <span class="hljs-string">&quot;<span class="hljs-variable">$2</span>&quot;</span> <span class="hljs-variable">$1</span> | awk -F <span class="hljs-string">&#x27;:&#x27;</span> <span class="hljs-string">&#x27;&#123;print $1&#125;&#x27;</span> &gt; <span class="hljs-variable">$3</span><br></code></pre></td></tr></table></figure>
-<h4 id="1-2-Makefile中的问题"><a href="#1-2-Makefile中的问题" class="headerlink" title="1.2 Makefile中的问题"></a>1.2 Makefile中的问题</h4><ol>
+<h4 id="3-2-Makefile中的问题"><a href="#3-2-Makefile中的问题" class="headerlink" title="3.2 Makefile中的问题"></a>3.2 Makefile中的问题</h4><ol>
 <li><code>.PHONY</code>后面跟的目标都被称为伪目标，也就是说我们 make 命令后面跟的参数如果出现在.PHONY 定义的伪目标中，那就直接在Makefile中就执行伪目标的依赖和命令。不管Makefile同级目录下是否有该伪目标同名的文件，即使有也不会产生冲突。另一个就是提高执行makefile时的效率。</li>
 <li>如下,如果执行all会同时执行fibo和clean对应命令</li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">all :fibo clean<br><br>clean:<br>	<span class="hljs-built_in">rm</span> -rf $(TARGET)<br>fibo: fibo.c<br>	gcc -o fibo fibo.c<br></code></pre></td></tr></table></figure>
-<h4 id="1-3-gcc"><a href="#1-3-gcc" class="headerlink" title="1.3 gcc"></a>1.3 gcc</h4><p><code>-I</code>参数是用来指定头文件目录</p>
+<h4 id="3-3-gcc"><a href="#3-3-gcc" class="headerlink" title="3.3 gcc"></a>3.3 gcc</h4><p><code>-I</code>参数是用来指定头文件目录</p>
 <p><code>-l</code>参数就是用来指定程序要链接的库</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">gcc ./code/fibo.o ./code/main.o -o fibo <br></code></pre></td></tr></table></figure>
 <p>这段代码作用:</p>
