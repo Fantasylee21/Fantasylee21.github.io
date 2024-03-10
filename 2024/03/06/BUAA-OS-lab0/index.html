@@ -34,6 +34,8 @@
 <meta name="twitter:image" content="https://fantasylee21.github.io/2024/03/06/BUAA-OS-lab0/git.png">
   
   
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
   
   <title>BUAA_OS_lab0 - Fantasylee&#39;s Blog</title>
 
@@ -241,6 +243,14 @@
     
 
     
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
     
   </div>
 
@@ -472,6 +482,37 @@
             </div>
 
             
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"pOzFaCObtjkExgzgyXtbzFbm-MdYXbMMI","appKey":"K7PRbHAE1lQy810Gl5gVC0Xl","path":"window.location.pathname","placeholder":"输入你的评论\n昵称为必填项目,输入QQ号可以直接获取用户名和头像,并且省去了填写邮箱的麻烦！\n虽然email不是必选,但是填写了email可以收到推送通知哦","avatar":"retro","meta":["nick","mail"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
           </article>
         </div>
       </div>
@@ -713,6 +754,8 @@
   <script>Fluid.plugins.imageCaption();</script>
 
   <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
 
 
 
