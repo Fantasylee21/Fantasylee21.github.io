@@ -16,18 +16,18 @@
   <meta name="author" content="Fantasylee">
   <meta name="keywords" content="">
   
-    <meta name="description" content="操作系统lab0学习日记1 学习阶段1.1 基础命令和快捷键 Ctrl+C 终止当前程序的执行 Ctrl+Z 挂起当前程序  Ctrl+D 终止输入（若正在使用 shell，则退出当前 shell） Ctrl+L 清屏  12345678语法:gcc [选项]... [参数]... 选项（常用）：-o 指定生成的输出文件 -S 将 C 代码转换为汇编代码 -Wall 显示一些警告信息 -c 仅执行">
+    <meta name="description" content="操作系统lab0学习日记1 学习阶段的难点分析与体会1.1 基础命令和快捷键 Ctrl+C 终止当前程序的执行 Ctrl+Z 挂起当前程序  Ctrl+D 终止输入（若正在使用 shell，则退出当前 shell） Ctrl+L 清屏  12345678语法:gcc [选项]... [参数]... 选项（常用）：-o 指定生成的输出文件 -S 将 C 代码转换为汇编代码 -Wall 显示一些警告信">
 <meta property="og:type" content="article">
 <meta property="og:title" content="BUAA_OS_lab0">
 <meta property="og:url" content="https://fantasylee21.github.io/2024/03/06/BUAA-OS-lab0/index.html">
 <meta property="og:site_name" content="Fantasylee&#39;s Blog">
-<meta property="og:description" content="操作系统lab0学习日记1 学习阶段1.1 基础命令和快捷键 Ctrl+C 终止当前程序的执行 Ctrl+Z 挂起当前程序  Ctrl+D 终止输入（若正在使用 shell，则退出当前 shell） Ctrl+L 清屏  12345678语法:gcc [选项]... [参数]... 选项（常用）：-o 指定生成的输出文件 -S 将 C 代码转换为汇编代码 -Wall 显示一些警告信息 -c 仅执行">
+<meta property="og:description" content="操作系统lab0学习日记1 学习阶段的难点分析与体会1.1 基础命令和快捷键 Ctrl+C 终止当前程序的执行 Ctrl+Z 挂起当前程序  Ctrl+D 终止输入（若正在使用 shell，则退出当前 shell） Ctrl+L 清屏  12345678语法:gcc [选项]... [参数]... 选项（常用）：-o 指定生成的输出文件 -S 将 C 代码转换为汇编代码 -Wall 显示一些警告信">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://fantasylee21.github.io/2024/03/06/BUAA-OS-lab0/git.png">
 <meta property="og:image" content="https://fantasylee21.github.io/2024/03/06/BUAA-OS-lab0/gitPrinciple.png">
 <meta property="og:image" content="https://fantasylee21.github.io/2024/03/06/BUAA-OS-lab0/gitBranch.png">
 <meta property="article:published_time" content="2024-03-06T14:07:31.000Z">
-<meta property="article:modified_time" content="2024-03-10T13:13:41.814Z">
+<meta property="article:modified_time" content="2024-03-13T06:31:13.876Z">
 <meta property="article:author" content="Fantasylee">
 <meta property="article:tag" content="操作系统OS">
 <meta name="twitter:card" content="summary_large_image">
@@ -226,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.7k 字
+          1.9k 字
         
       </span>
     
@@ -237,7 +237,7 @@
         
         
         
-          15 分钟
+          17 分钟
         
       </span>
     
@@ -287,7 +287,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="操作系统lab0学习日记"><a href="#操作系统lab0学习日记" class="headerlink" title="操作系统lab0学习日记"></a>操作系统lab0学习日记</h1><h3 id="1-学习阶段"><a href="#1-学习阶段" class="headerlink" title="1 学习阶段"></a>1 学习阶段</h3><h4 id="1-1-基础命令和快捷键"><a href="#1-1-基础命令和快捷键" class="headerlink" title="1.1 基础命令和快捷键"></a>1.1 基础命令和快捷键</h4><ul>
+                <h1 id="操作系统lab0学习日记"><a href="#操作系统lab0学习日记" class="headerlink" title="操作系统lab0学习日记"></a>操作系统lab0学习日记</h1><h3 id="1-学习阶段的难点分析与体会"><a href="#1-学习阶段的难点分析与体会" class="headerlink" title="1 学习阶段的难点分析与体会"></a>1 学习阶段的难点分析与体会</h3><h4 id="1-1-基础命令和快捷键"><a href="#1-1-基础命令和快捷键" class="headerlink" title="1.1 基础命令和快捷键"></a>1.1 基础命令和快捷键</h4><ul>
 <li>Ctrl+C 终止当前程序的执行</li>
 <li>Ctrl+Z 挂起当前程序 </li>
 <li>Ctrl+D 终止输入（若正在使用 shell，则退出当前 shell）</li>
@@ -318,6 +318,7 @@
 <ul>
 <li>-n 安静模式，只显示经过 sed 处理的内容。否则显示输入文本的所有内容。</li>
 <li>-i 直接修改读取的档案内容，而不是输出到屏幕。否则，只输出不编辑。</li>
+<li><code>-e</code>允许在同一行类执行多条命令</li>
 </ul>
 <p>命令（常用）：</p>
 <ul>
@@ -359,12 +360,12 @@
 <li><code>git reset HEAD print.c &amp;&amp; git checkout --print.c</code></li>
 <li><code>git rm -- chched print.c</code></li>
 </ul>
-<h4 id="Thinking-0-4"><a href="#Thinking-0-4" class="headerlink" title="Thinking 0.4"></a>Thinking 0.4</h4><p>使用 hash 值可以在不同版本之间任意切换，足见 hash 值的强大。</p>
+<h4 id="Thinking-0-4"><a href="#Thinking-0-4" class="headerlink" title="Thinking 0.4"></a>Thinking 0.4</h4><p>版本回退中，<code>git reset --hard</code>后面添加<code>HEAD^</code>可以回到上一版本，<code>HEAD~32</code>这样最多支持回到上五十个版本，此外也使用 hash 值可以在不同版本之间任意切换。</p>
 <h4 id="Thinking-0-5"><a href="#Thinking-0-5" class="headerlink" title="Thinking 0.5"></a>Thinking 0.5</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell">执行如下命令, 并查看结果<br>• echo first #输出first<br>• echo second &gt; output.txt #将second输出到output.txt<br>• echo third &gt; output.txt<br><span class="hljs-meta prompt_">#</span><span class="language-bash">将third输出到output.txt并覆盖</span><br>• echo forth &gt;&gt; output.txt<br><span class="hljs-meta prompt_">#</span><span class="language-bash">将forth输出到output.txt但不覆盖</span><br><br></code></pre></td></tr></table></figure>
 <h4 id="Thinking-0-6"><a href="#Thinking-0-6" class="headerlink" title="Thinking 0.6"></a>Thinking 0.6</h4><p>echo echo Shell Start 直接把“echo Shell Start” 作为字符串输出；</p>
 <p>echo (反顿号)echo Shell Start(反顿号)是将 “echo Shell Start” 的输出作为 外层echo 的输入，故会输出 Shell Start；</p>
 <p>echo (单引号)echo Shell Start(单引号)直接把“echo Shell Start” 作为字符串输出</p>
-<h3 id="3-lab0作业debug阶段"><a href="#3-lab0作业debug阶段" class="headerlink" title="3 lab0作业debug阶段"></a>3 lab0作业debug阶段</h3><h4 id="3-1-脚本执行参数不能丢"><a href="#3-1-脚本执行参数不能丢" class="headerlink" title="3.1 脚本执行参数不能丢"></a>3.1 脚本执行参数不能丢</h4><p>在./search.sh 时未输入一下参数会爆出重定向有歧义（只是其中之一）</p>
+<h3 id="3-lab0作业debug阶段的易错点"><a href="#3-lab0作业debug阶段的易错点" class="headerlink" title="3 lab0作业debug阶段的易错点"></a>3 lab0作业debug阶段的易错点</h3><h4 id="3-1-脚本执行参数不能丢"><a href="#3-1-脚本执行参数不能丢" class="headerlink" title="3.1 脚本执行参数不能丢"></a>3.1 脚本执行参数不能丢</h4><p>在./search.sh 时未输入一下参数会爆出重定向有歧义（只是其中之一）</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">grep -n <span class="hljs-string">&quot;<span class="hljs-variable">$2</span>&quot;</span> <span class="hljs-variable">$1</span> | awk -F <span class="hljs-string">&#x27;:&#x27;</span> <span class="hljs-string">&#x27;&#123;print $1&#125;&#x27;</span> &gt; <span class="hljs-variable">$3</span><br></code></pre></td></tr></table></figure>
 <h4 id="3-2-Makefile中的问题"><a href="#3-2-Makefile中的问题" class="headerlink" title="3.2 Makefile中的问题"></a>3.2 Makefile中的问题</h4><ol>
 <li><code>.PHONY</code>后面跟的目标都被称为伪目标，也就是说我们 make 命令后面跟的参数如果出现在.PHONY 定义的伪目标中，那就直接在Makefile中就执行伪目标的依赖和命令。不管Makefile同级目录下是否有该伪目标同名的文件，即使有也不会产生冲突。另一个就是提高执行makefile时的效率。</li>
@@ -376,6 +377,34 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">gcc ./code/fibo.o ./code/main.o -o fibo <br></code></pre></td></tr></table></figure>
 <p>这段代码作用:</p>
 <p>这段代码使用了gcc编译器将两个目标文件（fibo.o和main.o）链接在一起，生成一个名为fibo的可执行文件。通常，这种编译方式适用于将程序分成多个源文件编写，然后分别编译成目标文件，最后将它们链接在一起以生成最终的可执行文件。</p>
+<h3 id="4-Exercice总结"><a href="#4-Exercice总结" class="headerlink" title="4 Exercice总结"></a>4 Exercice总结</h3><h4 id="4-1-Exercise-0-1"><a href="#4-1-Exercise-0-1" class="headerlink" title="4.1 Exercise 0.1"></a>4.1 Exercise 0.1</h4><ol>
+<li><p>palindrome.c代码补全，实现回文数判断，核心思路：将数字n的各位上的数字存到数组中进行比对</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-type">int</span> main &#123;<br>    <span class="hljs-type">int</span> n;<br>    <span class="hljs-built_in">scanf</span> (<span class="hljs-string">&quot;%d&quot;</span>,&amp;n);<br>    <span class="hljs-type">int</span> flag = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> i = <span class="hljs-number">0</span>,j = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">while</span> (n &gt; <span class="hljs-number">0</span>) &#123;<br>        a[i++] = n % <span class="hljs-number">10</span>;<br>        n /= <span class="hljs-number">10</span>;<br>    &#125;<br>    j = i - <span class="hljs-number">1</span>;<br>    i = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">while</span> (i &lt; j) &#123;<br>        <span class="hljs-keyword">if</span> (a[i] != a[j]) &#123;<br>            flag = <span class="hljs-number">1</span>;<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>        i ++;<br>        j --;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (flag) &#123;<br>        print(<span class="hljs-string">&quot;Y\n&quot;</span>);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>		print(<span class="hljs-string">&quot;N\n&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>```shell<br>gcc -o palindrome palindrome.c</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs autoit"><br><span class="hljs-number">3.</span> sed指令的使用<br><br>   ```shell<br>   <span class="hljs-meta">#实现通过命令 bash hello_os.sh AAA BBB，在 hello_os.sh 所处的目录新建一个名为 BBB 的文件，内容是AAA 文件的第 8、32、128、512、1024 行的内容提取</span><br>   sed -n <span class="hljs-string">&#x27;8p;32p;128p;512p;1024p&#x27;</span> $1 &gt; $2<br>   <span class="hljs-meta">#-n 表示在安静模式下进行</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>文件复制,co指令的使用</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">cp -r src<span class="hljs-regexp">/* dst/</span><br>re dst<span class="hljs-regexp">/sh_test/</span>hello_os.sh<br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="4-2-Exercise-0-2"><a href="#4-2-Exercise-0-2" class="headerlink" title="4.2 Exercise 0.2"></a>4.2 Exercise 0.2</h4><ol>
+<li><p>删除和重命名的使用</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">rm -r &quot;file$a&quot; #删除file4(若$a == 4)<br>mv ./&quot;file$a&quot; ./&quot;newfile$a&quot;<br>let a=a+1 #使得a递增，注意不要加些空格<br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="4-3-Exercise-0-3"><a href="#4-3-Exercise-0-3" class="headerlink" title="4.3 Exercise 0.3"></a>4.3 Exercise 0.3</h4><p>​    <code>grep</code>与<code>awk</code>的使用</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">grep -n $2 $1 | awk -F &#x27;:&#x27; &#x27;&#123;print $1&#125;&#x27; &gt; $3<br></code></pre></td></tr></table></figure>
+<h4 id="4-4-Exercise-0-4"><a href="#4-4-Exercise-0-4" class="headerlink" title="4.4 Exercise 0.4"></a>4.4 Exercise 0.4</h4><ol>
+<li><p><code>sed</code>使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#将$1文件中的$s2替换为$s3</span><br>sed -i <span class="hljs-string">&quot;s/<span class="hljs-variable">$2</span>/<span class="hljs-variable">$3</span>/g&quot;</span> <span class="hljs-variable">$1</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p><code>Makefile</code>编写</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs shell"> 内部Makefile<br>  1 all: fibo main<br>  2 <br>  3 fibo: fibo.c<br>  4         gcc -I ../include -c fibo.c<br>  5 <br>  6 main: main.c fibo.o<br>  7         gcc -I ../include -c main.c<br>  8 <br>  9 clean:<br> 10         rm *.o<br>外部<br>  1 all: fibo<br>  2 <br>  3 fibo: <br>  4         cd code &amp;&amp; make <br>  5         gcc ./code/fibo.o ./code/main.o -o fibo<br>  6 <br>  7 clean: <br>  8         rm ./code/fibo.o<br>  9         rm ./code/main.o<br></code></pre></td></tr></table></figure>
+</li>
+</ol>
 
                 
               </div>

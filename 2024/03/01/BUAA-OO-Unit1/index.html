@@ -26,8 +26,10 @@
 <meta property="og:image" content="https://fantasylee21.github.io/2024/03/01/BUAA-OO-Unit1/uml.png">
 <meta property="og:image" content="https://fantasylee21.github.io/2024/03/01/BUAA-OO-Unit1/image-20240301204258960.png">
 <meta property="og:image" content="https://fantasylee21.github.io/2024/03/01/BUAA-OO-Unit1/UML_Unit1.2.png">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/03/01/BUAA-OO-Unit1/UML1.3.png">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/03/01/BUAA-OO-Unit1/codeNum.png">
 <meta property="article:published_time" content="2024-03-01T03:40:07.000Z">
-<meta property="article:modified_time" content="2024-03-09T14:49:19.467Z">
+<meta property="article:modified_time" content="2024-03-16T04:24:13.089Z">
 <meta property="article:author" content="Fantasylee">
 <meta property="article:tag" content="面向对象OO">
 <meta name="twitter:card" content="summary_large_image">
@@ -226,7 +228,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.5k 字
+          2.1k 字
         
       </span>
     
@@ -237,7 +239,7 @@
         
         
         
-          13 分钟
+          18 分钟
         
       </span>
     
@@ -355,6 +357,23 @@
 <h5 id="3-2-多项式的化简"><a href="#3-2-多项式的化简" class="headerlink" title="3.2 多项式的化简"></a>3.2 多项式的化简</h5><p>本次单项式相比上次多了Poly类对象对应exp（）内部的多项式，多项式类采用以下储存</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">private</span> ArrayList&lt;Monomial&gt; monomials;<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> TreeMap&lt;BigInteger, HashMap&lt;Poly, BigInteger&gt;&gt; polyMap;<br></code></pre></td></tr></table></figure>
 <p>最开始先不断在monomials中添加单项式，后再往polyMap中添加实现化简，注意由于HashMap的key是自定义类，我们需要重写equals（）方法和hashcode()方法</p>
+<h3 id><a href="#" class="headerlink" title=" "></a> </h3><h3 id="4-debug"><a href="#4-debug" class="headerlink" title="4. debug"></a>4. debug</h3><h4 id="CPU超时应对"><a href="#CPU超时应对" class="headerlink" title="CPU超时应对"></a>CPU超时应对</h4><ul>
+<li><strong>慎用异常</strong></li>
+</ul>
+<p>异常对性能不利。抛出异常首先要创建一个新的对象，Throwable接口的构造函数调用名为fillInStackTrace()的本地同步方法，fillInStackTrace()方法检查堆栈，收集调用跟踪信息。只要有异常被抛出，Java虚拟机就必须调整调用堆栈，因为在处理过程中创建了一个新的对象。异常只能用于错误处理，不应该用来控制程序流程。</p>
+<p>本次bug是由于递归深度过深导致的下面这条数据超内存且超时，尝试了很多提高性能的方法均不奏效，于是被迫更改递归思路</p>
+<p><code>0
+(((((((((((x^8)^8)^8)^8)^8)^8)^8)^8)^8)^8)^8)^8</code></p>
+<p>原思路如下，没读到一个因子就根据其次数向项中加入对应数量的因子，后续会导致递归不断深入</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">for</span> (<span class="hljs-type">BigInteger</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> BigInteger.ZERO; i.compareTo(factor.getExponent()) &lt; <span class="hljs-number">0</span>;<br>     i = i.add(BigInteger.ONE)) &#123;<br>    term.addFactor(factor);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>更改后，在转换为多项式时根据次数乘上对应因子，极大简化了对应的递归深度</p>
+<p>至于Main中的更改，原因在于我采用的是解析两次实现替换的功能，当没有需要替换的的函数时就只需要解析一次。<br>综上实现了超内存和超时的问题</p>
+<h2 id="三、第三次作业"><a href="#三、第三次作业" class="headerlink" title="三、第三次作业"></a>三、第三次作业</h2><h4 id="前言-2"><a href="#前言-2" class="headerlink" title="前言"></a>前言</h4><p>本次作业相比前两次代码量上有所减少，作业核心求导方面还是第一单元的核心思路递归下降解决。但是由于作业难度的加大以及迭代导致本次在debug方面耗费了大量的时间。</p>
+<h4 id="1-代码UML框架-2"><a href="#1-代码UML框架-2" class="headerlink" title="1.代码UML框架"></a>1.代码UML框架</h4><p><img src="UML1.3.png" srcset="/img/loading.gif" lazyload alt="UML1.3"></p>
+<h4 id="2-作业体会-1"><a href="#2-作业体会-1" class="headerlink" title="2. 作业体会"></a>2. 作业体会</h4><p><code>derivation()</code>求导函数和<code>toString()</code>类似返回String类型，采用递归下降思路。此外无较大改动</p>
+<h2 id="Unit1总结"><a href="#Unit1总结" class="headerlink" title="Unit1总结"></a>Unit1总结</h2><p>第一单元的核心是解析表达式，总体处理思路是递归下降构建语法树，总体代码规模如下，为了便于理解，我将Factor抽象为父类，里面实现一些因子类的通用方法，并将所有的因子都对应创建的一个子类从而实现不同的<code>toString(),derivation(),toPoly</code>方法。</p>
+<h4 id="1-代码规模"><a href="#1-代码规模" class="headerlink" title="1.代码规模"></a>1.代码规模</h4><p><img src="codeNum.png" srcset="/img/loading.gif" lazyload alt="codeNum"></p>
+<p>通过与他人对比，发现个人的代码规模还是比较庞大的，主要在于部分类的抽象程度还是不够高，将对应因子以及各类处理都写成了对应的类。优点：理解起来较为容易，更改增加新功能较为容易。缺点：随着代码的迭代，增添的代码量相比会更加多。</p>
 
                 
               </div>
