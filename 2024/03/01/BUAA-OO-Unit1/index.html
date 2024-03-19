@@ -16,12 +16,12 @@
   <meta name="author" content="Fantasylee">
   <meta name="keywords" content="">
   
-    <meta name="description" content="BUAA_OO_Unit1总结一、第一次作业hw1前言耗时数天完成了代码书写及代码调试，感悟良多，归功于Training中的内容，我在本次作业中也选择了对应的递归下降的思路构造语法树，同时在根据语法树利用逆向思路将解析完的表达式转化为多项式形式，最后多项式存入TreeMap中按要求降序输出结果 1.代码UML框架 2.代码架构分析2.1 预处理 根据表达式的形式化表达我们可以得到以下结论：  表">
+    <meta name="description" content="BUAA_OO_Unit1总结一、第一次作业hw1前言耗时数天完成了代码书写及代码调试，感悟良多，归功于Training中的内容，我在本次作业中也选择了对应的递归下降的思路构造语法树，同时在根据语法树利用逆向思路将解析完的表达式转化为多项式形式，最后多项式存入TreeMap中按要求降序输出结果。此外UML图中单箭头为本人添加，代表核心的依赖关系。 1.代码UML框架 NumFactor,VarF">
 <meta property="og:type" content="article">
 <meta property="og:title" content="BUAA_OO_Unit1">
 <meta property="og:url" content="https://fantasylee21.github.io/2024/03/01/BUAA-OO-Unit1/index.html">
 <meta property="og:site_name" content="Fantasylee&#39;s Blog">
-<meta property="og:description" content="BUAA_OO_Unit1总结一、第一次作业hw1前言耗时数天完成了代码书写及代码调试，感悟良多，归功于Training中的内容，我在本次作业中也选择了对应的递归下降的思路构造语法树，同时在根据语法树利用逆向思路将解析完的表达式转化为多项式形式，最后多项式存入TreeMap中按要求降序输出结果 1.代码UML框架 2.代码架构分析2.1 预处理 根据表达式的形式化表达我们可以得到以下结论：  表">
+<meta property="og:description" content="BUAA_OO_Unit1总结一、第一次作业hw1前言耗时数天完成了代码书写及代码调试，感悟良多，归功于Training中的内容，我在本次作业中也选择了对应的递归下降的思路构造语法树，同时在根据语法树利用逆向思路将解析完的表达式转化为多项式形式，最后多项式存入TreeMap中按要求降序输出结果。此外UML图中单箭头为本人添加，代表核心的依赖关系。 1.代码UML框架 NumFactor,VarF">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://fantasylee21.github.io/2024/03/01/BUAA-OO-Unit1/uml.png">
 <meta property="og:image" content="https://fantasylee21.github.io/2024/03/01/BUAA-OO-Unit1/image-20240301204258960.png">
@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://fantasylee21.github.io/2024/03/01/BUAA-OO-Unit1/UML1.3.png">
 <meta property="og:image" content="https://fantasylee21.github.io/2024/03/01/BUAA-OO-Unit1/codeNum.png">
 <meta property="article:published_time" content="2024-03-01T03:40:07.000Z">
-<meta property="article:modified_time" content="2024-03-16T04:24:13.089Z">
+<meta property="article:modified_time" content="2024-03-19T07:19:00.006Z">
 <meta property="article:author" content="Fantasylee">
 <meta property="article:tag" content="面向对象OO">
 <meta name="twitter:card" content="summary_large_image">
@@ -228,7 +228,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.1k 字
+          2.8k 字
         
       </span>
     
@@ -239,7 +239,7 @@
         
         
         
-          18 分钟
+          24 分钟
         
       </span>
     
@@ -290,8 +290,9 @@
               <div class="markdown-body">
                 
                 <hr>
-<h1 id="BUAA-OO-Unit1总结"><a href="#BUAA-OO-Unit1总结" class="headerlink" title="BUAA_OO_Unit1总结"></a>BUAA_OO_Unit1总结</h1><h2 id="一、第一次作业hw1"><a href="#一、第一次作业hw1" class="headerlink" title="一、第一次作业hw1"></a>一、第一次作业hw1</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>耗时数天完成了代码书写及代码调试，感悟良多，归功于Training中的内容，我在本次作业中也选择了对应的递归下降的思路构造语法树，同时在根据语法树利用逆向思路将解析完的表达式转化为多项式形式，最后多项式存入TreeMap中按要求降序输出结果</p>
+<h1 id="BUAA-OO-Unit1总结"><a href="#BUAA-OO-Unit1总结" class="headerlink" title="BUAA_OO_Unit1总结"></a>BUAA_OO_Unit1总结</h1><h2 id="一、第一次作业hw1"><a href="#一、第一次作业hw1" class="headerlink" title="一、第一次作业hw1"></a>一、第一次作业hw1</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>耗时数天完成了代码书写及代码调试，感悟良多，归功于Training中的内容，我在本次作业中也选择了对应的递归下降的思路构造语法树，同时在根据语法树利用逆向思路将解析完的表达式转化为多项式形式，最后多项式存入TreeMap中按要求降序输出结果。此外UML图中单箭头为本人添加，代表核心的依赖关系。</p>
 <h3 id="1-代码UML框架"><a href="#1-代码UML框架" class="headerlink" title="1.代码UML框架"></a>1.代码UML框架</h3><p><img src="uml.png" srcset="/img/loading.gif" lazyload alt="UML框架"></p>
+<p><code>NumFactor,VarFactor,ExprFactor</code>继承Factor父类，既可以调用父类<code>exponet</code>的相关方法，又有各自<code>toPoly</code>的方法，<code>Monomial</code>单项式类用于处理单项式，<code>Poly</code>用于处理多项式，<code>PolynomialAnswer</code>用于最终化简输出</p>
 <h3 id="2-代码架构分析"><a href="#2-代码架构分析" class="headerlink" title="2.代码架构分析"></a>2.代码架构分析</h3><h4 id="2-1-预处理"><a href="#2-1-预处理" class="headerlink" title="2.1 预处理"></a>2.1 预处理</h4><p><img src="image-20240301204258960.png" srcset="/img/loading.gif" lazyload alt="形式化表述"></p>
 <p>根据表达式的形式化表达我们可以得到以下结论：</p>
 <ol>
@@ -339,6 +340,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">execute_java</span> (stdin, <span class="hljs-built_in">str</span>):<br>    cmd = [<span class="hljs-string">&quot;java&quot;</span>, <span class="hljs-string">&quot;-jar&quot;</span>, <span class="hljs-built_in">str</span> + <span class="hljs-string">&quot;.jar&quot;</span>]  <span class="hljs-comment"># 更改为自己的.jar包名</span><br>    proc = subprocess.Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT)<br>    stdout, stderr = proc.communicate(stdin.encode(<span class="hljs-string">&#x27;utf-8&#x27;</span>))<br>    <span class="hljs-keyword">return</span> stdout.decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>).strip()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">isEqual</span>(<span class="hljs-params">javaInput,javaOutput</span>):<br>    javaInput = sp.simplify(javaInput)<br>    javaOutput = sp.simplify(javaOutput)<br>    <span class="hljs-keyword">return</span> javaInput.equals(javaOutput)<br></code></pre></td></tr></table></figure>
 <h2 id="二、第二次作业hw2"><a href="#二、第二次作业hw2" class="headerlink" title="二、第二次作业hw2"></a>二、第二次作业hw2</h2><h4 id="前言-1"><a href="#前言-1" class="headerlink" title="前言"></a>前言</h4><p>本次作业花费大多时间在构思解决最后的化简上，同时在debug时也遇到了不少问题，但最终一一解决，虽代码相比第一次变化不小，但总体思路大致相同</p>
 <h4 id="1-代码UML框架-1"><a href="#1-代码UML框架-1" class="headerlink" title="1.代码UML框架"></a>1.代码UML框架</h4><p><img src="UML_Unit1.2.png" srcset="/img/loading.gif" lazyload alt="UML"></p>
+<p>相比上次增加了自定义函数类、自定义函数集合、自定义函数因子类用于处理自定义函数以及其替换，迭代中发现<code>PolynomailAnswer</code>类作为最终输出由于增加了<code>ExpFuncFactor</code>指数函数类的原因，反而不能起到化简的作用，于是删去了，相关输出在<code>Poly</code>类中实现。</p>
 <h4 id="2-作业体会"><a href="#2-作业体会" class="headerlink" title="2.作业体会"></a>2.作业体会</h4><ol>
 <li>关于使用替换进行函数展开，要注意不要引入新的形参。例如f(y, x)=y+x，展开f(x, x^2)时，若不加任何修改直接用x替换形参y，f就会变为x+x， 再直接用x^2替换所有形参x，就会变为x^2+x^2的错误结果。因此，可以先将所有形参变为其他形式， 如f(v,u) = v+u，再替换形参v和u就不会发生上述错误。对于<code>exp(x)</code>,由于<code>exp</code>中包含x，可能会影响我们后续对于x的替换，所以在一开始我们可以选择将<code>exp</code>替换为<code>e</code></li>
 <li>深拷贝与浅拷贝学习，由于JAVA默认一般是浅拷贝，如下我们正常写法应该是<code>return this.defineFunctions</code>,但是函数的参数替换时可能会涉及多次形参的替换，如果不采用深拷贝的话，会导致第一遍替换后会影响我们到后续的替换。        </li>
@@ -357,7 +359,7 @@
 <h5 id="3-2-多项式的化简"><a href="#3-2-多项式的化简" class="headerlink" title="3.2 多项式的化简"></a>3.2 多项式的化简</h5><p>本次单项式相比上次多了Poly类对象对应exp（）内部的多项式，多项式类采用以下储存</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">private</span> ArrayList&lt;Monomial&gt; monomials;<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> TreeMap&lt;BigInteger, HashMap&lt;Poly, BigInteger&gt;&gt; polyMap;<br></code></pre></td></tr></table></figure>
 <p>最开始先不断在monomials中添加单项式，后再往polyMap中添加实现化简，注意由于HashMap的key是自定义类，我们需要重写equals（）方法和hashcode()方法</p>
-<h3 id><a href="#" class="headerlink" title=" "></a> </h3><h3 id="4-debug"><a href="#4-debug" class="headerlink" title="4. debug"></a>4. debug</h3><h4 id="CPU超时应对"><a href="#CPU超时应对" class="headerlink" title="CPU超时应对"></a>CPU超时应对</h4><ul>
+<h3 id><a href="#" class="headerlink" title=" "></a> </h3><h3 id="4-debug"><a href="#4-debug" class="headerlink" title="4. debug"></a>4. debug</h3><h4 id="CPU超时以及超内存应对"><a href="#CPU超时以及超内存应对" class="headerlink" title="CPU超时以及超内存应对"></a>CPU超时以及超内存应对</h4><ul>
 <li><strong>慎用异常</strong></li>
 </ul>
 <p>异常对性能不利。抛出异常首先要创建一个新的对象，Throwable接口的构造函数调用名为fillInStackTrace()的本地同步方法，fillInStackTrace()方法检查堆栈，收集调用跟踪信息。只要有异常被抛出，Java虚拟机就必须调整调用堆栈，因为在处理过程中创建了一个新的对象。异常只能用于错误处理，不应该用来控制程序流程。</p>
@@ -366,14 +368,158 @@
 (((((((((((x^8)^8)^8)^8)^8)^8)^8)^8)^8)^8)^8)^8</code></p>
 <p>原思路如下，没读到一个因子就根据其次数向项中加入对应数量的因子，后续会导致递归不断深入</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">for</span> (<span class="hljs-type">BigInteger</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> BigInteger.ZERO; i.compareTo(factor.getExponent()) &lt; <span class="hljs-number">0</span>;<br>     i = i.add(BigInteger.ONE)) &#123;<br>    term.addFactor(factor);<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>更改后，在转换为多项式时根据次数乘上对应因子，极大简化了对应的递归深度</p>
-<p>至于Main中的更改，原因在于我采用的是解析两次实现替换的功能，当没有需要替换的的函数时就只需要解析一次。<br>综上实现了超内存和超时的问题</p>
+<p>更改后，在转换为多项式时根据次数乘上对应因子，极大简化了对应的递归深度。</p>
+<p>至于Main中的更改，原因在于我采用的是解析<code>String</code>类型字符串再<code>ToString</code>实现替换的功能，当没有需要替换的的函数时就只需要解析一次。综上实现了超内存和超时的问题。</p>
+<p>综上，递归解决问题中，如何保证递归的深度不会太深是我们必须需要思考的问题。</p>
+<h3 id="5-hack经历"><a href="#5-hack经历" class="headerlink" title="5. hack经历"></a>5. hack经历</h3><p>hack时主要还是通过评测机进行初查，但由于python的<code>sympy</code>包无法检测作业中的格式问题，最终主要还是人力排查格式问题，本次通过exp((-x))格式错误hack成功一次。</p>
 <h2 id="三、第三次作业"><a href="#三、第三次作业" class="headerlink" title="三、第三次作业"></a>三、第三次作业</h2><h4 id="前言-2"><a href="#前言-2" class="headerlink" title="前言"></a>前言</h4><p>本次作业相比前两次代码量上有所减少，作业核心求导方面还是第一单元的核心思路递归下降解决。但是由于作业难度的加大以及迭代导致本次在debug方面耗费了大量的时间。</p>
 <h4 id="1-代码UML框架-2"><a href="#1-代码UML框架-2" class="headerlink" title="1.代码UML框架"></a>1.代码UML框架</h4><p><img src="UML1.3.png" srcset="/img/loading.gif" lazyload alt="UML1.3"></p>
-<h4 id="2-作业体会-1"><a href="#2-作业体会-1" class="headerlink" title="2. 作业体会"></a>2. 作业体会</h4><p><code>derivation()</code>求导函数和<code>toString()</code>类似返回String类型，采用递归下降思路。此外无较大改动</p>
+<p>增加了求导函数因子，求导过程主要是转化为<code>String</code>类型递归实现。但是注意指数函数（<del>血的教训</del>）的求导如下：</p>
+<p>$dx(exp((expr))^n) = n<em>dx(expr)</em>(exp((expr))^n)$</p>
+<h4 id="2-作业体会-1"><a href="#2-作业体会-1" class="headerlink" title="2. 作业体会"></a>2. 作业体会</h4><p><code>derivation()</code>求导函数和<code>toString()</code>类似返回String类型，采用递归下降思路，此外无较大改动。</p>
+<h4 id="3-hack经历"><a href="#3-hack经历" class="headerlink" title="3. hack经历"></a>3. hack经历</h4><p>本次hack过程，有了上次自己超时的经验，卡着代价函数通过下面数据卡了性能成功一次</p>
+<figure class="highlight isbl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs isbl"><span class="hljs-number">0</span><br><span class="hljs-function"><span class="hljs-title">dx</span>(<span class="hljs-title">exp</span>(<span class="hljs-title">exp</span>(<span class="hljs-title">exp</span>(<span class="hljs-title">exp</span>(<span class="hljs-title">exp</span>(<span class="hljs-title">exp</span>(<span class="hljs-title">exp</span>(<span class="hljs-title">exp</span>(<span class="hljs-variable">x</span>^<span class="hljs-number">2</span>)))))))))</span><br></code></pre></td></tr></table></figure>
+<h4 id="4-输出优化"><a href="#4-输出优化" class="headerlink" title="4. 输出优化"></a>4. 输出优化</h4><p>关于输出优化我没做特别的提出exp内部的最小公因数和因式分解操作，但是通过<code>TreeMap&lt;BigInteger, HashMap&lt;Poly, BigInteger&gt;&gt; polyMap</code>的多项式储存方式，通过讨论指数和系数的值通过打表的方式，对于无指数函数多项式的优化几乎是最简形式。</p>
 <h2 id="Unit1总结"><a href="#Unit1总结" class="headerlink" title="Unit1总结"></a>Unit1总结</h2><p>第一单元的核心是解析表达式，总体处理思路是递归下降构建语法树，总体代码规模如下，为了便于理解，我将Factor抽象为父类，里面实现一些因子类的通用方法，并将所有的因子都对应创建的一个子类从而实现不同的<code>toString(),derivation(),toPoly</code>方法。</p>
-<h4 id="1-代码规模"><a href="#1-代码规模" class="headerlink" title="1.代码规模"></a>1.代码规模</h4><p><img src="codeNum.png" srcset="/img/loading.gif" lazyload alt="codeNum"></p>
-<p>通过与他人对比，发现个人的代码规模还是比较庞大的，主要在于部分类的抽象程度还是不够高，将对应因子以及各类处理都写成了对应的类。优点：理解起来较为容易，更改增加新功能较为容易。缺点：随着代码的迭代，增添的代码量相比会更加多。</p>
+<h4 id="1-代码规模以及复杂度"><a href="#1-代码规模以及复杂度" class="headerlink" title="1.代码规模以及复杂度"></a>1.代码规模以及复杂度</h4><p><img src="codeNum.png" srcset="/img/loading.gif" lazyload alt="codeNum"></p>
+<p>通过与他人对比，发现个人的代码规模还是比较庞大的，主要在于部分类的抽象程度还是不够高，将对应因子以及各类处理都写成了对应的类——因此可以提高抽象程度，例如Expr作为Factor接口下的实例。优点：理解起来较为容易，更改增加新功能较为容易。缺点：随着代码的迭代，增添的代码量相比会更加多。</p>
+<p>复杂度如下：</p>
+<ul>
+<li><strong>OCavg</strong> : 每个类中所有非抽象方法的平均圈复杂度(继承的方法不计算在内)。</li>
+<li><strong>OCmax</strong> : 每个类中非抽象方法的最大圈复杂度(继承的方法不计算在内)。</li>
+<li><strong>WMC</strong> : 每个类中方法的总圈复杂度.</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>OCavg</th>
+<th>OCmax</th>
+<th>WMC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MainClass</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>analysis.Lexer</td>
+<td>4</td>
+<td>16</td>
+<td>36</td>
+</tr>
+<tr>
+<td>analysis.Parser</td>
+<td>2.75</td>
+<td>7</td>
+<td>33</td>
+</tr>
+<tr>
+<td>analysis.Token</td>
+<td>1</td>
+<td>1</td>
+<td>4</td>
+</tr>
+<tr>
+<td>analysis.Token.Type</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>0</td>
+</tr>
+<tr>
+<td>definefunction.DefineFunction</td>
+<td>1</td>
+<td>1</td>
+<td>7</td>
+</tr>
+<tr>
+<td>definefunction.FunctionList</td>
+<td>2.8</td>
+<td>8</td>
+<td>14</td>
+</tr>
+<tr>
+<td>expression.DefineFuncFactor</td>
+<td>2.33</td>
+<td>5</td>
+<td>7</td>
+</tr>
+<tr>
+<td>expression.DerivationFactor</td>
+<td>1</td>
+<td>1</td>
+<td>4</td>
+</tr>
+<tr>
+<td>expression.ExpFuncFactor</td>
+<td>1.75</td>
+<td>2</td>
+<td>7</td>
+</tr>
+<tr>
+<td>expression.Expr</td>
+<td>2</td>
+<td>3</td>
+<td>10</td>
+</tr>
+<tr>
+<td>expression.ExprFactor</td>
+<td>2</td>
+<td>3</td>
+<td>8</td>
+</tr>
+<tr>
+<td>expression.Factor</td>
+<td>1</td>
+<td>1</td>
+<td>6</td>
+</tr>
+<tr>
+<td>expression.NumFactor</td>
+<td>1</td>
+<td>1</td>
+<td>4</td>
+</tr>
+<tr>
+<td>expression.Term</td>
+<td>2.86</td>
+<td>8</td>
+<td>20</td>
+</tr>
+<tr>
+<td>expression.VarFactor</td>
+<td>1.5</td>
+<td>2</td>
+<td>6</td>
+</tr>
+<tr>
+<td>gather.Monomial</td>
+<td>1.43</td>
+<td>3</td>
+<td>10</td>
+</tr>
+<tr>
+<td>gather.Poly</td>
+<td>4.13</td>
+<td>14</td>
+<td>62</td>
+</tr>
+<tr>
+<td>pre.Treatment</td>
+<td>2</td>
+<td>5</td>
+<td>12</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="2-调试闹鬼现象的分析"><a href="#2-调试闹鬼现象的分析" class="headerlink" title="2.调试闹鬼现象的分析"></a>2.调试闹鬼现象的分析</h4><p>通过讨论区即自己学习，后续作业中可以选择遵循Command与Query分离原则，即命令型方法无返回值，查询型方法不修改字段，不对形参进行副作用操作。</p>
+<h4 id="3-作业感想"><a href="#3-作业感想" class="headerlink" title="3.作业感想"></a>3.作业感想</h4><p>关于第一次作业，开学第一天就被狠狠上强度，被迫开始速通OO，第二次作业中由于自己测试时没有充分考虑运行时间，所以强测寄了一个点，后续大改后，加上第三次作业较为简单，没出啥问题。</p>
+<p>最后，未来建议互测小房间可不可以及时给出被hack的点（出现超时问题需要重构好及时构想，待到下一次作业布置真的不知道咋办）。</p>
 
                 
               </div>
