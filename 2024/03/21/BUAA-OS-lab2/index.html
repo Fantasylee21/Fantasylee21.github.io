@@ -1,0 +1,794 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon.png">
+  <link rel="icon" href="/img/icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Fantasylee">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="BUAA_OS_lab2学习日记一、思考题ThinkingThinking 2.1问题：在编写的 C 程序中，指针变量中存储的地址 被视为虚拟地址，还是物理地址？MIPS 汇编程序中 lw 和 sw 指令使用的地址被视为虚拟 地址，还是物理地址？ 答：均为虚拟地址，访存、跳转等指令以及用于取指的 PC 寄存器中的访存目标地 址都是虚拟地址。我们编写的 C 程序中也经常通过对指针解引用来进行访存，其">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BUAA_OS_lab2">
+<meta property="og:url" content="https://fantasylee21.github.io/2024/03/21/BUAA-OS-lab2/index.html">
+<meta property="og:site_name" content="Fantasylee&#39;s Blog">
+<meta property="og:description" content="BUAA_OS_lab2学习日记一、思考题ThinkingThinking 2.1问题：在编写的 C 程序中，指针变量中存储的地址 被视为虚拟地址，还是物理地址？MIPS 汇编程序中 lw 和 sw 指令使用的地址被视为虚拟 地址，还是物理地址？ 答：均为虚拟地址，访存、跳转等指令以及用于取指的 PC 寄存器中的访存目标地 址都是虚拟地址。我们编写的 C 程序中也经常通过对指针解引用来进行访存，其">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/03/21/BUAA-OS-lab2/page.png">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/03/21/BUAA-OS-lab2/page3result.png">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/03/21/BUAA-OS-lab2/page3.png">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/03/21/BUAA-OS-lab2/address.png">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/03/21/BUAA-OS-lab2/ctm.png">
+<meta property="article:published_time" content="2024-03-21T11:42:50.000Z">
+<meta property="article:modified_time" content="2024-03-24T11:40:32.512Z">
+<meta property="article:author" content="Fantasylee">
+<meta property="article:tag" content="操作系统OS">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://fantasylee21.github.io/2024/03/21/BUAA-OS-lab2/page.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>BUAA_OS_lab2 - Fantasylee&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"fantasylee21.github.io","root":"/","version":"1.9.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fantasylee&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="BUAA_OS_lab2"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-03-21 19:42" pubdate>
+          2024年3月21日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          19 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">BUAA_OS_lab2</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="BUAA-OS-lab2学习日记"><a href="#BUAA-OS-lab2学习日记" class="headerlink" title="BUAA_OS_lab2学习日记"></a>BUAA_OS_lab2学习日记</h1><h2 id="一、思考题Thinking"><a href="#一、思考题Thinking" class="headerlink" title="一、思考题Thinking"></a>一、思考题Thinking</h2><h3 id="Thinking-2-1"><a href="#Thinking-2-1" class="headerlink" title="Thinking 2.1"></a>Thinking 2.1</h3><p>问题：在编写的 C 程序中，指针变量中存储的地址 被视为虚拟地址，还是物理地址？MIPS 汇编程序中 lw 和 sw 指令使用的地址被视为虚拟 地址，还是物理地址？</p>
+<p>答：均为虚拟地址，访存、跳转等指令以及用于取指的 PC 寄存器中的访存目标地 址都是虚拟地址。我们编写的 C 程序中也经常通过对指针解引用来进行访存，其中指针的值也 会被视为虚拟地址，经过编译后生成相应的访存指令。也就说编译后指针所存储的地址才会变为物理地址。</p>
+<h3 id="Thinking-2-2"><a href="#Thinking-2-2" class="headerlink" title="Thinking 2.2"></a>Thinking 2.2</h3><p>问题：</p>
+<ul>
+<li>从可重用性的角度，阐述用宏来实现链表的好处。</li>
+<li>查看实验环境中的/usr/include/sys/queue.h，了解其中单向链表与循环链表的实 现，比较它们与本实验中使用的双向链表，分析三者在插入与删除操作上的性能差异。</li>
+</ul>
+<p>答：</p>
+<ul>
+<li>简化代码量，使用宏定义可以减少代码的服用对函数进行封装，提高了代码的可读性。</li>
+<li>以下是各自特性<ul>
+<li>单向链表：如果要执行删除某一节点的下一个节点和在某一结点后插入可以直接进行，此外，由于每次能访问一个节点的下一个节点，插入节点和删除节点相同，每次必须从头节点遍历找到节点才能找到进行删除和插入操作。</li>
+<li>循环链表如果要执行删除某一节点和在某一结点后插入可以直接进行，此外，由于循环链表也是单向链表，每次也只能访问一个节点的后一个节点，但是每次遍历时不必从头节点开始。</li>
+<li>双向链表可访问某一节点的前后节点，在某一节点前后插入或删除前后节点都可以直接执行，此外查找删除操作对于某些链表还可以使用二分法提高效率。</li>
+</ul>
+</li>
+</ul>
+<h3 id="Thinking-2-3"><a href="#Thinking-2-3" class="headerlink" title="Thinking 2.3"></a>Thinking 2.3</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-comment">//核心代码如下</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-title function_">LIST_ENTRY</span><span class="hljs-params">(Page)</span> Page_LIST_entry_t;<br><span class="hljs-meta">#<span class="hljs-keyword">define</span> LIST_ENTRY(type)                                                               </span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span>                                    <br>        <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">type</span> *<span class="hljs-title">le_next</span>;</span><br>        <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">type</span> **<span class="hljs-title">le_prev</span>;</span>             <br>    &#125;<br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Page</span> &#123;</span><br>	Page_LIST_entry_t pp_link; <br>	u_short pp_ref;<br>&#125;;<br>LIST_HEAD(Page_list, Page);<br><span class="hljs-meta">#<span class="hljs-keyword">define</span> LIST_HEAD(name, type)               </span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">name</span> &#123;</span>                                                                         <br>		<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">type</span> *<span class="hljs-title">lh_first</span>;</span> <br>	&#125;<br></code></pre></td></tr></table></figure>
+<p>综上可以选出C</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Page_list</span>&#123;</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span><br>        <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span><br>            <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Page</span> *<span class="hljs-title">le_next</span>;</span><br>            <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Page</span> **<span class="hljs-title">le_prev</span>;</span><br>        &#125; pp_link;<br>    	u_short pp_ref;<br>    &#125;* lh_first;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<h3 id="Thinking-2-4"><a href="#Thinking-2-4" class="headerlink" title="Thinking 2.4"></a>Thinking 2.4</h3><p>问题：</p>
+<ul>
+<li>请阅读上面有关 TLB 的描述，从虚拟内存和多进程操作系统的实现角度，阐述 ASID 的必要性。</li>
+<li>请阅读 MIPS 4Kc 文档《MIPS32® 4K™ Processor Core Family Software User’s Manual》的 Section 3.3.1 与 Section 3.4，结合 ASID 段的位数，说明 4Kc 中可容纳不同的地址空间的最大数量。</li>
+</ul>
+<p>答：</p>
+<ul>
+<li>ASID用于区分不同的地址空间，在多进程操作系统中，由于同一虚拟地址在不同的地址空间中通常映射到不同的物理地址，使用ASID区分不同的地址空间可以保证不用每次切换进程时TLB也要改变。</li>
+<li>ASID有8位，可以区分256个不同的地址空间。</li>
+</ul>
+<h3 id="Thinking-2-5"><a href="#Thinking-2-5" class="headerlink" title="Thinking 2.5"></a>Thinking 2.5</h3><p> 请回答下述三个问题：</p>
+<ul>
+<li>tlb_invalidate 和 tlb_out 的调用关系？</li>
+<li>请用一句话概括 tlb_invalidate 的作用。</li>
+<li>逐行解释 tlb_out 中的汇编代码。</li>
+</ul>
+<p>答：</p>
+<ul>
+<li>```C<br>//由函数声明可以看出tlb_invalidate调用tlb_out<br>void tlb_invalidate(u_int asid, u_long va) {<pre><code class="hljs">tlb_out((va &amp; ~GENMASK(PGSHIFT, 0)) | (asid &amp; (NASID - 1)));
+</code></pre>}<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><br>- 实现删除特定虚拟地址在 TLB 中的旧表项<br><br>- ```C<br>  <span class="hljs-comment">#include &lt;asm/asm.h&gt;</span><br>  <br>  LEAF(tlb_out)<br>  <span class="hljs-meta">.set</span> <span class="hljs-keyword">noreorder</span><br><span class="hljs-keyword"></span>  	<span class="hljs-keyword">mfc0 </span>   <span class="hljs-built_in">t0</span>, CP0_ENTRYHI <br>  	<span class="hljs-comment">/*将当前EntryHi寄存器的值赋给t0保存当前的VPN和ASID*/</span><br>  	<span class="hljs-keyword">mtc0 </span>   <span class="hljs-built_in">a0</span>, CP0_ENTRYHI<br>  	<span class="hljs-comment">/*将调用函数传入的参数即新的VPN和ASID写入EntryHi寄存器*/</span><br>  	<span class="hljs-keyword">nop </span><br>  	<span class="hljs-comment">/*冒险处理*/</span><br>  	<span class="hljs-comment">/* Step 1: Use &#x27;tlbp&#x27; to probe TLB entry */</span><br>  	<span class="hljs-comment">/* Exercise 2.8: Your code here. (1/2) */</span><br>  	<span class="hljs-keyword">tlbp	</span><br>  	<span class="hljs-comment">/*根据 EntryHi中的Key查找对应的旧表项，将表项的索引存入CP0_INDEX*/</span><br>  	<span class="hljs-keyword">nop</span><br><span class="hljs-keyword"></span>  	<span class="hljs-comment">/* Step 2: Fetch the probe result from CP0.Index */</span><br>  	<span class="hljs-keyword">mfc0 </span>   <span class="hljs-built_in">t1</span>, CP0_INDEX<br>      <span class="hljs-comment">/*取出CP0的值*/</span><br>  <span class="hljs-meta">.set</span> reorder<br>  	<span class="hljs-keyword">bltz </span>   <span class="hljs-built_in">t1</span>, NO_SUCH_ENTRY<br>      <span class="hljs-comment">/*如果没有查到对应表项*/</span><br>  <span class="hljs-meta">.set</span> <span class="hljs-keyword">noreorder</span><br><span class="hljs-keyword"></span>  	<span class="hljs-keyword">mtc0 </span>   <span class="hljs-built_in">zero</span>, CP0_ENTRYHI<br>  	<span class="hljs-keyword">mtc0 </span>   <span class="hljs-built_in">zero</span>, CP0_ENTRYLO0<br>  	<span class="hljs-keyword">mtc0 </span>   <span class="hljs-built_in">zero</span>, CP0_ENTRYLO1<br>      <span class="hljs-comment">/*将CP0_ENTRYHI、CP0_ENTRYLO0、CP0_ENTRYLO1三个寄存器赋值为0，后续写入实现清零*/</span><br>  	<span class="hljs-keyword">nop</span><br><span class="hljs-keyword"></span>  	<span class="hljs-comment">/* Step 3: Use &#x27;tlbwi&#x27; to write CP0.EntryHi/Lo into TLB at CP0.Index  */</span><br>  	<span class="hljs-comment">/* Exercise 2.8: Your code here. (2/2) */</span><br>  	<span class="hljs-keyword">tlbwi</span><br><span class="hljs-keyword"></span>      <span class="hljs-comment">/*将 EntryHi 和 EntryLo0、EntryLo1 中的值写入索引指定的表项*/</span><br>  <span class="hljs-meta">.set</span> reorder<br><span class="hljs-symbol">  </span><br><span class="hljs-symbol">  NO_SUCH_ENTRY:</span><br>  	<span class="hljs-keyword">mtc0 </span>   <span class="hljs-built_in">t0</span>, CP0_ENTRYHI<br>      <span class="hljs-comment">/*将t0的值写回CP0_ENTRYHI*/</span><br>  	<span class="hljs-keyword">j </span>      <span class="hljs-built_in">ra</span><br>      <span class="hljs-comment">/*函数返回*/</span><br>  END(tlb_out)<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="Thinking-2-6"><a href="#Thinking-2-6" class="headerlink" title="Thinking 2.6"></a>Thinking 2.6</h3><p>问题：</p>
+<ul>
+<li>简单了解并叙述 X86 体系结构中的内存管理机制，比较 X86 和 MIPS 在内存管理上的区别。</li>
+<li>简单了解并叙述 RISC-V 中的内存管理机制，比较 RISC-V 与 MIPS 在内存管理上的区别。</li>
+<li>简单了解并叙述 LoongArch 中的内存管理机制，比较 LoongArch 与 MIPS 在内存管理上的区别。</li>
+</ul>
+<p>答：</p>
+<ul>
+<li>在x86架构中内存被分为三种形式，分别是<strong>逻辑地址</strong>（Logical Address），<strong>线性地址</strong>（Linear Address）和<strong>物理地址</strong>（Physical Address）。而mips内存只有两种形式。X86 体系结构中的内存管理机制是基于分段和分页的。分段是将程序的地址空间划分为若干个段，每个段都有自己的基地址和长度，可以独立地进行保护和共享。而X86在TLB不命中时，是由硬件MMU以<code>CR3</code>为当前进程的PGD基址，索引获得PFN后，直接输出PA。同时MMU会填充TLB以加快下次转换的速度。另外转换失败的虚址，MIPS使用<code>BadVAddr</code>寄存器存放，X86使用<code>CR2</code>存放。</li>
+<li>RISC-V提供三种权限模式（MSU），而MIPS只提供内核态和用户态两种权限状态。RISC-V SV39支持39位虚拟内存空间，每一页占用4KB，使用三级页表访存。</li>
+<li>硬件能够支持两级地址翻译，x86到LoongArch+虚地址到物理地址（通过改造内存快表TLB，做到两级虚地址映射以减少映射开销，以及减少指令使用/指令翻译开销，即X86虚地址直接翻译成龙芯物理地址）</li>
+</ul>
+<h3 id="Thinking-A-1"><a href="#Thinking-A-1" class="headerlink" title="Thinking A.1"></a>Thinking A.1</h3><p>问题：在现代的 64 位系统中，提供了 64 位的字长，但实际上不是 64 位页式存储系统。假设在 64 位系统中采用三级页表机制，页面大小 4KB。由于 64 位系统中字长为 8B，且页目录也占用一页，因此页目录中有 512 个页目录项，因此每级页表都需要 9 位。 因此在 64 位系统下，总共需要 3 × 9 + 12 = 39 位就可以实现三级页表机制，并不需要 64 位。现考虑上述 39 位的三级页式存储系统，虚拟地址空间为 512 GB，若三级页表的基地址为 PTbase，请计算：</p>
+<ul>
+<li>三级页表页目录的基地址。</li>
+<li>映射到页目录自身的页目录项（自映射）。</li>
+</ul>
+<p>答：</p>
+<p>分析：页目录通常指一级页表，以二级页表为例：</p>
+<p>页目录的1024 个表项映射到这 1024 个页表。因此只需要 4MB 的空间即可容纳页表和页目录。</p>
+<p><img src="page.png" srcset="/img/loading.gif" lazyload alt="页目录自映射"></p>
+<p>同理，本题中，三级页表中，页目录的512个二级页表项映射到512个三级页表映射到512个页表。虚拟地址可以化为$2^{39} / 2^{12} = 2 ^ {27}$页，既需要$2^{27}$个页表项接收这么多个页表的映射。</p>
+<p><img src="page3result.png" srcset="/img/loading.gif" lazyload alt="页目录映射关系"></p>
+<p><img src="page3.png" srcset="/img/loading.gif" lazyload alt="page3"></p>
+<p>于是页号： <code>PN = PTBase &gt;&gt; 12</code>;</p>
+<p>二级页表的基地址：<code>PTTBase = PTBase + PN* 8 = PTBase + PTBase &gt;&gt; 9</code></p>
+<p>一级页表(页目录)的基地址：<code>PSTBase = PTBase + (PTTBase &gt;&gt; 12)*8</code></p>
+<p>映射到页目录自身的页目录项的地址：<code>PDBase =PTBase + (PSTBase &gt;&gt; 12)*8  = PTBase + PTBase &gt;&gt; 9 + PTBase &gt;&gt; 18 + PTBase &gt;&gt; 27</code></p>
+<h2 id="二、Exercise"><a href="#二、Exercise" class="headerlink" title="二、Exercise"></a>二、Exercise</h2><h3 id="exercise-2-1"><a href="#exercise-2-1" class="headerlink" title="exercise 2.1"></a>exercise 2.1</h3><p><code>mmu.h</code>文件中定义了page的大小根据物理内存/页面大小即可求出页面数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-meta">#<span class="hljs-keyword">define</span> PAGE_SIZE 4096</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> PGSHIFT 12</span><br></code></pre></td></tr></table></figure>
+<h3 id="exercise-2-2"><a href="#exercise-2-2" class="headerlink" title="exercise 2.2"></a>exercise 2.2</h3><p>易错点：指向下一个元素的指针 le_next，以及指向前一个元素链表项 le_next 的指针 le_prev（指针的指针）</p>
+<h3 id="exercise-2-3"><a href="#exercise-2-3" class="headerlink" title="exercise 2.3"></a>exercise 2.3</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs C">LIST_INIT(&amp;page_free_list);	<br>freemem = ROUND(freemem,PAGE_SIZE);	<br>u_long usedpage = PPN(PADDR(freemem));<br><span class="hljs-keyword">for</span> (u_long i = <span class="hljs-number">0</span>;i &lt; usedpage;i ++) &#123;<br>	pages[i].pp_ref = <span class="hljs-number">1</span>;<br>&#125;<br><span class="hljs-keyword">for</span> (u_long i = usedpage;i &lt; npage;i ++) &#123;<br>	pages[i].pp_ref = <span class="hljs-number">0</span>;<br>	LIST_INSERT_HEAD(&amp;page_free_list,&amp;pages[i],pp_link);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="exercise-2-4"><a href="#exercise-2-4" class="headerlink" title="exercise 2.4"></a>exercise 2.4</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">//根据题意写出即可</span><br><span class="hljs-keyword">if</span> (LIST_EMPTY(&amp;page_free_list)) &#123;<br>		<span class="hljs-keyword">return</span> <span class="hljs-number">-4</span>;<br>	&#125; <span class="hljs-keyword">else</span> &#123;<br>		pp = LIST_FIRST(&amp;page_free_list);<br>	&#125;<br>	LIST_REMOVE(pp, pp_link);<br>	<span class="hljs-built_in">memset</span>((<span class="hljs-type">void</span>*)page2kva(pp),<span class="hljs-number">0</span>,PAGE_SIZE);<br></code></pre></td></tr></table></figure>
+<h3 id="exercise-2-5"><a href="#exercise-2-5" class="headerlink" title="exercise 2.5"></a>exercise 2.5</h3><p>调用<code>LIST_INSERT_HEAD</code>即可</p>
+<h3 id="exercise-2-6"><a href="#exercise-2-6" class="headerlink" title="exercise 2.6"></a>exercise 2.6</h3><p>第一级表称为页目录 (Page Directory)，第二级表称为页表 (Page Table)。</p>
+<p>设 pgdir 是一个 Pde * 类型的指针，表示一个一级页表的基地址，那么使用 pgdir + i 即可得到偏移量为 i 的一级页表项（页目录项）地址</p>
+<p><img src="address.png" srcset="/img/loading.gif" lazyload alt="两级页表结构的地址变换机制"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/* Step 1: Get the corresponding page directory entry. */</span><br>	<span class="hljs-comment">/* Exercise 2.6: Your code here. (1/3) */</span><br>	pgdir_entryp = pgdir + PDX(va);<br>	<span class="hljs-comment">/* Step 2: If the corresponding page table is not existent (valid) then:</span><br><span class="hljs-comment">	 *   * If parameter `create` is set, create one. Set the permission bits &#x27;PTE_C_CACHEABLE |</span><br><span class="hljs-comment">	 *     PTE_V&#x27; for this new page in the page directory. If failed to allocate a new page (out</span><br><span class="hljs-comment">	 *     of memory), return the error.</span><br><span class="hljs-comment">	 *   * Otherwise, assign NULL to &#x27;*ppte&#x27; and return 0.</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-comment">/* Exercise 2.6: Your code here. (2/3) */</span><br>	<span class="hljs-keyword">if</span> (!(*pgdir_entryp &amp; PTE_V)) &#123;<span class="hljs-comment">//如果页面不合法</span><br>		<span class="hljs-keyword">if</span> (create) &#123;<br>			<span class="hljs-keyword">if</span> (page_alloc(&amp;pp) != <span class="hljs-number">0</span>) &#123; <span class="hljs-comment">//申请不到空间</span><br>				<span class="hljs-keyword">return</span> <span class="hljs-number">-4</span>;<br>			&#125;<br>			pp-&gt;pp_ref++; <span class="hljs-comment">//维护pp_ref</span><br>			*pgdir_entryp = (PTE_D | PTE_V | page2pa(pp));<span class="hljs-comment">//并设置虚拟地址对应页目录项的内容 *pgdir_entryp = page2pa(pp) | PTE_D | PTE_V，使其与该物理页关联</span><br>		&#125; <span class="hljs-keyword">else</span> &#123;<br>			*ppte = <span class="hljs-literal">NULL</span>;<br>			<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>		&#125;<br>	&#125;<br>	<span class="hljs-comment">/* Step 3: Assign the kernel virtual address of the page table entry to &#x27;*ppte&#x27;. */</span><br>	<span class="hljs-comment">/* Exercise 2.6: Your code here. (3/3) */</span><br><span class="hljs-comment">/*二级页表基地址（指向二级页表的指针）：</span><br><span class="hljs-comment">页目录项-&gt;二级页表的物理地址-&gt;二级页表的虚拟地址-&gt;指向二级页表的指针*/</span><br>	Pte *pgtable = (Pte *)KADDR(PTE_ADDR(*pgdir_entryp));<br>	*ppte = pgtable + PTX(va);<br></code></pre></td></tr></table></figure>
+<h3 id="exercise-2-7"><a href="#exercise-2-7" class="headerlink" title="exercise 2.7"></a>exercise 2.7</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/* Step 2: Flush TLB with &#x27;tlb_invalidate&#x27;. */</span><br>	<span class="hljs-comment">/* Exercise 2.7: Your code here. (1/3) */</span><br>	tlb_invalidate(asid, va);<br>	<span class="hljs-comment">/* Step 3: Re-get or create the page table entry. */</span><br>	<span class="hljs-comment">/* If failed to create, return the error. */</span><br>	<span class="hljs-comment">/* Exercise 2.7: Your code here. (2/3) */</span><br>	<span class="hljs-keyword">if</span> (pgdir_walk(pgdir, va, <span class="hljs-number">1</span>, &amp;pte) == -E_NO_MEM)<br>	&#123;<br>		<span class="hljs-keyword">return</span> -E_NO_MEM;<br>	&#125;<br>	<span class="hljs-comment">/* Step 4: Insert the page to the page table entry with &#x27;perm | PTE_C_CACHEABLE | PTE_V&#x27;</span><br><span class="hljs-comment">	 * and increase its &#x27;pp_ref&#x27;. */</span><br>	<span class="hljs-comment">/* Exercise 2.7: Your code here. (3/3) */</span><br>	*pte = page2pa(pp) | perm | PTE_V;<br>	pp-&gt;pp_ref ++;<br></code></pre></td></tr></table></figure>
+<h3 id="exercise-2-8"><a href="#exercise-2-8" class="headerlink" title="exercise 2.8"></a>exercise 2.8</h3><p>题目描述的很清楚，指令填入即可，核心在于理解旧表项是如何被无效化的</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/* Step 1: Use &#x27;tlbp&#x27; to probe TLB entry */</span><br><span class="hljs-comment">/* Step 2: Fetch the probe result from CP0.Index */</span><br><span class="hljs-comment">/* Step 3: Use &#x27;tlbwi&#x27; to write CP0.EntryHi/Lo into TLB at CP0.Index  */</span><br></code></pre></td></tr></table></figure>
+<h3 id="exercise-2-9"><a href="#exercise-2-9" class="headerlink" title="exercise 2.9"></a>exercise 2.9</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-comment">/* Hints:</span><br><span class="hljs-comment">	 *  Invoke &#x27;page_lookup&#x27; repeatedly in a loop to find the page table entry &#x27;*ppte&#x27;</span><br><span class="hljs-comment">	 * associated with the virtual address &#x27;va&#x27; in the current address space &#x27;cur_pgdir&#x27;.</span><br><span class="hljs-comment">	 *</span><br><span class="hljs-comment">	 *  **While** &#x27;page_lookup&#x27; returns &#x27;NULL&#x27;, indicating that the &#x27;*ppte&#x27; could not be found,</span><br><span class="hljs-comment">	 *  allocate a new page using &#x27;passive_alloc&#x27; until &#x27;page_lookup&#x27; succeeds.</span><br><span class="hljs-comment">	 */</span><br><br>	<span class="hljs-comment">/* Exercise 2.9: Your code here. */</span><br>	<span class="hljs-keyword">while</span> (page_lookup(cur_pgdir,va,&amp;ppte) == <span class="hljs-literal">NULL</span>) &#123;<br>		passive_alloc(va,cur_pgdir,asid);<br>	&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="exercise-2-10"><a href="#exercise-2-10" class="headerlink" title="exercise 2.10"></a>exercise 2.10</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/* Hint: use &#x27;tlbwr&#x27; to write CP0.EntryHi/Lo into a random tlb entry. */</span><br>	<span class="hljs-comment">/* Exercise 2.10: Your code here. */</span><br>	tlbwr<br></code></pre></td></tr></table></figure>
+<h2 id="三、实验难点及感想"><a href="#三、实验难点及感想" class="headerlink" title="三、实验难点及感想"></a>三、实验难点及感想</h2><h3 id="实验感想"><a href="#实验感想" class="headerlink" title="实验感想"></a>实验感想</h3><p>本次实验几乎花了整个周末，实验总体分为虚拟内存和TLB 重填两大部分，其中TLB重填部分由于提示给的相当足够，完成起来不是特别难，但是理解TLB重填的汇编代码较为困难，虚拟内存部分宏定义和大量指针的存在加大了阅读的难度，总体来说，lab2相比前两次，难度有了质的上升，特别是两级页表部分的实现，需要阅读大量的代码才能读懂。</p>
+<h3 id="核心处理重难点"><a href="#核心处理重难点" class="headerlink" title="核心处理重难点"></a>核心处理重难点</h3><p>实验的核心都在围绕下面这张图进行寻址和地址处理</p>
+<p><img src="ctm.png" srcset="/img/loading.gif" lazyload alt="CPU-TLB-Memory关系图"></p>
+<p>面对全是宏定义和满天飞的指针，理解各个宏定义的含义尤为重要。</p>
+<h3 id="常见宏的理解"><a href="#常见宏的理解" class="headerlink" title="常见宏的理解"></a>常见宏的理解</h3><ul>
+<li><code>page2kva</code>：将页面转换为虚拟地址</li>
+<li><code>page2pa</code>：将页面转换为物理地址</li>
+<li><code>pa2page</code>: 物理地址到页</li>
+<li><code>KADDR</code>:将物理地址转化虚拟地址</li>
+<li><code>PADDR</code>:将虚拟地址转化为物理地址</li>
+</ul>
+<h3 id="自映射机制"><a href="#自映射机制" class="headerlink" title="自映射机制"></a>自映射机制</h3><p>思考题A.1困扰我良久，下面是我找到到的比较详细的解释：</p>
+<p>一些计算：因为1M个页表项和4G的地址空间是线性映射，因此页目录地址（简称PD）对应的应该是第PT&gt;&gt;12个页表项，也就是第一个页目录项。而一个页目录项32位，4字节，因此该项相对于起始地址的偏移为(PT&gt;&gt;12)&lt;<2 = pt>&gt;10，因此PD = PT | PT&gt;&gt;10。同理，PT&gt;&gt;10是页目录在整个页表上的偏移，对应(PT&gt;&gt;10)&gt;&gt;10是自映射页目录项在页目录这张页表上的偏移。</2></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/BUAA-Learning/" class="category-chain-item">BUAA_Learning</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9FOS/" class="print-no-link">#操作系统OS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>BUAA_OS_lab2</div>
+      <div>https://fantasylee21.github.io/2024/03/21/BUAA-OS-lab2/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Fantasylee</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年3月21日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/03/16/BUAA-OS-lab1/" title="BUAA_OS_lab1">
+                        <span class="hidden-mobile">BUAA_OS_lab1</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"pOzFaCObtjkExgzgyXtbzFbm-MdYXbMMI","appKey":"K7PRbHAE1lQy810Gl5gVC0Xl","path":"window.location.pathname","placeholder":"输入你的评论🤖\n","avatar":"retro","meta":["nick","mail"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
