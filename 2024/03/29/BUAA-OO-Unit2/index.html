@@ -18,24 +18,24 @@
   
     <meta name="description" content="BUAA_OO_Unit1第二单元总结一、第一次作业前言本次作业完成没有耗费多少时间，但由于对多线程的锁的了解不够深刻，将近花了两天时间来debug。相比第一单元的作业，第二单元作业在代码复杂度，或者说代码量上存在明显下降，但是理解难度却有了更大的提升，以及由于加入了时间戳的原因，对于某些数据需要耗费大量时间在等待结果上。 UML图架构 本次作业中实现了三个线程类：InputThread（输入线">
 <meta property="og:type" content="article">
-<meta property="og:title" content="BUAA_OO_UNIT2">
+<meta property="og:title" content="BUAA_OO_Unit2">
 <meta property="og:url" content="https://fantasylee21.github.io/2024/03/29/BUAA-OO-Unit2/index.html">
 <meta property="og:site_name" content="Fantasylee&#39;s Blog">
 <meta property="og:description" content="BUAA_OO_Unit1第二单元总结一、第一次作业前言本次作业完成没有耗费多少时间，但由于对多线程的锁的了解不够深刻，将近花了两天时间来debug。相比第一单元的作业，第二单元作业在代码复杂度，或者说代码量上存在明显下降，但是理解难度却有了更大的提升，以及由于加入了时间戳的原因，对于某些数据需要耗费大量时间在等待结果上。 UML图架构 本次作业中实现了三个线程类：InputThread（输入线">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://fantasylee21.github.io/2024/03/29/BUAA-OO-Unit2/learning/desk/OO/Plantuml/UML2_1.png">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/03/29/BUAA-OO-Unit2/UML2_1.png">
 <meta property="article:published_time" content="2024-03-29T14:46:21.000Z">
-<meta property="article:modified_time" content="2024-03-30T09:35:43.489Z">
+<meta property="article:modified_time" content="2024-03-30T09:53:53.076Z">
 <meta property="article:author" content="Fantasylee">
 <meta property="article:tag" content="面向对象OO">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://fantasylee21.github.io/2024/03/29/BUAA-OO-Unit2/learning/desk/OO/Plantuml/UML2_1.png">
+<meta name="twitter:image" content="https://fantasylee21.github.io/2024/03/29/BUAA-OO-Unit2/UML2_1.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>BUAA_OO_UNIT2 - Fantasylee&#39;s Blog</title>
+  <title>BUAA_OO_Unit2 - Fantasylee&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -213,7 +213,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="BUAA_OO_UNIT2"></span>
+            <span id="subtitle" data-typed-text="BUAA_OO_Unit2"></span>
           
         </div>
 
@@ -292,14 +292,14 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">BUAA_OO_UNIT2</h1>
+            <h1 id="seo-header">BUAA_OO_Unit2</h1>
             
             
               <div class="markdown-body">
                 
                 <hr>
 <h1 id="BUAA-OO-Unit1第二单元总结"><a href="#BUAA-OO-Unit1第二单元总结" class="headerlink" title="BUAA_OO_Unit1第二单元总结"></a>BUAA_OO_Unit1第二单元总结</h1><h2 id="一、第一次作业"><a href="#一、第一次作业" class="headerlink" title="一、第一次作业"></a>一、第一次作业</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>本次作业完成没有耗费多少时间，但由于对多线程的锁的了解不够深刻，将近花了两天时间来debug。相比第一单元的作业，第二单元作业在代码复杂度，或者说代码量上存在明显下降，但是理解难度却有了更大的提升，以及由于加入了时间戳的原因，对于某些数据需要耗费大量时间在等待结果上。</p>
-<h3 id="UML图架构"><a href="#UML图架构" class="headerlink" title="UML图架构"></a>UML图架构</h3><p><img src="learning/desk/OO/Plantuml/UML2_1.png" srcset="/img/loading.gif" lazyload alt="UML2_1"></p>
+<h3 id="UML图架构"><a href="#UML图架构" class="headerlink" title="UML图架构"></a>UML图架构</h3><p><img src="UML2_1.png" srcset="/img/loading.gif" lazyload alt="UML2_1"></p>
 <p>本次作业中实现了三个线程类：<code>InputThread（输入线程）</code>，<code>Dispather（调度线程）</code>，<code>Elevator（电梯线程）</code></p>
 <p>此外，<code>RequestTable</code>需求表类作为共享对象，所以内部方法全部加上<code>synchronized</code>关键字修饰，Strategy作为Elvator的附属类位电梯提供建议（按照作业提示，虽然本人觉得有点多余，但是确实代码理解起来简单）。</p>
 <p>作业核心思路是<code>Inputread</code>读取到请求就加入到请求表中，接下来再有调度器将其分配加入各个电梯的分请求表中，当输入线程读取到EOF时电梯线程结束并将调度器Over标志设为true，当调度器的请求表为空且Over表示为true时调度器进程结束并将电梯进程Over标志设为true，对于某个电梯如果其分请求表为空且Over标志位为true时则电梯进程结束。</p>
@@ -365,7 +365,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>BUAA_OO_UNIT2</div>
+      <div>BUAA_OO_Unit2</div>
       <div>https://fantasylee21.github.io/2024/03/29/BUAA-OO-Unit2/</div>
     </div>
     <div class="license-meta">
