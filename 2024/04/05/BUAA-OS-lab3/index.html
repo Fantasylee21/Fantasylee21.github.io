@@ -1,0 +1,765 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon.png">
+  <link rel="icon" href="/img/icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Fantasylee">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="BUAA_OS_lab3学习日记Thinking思考题Thinking 3.1问：请结合 MOS 中的页目录自映射应用解释代码中 e-&gt;env_pgdir[PDX(UVPT)] &#x3D; PADDR(e-&gt;env_pgdir) | PTE_V 的含义。  答： UVPT：用户页表的起始处的内核虚拟地址 PDX(UVPT)：UVPT所处的页目录号（即 UVPT 处于第 PDX(UVPT) 个页">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BUAA_OS_lab3">
+<meta property="og:url" content="https://fantasylee21.github.io/2024/04/05/BUAA-OS-lab3/index.html">
+<meta property="og:site_name" content="Fantasylee&#39;s Blog">
+<meta property="og:description" content="BUAA_OS_lab3学习日记Thinking思考题Thinking 3.1问：请结合 MOS 中的页目录自映射应用解释代码中 e-&gt;env_pgdir[PDX(UVPT)] &#x3D; PADDR(e-&gt;env_pgdir) | PTE_V 的含义。  答： UVPT：用户页表的起始处的内核虚拟地址 PDX(UVPT)：UVPT所处的页目录号（即 UVPT 处于第 PDX(UVPT) 个页">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-04-05T01:39:56.000Z">
+<meta property="article:modified_time" content="2024-04-05T15:03:05.202Z">
+<meta property="article:author" content="Fantasylee">
+<meta property="article:tag" content="操作系统OS">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>BUAA_OS_lab3 - Fantasylee&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"fantasylee21.github.io","root":"/","version":"1.9.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fantasylee&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="BUAA_OS_lab3"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-04-05 09:39" pubdate>
+          2024年4月5日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">BUAA_OS_lab3</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="BUAA-OS-lab3学习日记"><a href="#BUAA-OS-lab3学习日记" class="headerlink" title="BUAA_OS_lab3学习日记"></a>BUAA_OS_lab3学习日记</h1><h2 id="Thinking思考题"><a href="#Thinking思考题" class="headerlink" title="Thinking思考题"></a>Thinking思考题</h2><h3 id="Thinking-3-1"><a href="#Thinking-3-1" class="headerlink" title="Thinking 3.1"></a>Thinking 3.1</h3><p>问：请结合 MOS 中的页目录自映射应用解释代码中 e-&gt;env_pgdir[PDX(UVPT)] = PADDR(e-&gt;env_pgdir) | PTE_V 的含义。 </p>
+<p>答：</p>
+<p>UVPT：用户页表的起始处的内核虚拟地址</p>
+<p>PDX(UVPT)：UVPT所处的页目录号（即 UVPT 处于第 PDX(UVPT) 个页目录项所映射的4MB空间。PDX获得的是这个虚拟地址的页目录号。</p>
+<p>e-&gt;env_pgdir：进程 e 的页目录的内核虚拟地址</p>
+<p>PADDR(e-&gt;env_pgdir)：进程 e 的页目录的物理地址</p>
+<p>PADDR(e-&gt;env_pgdir) | PTE_V：页目录的物理基地址，加上权限位（只读权限）</p>
+<p>自映射的意义即是我只需要知道二级页表的初始地址，我就能构造出页目录的初始地址以及指向页目录自身的PDE，这样，方便我们访问管理页表与页目录。</p>
+<h3 id="Thinking-3-2"><a href="#Thinking-3-2" class="headerlink" title="Thinking 3.2"></a>Thinking 3.2</h3><p>问：elf_load_seg 以函数指针的形式，接受外部自定义的回调函数 map_page。 请你找到与之相关的 data 这一参数在此处的来源，并思考它的作用。没有这个参数可不可 以？为什么？</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-type">int</span> <span class="hljs-title function_">elf_load_seg</span><span class="hljs-params">(Elf32_Phdr *ph, <span class="hljs-type">const</span> <span class="hljs-type">void</span> *bin, <span class="hljs-type">elf_mapper_t</span> map_page, <span class="hljs-type">void</span> *data)</span>;<br></code></pre></td></tr></table></figure>
+<p>data 是传入的进程控制块指针，在 load_icode_mapper 和 load_icode 函数中被调用，在 load_icode 函数中 data 被赋予进程控制块的指针 e。</p>
+<p>作用：在增加虚拟地址到物理地址映射的时候提供env_pgdir和env_asid；如果没有data，load_icode_mapper就不能知道当前进程空间的页目录基地址和asid，所以必须要有这个参数。</p>
+<h3 id="Thinking-3-3"><a href="#Thinking-3-3" class="headerlink" title="Thinking 3.3"></a>Thinking 3.3</h3><p>问：结合 elf_load_seg 的参数和实现，考虑该函数需要处理哪些页面加载的情 况。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">elf_load_seg</span><span class="hljs-params">(Elf32_Phdr *ph, <span class="hljs-type">const</span> <span class="hljs-type">void</span> *bin, <span class="hljs-type">elf_mapper_t</span> map_page, <span class="hljs-type">void</span> *data)</span> &#123;<br>	u_long va = ph-&gt;p_vaddr;<br>	<span class="hljs-type">size_t</span> bin_size = ph-&gt;p_filesz;<br>	<span class="hljs-type">size_t</span> sgsize = ph-&gt;p_memsz;<br>	u_int perm = PTE_V;<br>	<span class="hljs-keyword">if</span> (ph-&gt;p_flags &amp; PF_W) &#123;<br>		perm |= PTE_D;<br>	&#125;<br><br>	<span class="hljs-type">int</span> r;<br>	<span class="hljs-type">size_t</span> i;<br>	u_long offset = va - ROUNDDOWN(va, PAGE_SIZE);<br>	<span class="hljs-keyword">if</span> (offset != <span class="hljs-number">0</span>) &#123;<br>		<span class="hljs-keyword">if</span> ((r = map_page(data, va, offset, perm, bin,<br>				  MIN(bin_size, PAGE_SIZE - offset))) != <span class="hljs-number">0</span>) &#123;<br>			<span class="hljs-keyword">return</span> r;<br>		&#125;<br>	&#125;<br><br>	<span class="hljs-comment">/* Step 1: load all content of bin into memory. */</span><br>	<span class="hljs-keyword">for</span> (i = offset ? MIN(bin_size, PAGE_SIZE - offset) : <span class="hljs-number">0</span>; i &lt; bin_size; i += PAGE_SIZE) &#123;<br>		<span class="hljs-keyword">if</span> ((r = map_page(data, va + i, <span class="hljs-number">0</span>, perm, bin + i, MIN(bin_size - i, PAGE_SIZE))) !=<br>		    <span class="hljs-number">0</span>) &#123;<br>			<span class="hljs-keyword">return</span> r;<br>		&#125;<br>	&#125;<br><br>	<span class="hljs-comment">/* Step 2: alloc pages to reach `sgsize` when `bin_size` &lt; `sgsize`. */</span><br>	<span class="hljs-keyword">while</span> (i &lt; sgsize) &#123;<br>		<span class="hljs-keyword">if</span> ((r = map_page(data, va + i, <span class="hljs-number">0</span>, perm, <span class="hljs-literal">NULL</span>, MIN(sgsize - i, PAGE_SIZE))) != <span class="hljs-number">0</span>) &#123;<br>			<span class="hljs-keyword">return</span> r;<br>		&#125;<br>		i += PAGE_SIZE;<br>	&#125;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>函数判断va是否页对齐，如果不对齐，需要将多余的地址记为offset，我们将最开头不对齐的部分 “剪切” 下来，先映射到内存的页中。</li>
+<li>将段内所有页映射到物理空间</li>
+<li>最后我们处理段大小大于数据大小的情况。在这一部分，我们不断创建新的页，但是并不向其中加载任何内容。</li>
+</ul>
+<h3 id="Thinking-3-4"><a href="#Thinking-3-4" class="headerlink" title="Thinking 3.4"></a>Thinking 3.4</h3><p>根据上学期计组的知识，因为epc存储的是发生错误时CPU所处的指令地址，而对于CPU来说，在程序中引用访存的都应该是虚拟地址，因此env_tf.cp0_epc存储的是虚拟地址.</p>
+<h3 id="Thinking-3-5"><a href="#Thinking-3-5" class="headerlink" title="Thinking 3.5"></a>Thinking 3.5</h3><p>备注： C 的拓展语法 [first … last] = value 来对数组某个区间上的 元素赋成同一个值</p>
+<p>查找结果如下：</p>
+<p>kern/genex.S:20:NESTED(handle_int, TF_SIZE, zero)<br>kern/genex.S:29:END(handle_int)</p>
+<p>handle_int在genex.S文件中</p>
+<p>handle_mod和handle_tlb，handle_sys藏得比较深，三者都是通过genex.S文件中的宏函数BUILD_HANDLER实现的，代码如下：</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-keyword">BUILD_HANDLER </span>tlb do_tlb_refill<br><br><span class="hljs-comment">#if !defined(LAB) || LAB &gt;= 4</span><br><span class="hljs-keyword">BUILD_HANDLER </span>mod do_tlb_mod<br><span class="hljs-keyword">BUILD_HANDLER </span>sys do_syscall<br><span class="hljs-comment">#endif</span><br><br><span class="hljs-keyword">BUILD_HANDLER </span>reserved do_reserved<br></code></pre></td></tr></table></figure>
+<h3 id="Exercise-3-1"><a href="#Exercise-3-1" class="headerlink" title="Exercise 3.1"></a>Exercise 3.1</h3><p>实现进程控制快的初始化功能，具体实现参考注释即可。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-comment">/* Step 1: Initialize &#x27;env_free_list&#x27; with &#x27;LIST_INIT&#x27; and &#x27;env_sched_list&#x27; with</span><br><span class="hljs-comment">	 * &#x27;TAILQ_INIT&#x27;. */</span><br>	<span class="hljs-comment">/* Exercise 3.1: Your code here. (1/2) */</span><br>	LIST_INIT(&amp;env_free_list);<br>	TAILQ_INIT(&amp;env_sched_list);<br>	<span class="hljs-comment">/* Step 2: Traverse the elements of &#x27;envs&#x27; array, set their status to &#x27;ENV_FREE&#x27; and insert</span><br><span class="hljs-comment">	 * them into the &#x27;env_free_list&#x27;. Make sure, after the insertion, the order of envs in the</span><br><span class="hljs-comment">	 * list should be the same as they are in the &#x27;envs&#x27; array. */</span><br>	<span class="hljs-keyword">for</span> (i = NENV - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) &#123;<br>		envs-&gt;env_status = ENV_FREE;<br>		LIST_INSERT_HEAD(&amp;env_free_list,&amp;envs[i], env_link);<br>	&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="Exercise-3-2"><a href="#Exercise-3-2" class="headerlink" title="Exercise 3.2"></a>Exercise 3.2</h3><p>段地址的初始化使用 map_segment 函数在该页表中将内核数组 pages 和 envs 映射到了用户空间的 UPAGES 和 UENVS 处</p>
+<p>map_segment功能是在一级页表基地址 pgdir 对应的两级页表结构中做段地址映射，将虚拟地 址段 [va,va+size) 映射到物理地址段 [pa,pa+size)</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C">page_insert(pgdir, asid, pa2page(pa + i), va + i, perm);<br></code></pre></td></tr></table></figure>
+<h3 id="Exercise-3-3"><a href="#Exercise-3-3" class="headerlink" title="Exercise 3.3"></a>Exercise 3.3</h3><p>env_setup_vm函数：初始化新进程的地址空间</p>
+<p>步骤如下：</p>
+<ul>
+<li>申请一块页表，并将页表转化为kernel地址赋值给e-&gt;env_pgdir</li>
+<li>制了 <code>UTOP</code> 到 <code>UVPT</code> 的虚拟地址空间对应的页表项</li>
+<li>我们将 <code>UVPT</code> 虚拟地址映射到页目录本身的物理地址，并设置只读权限。这样的话，页目录中的项所对应的，就不只是二级页表，还包含有一个一级页表，也就是页目录自身。这就是自映射。</li>
+</ul>
+<h3 id="Exercise-3-4"><a href="#Exercise-3-4" class="headerlink" title="Exercise 3.4"></a>Exercise 3.4</h3><p>步骤如下：</p>
+<ul>
+<li>获取从空进程块表中获取到一个进程块</li>
+<li>初始化新进程的地址空间</li>
+<li>将进程块的各属性赋值（env_user_tlb_mod_entry、env_runs、env_tf.cp0_status……），手工初始化进程控制块。</li>
+<li>将该进程块从空进程块表移除</li>
+</ul>
+<h3 id="Exercise-3-5"><a href="#Exercise-3-5" class="headerlink" title="Exercise 3.5"></a>Exercise 3.5</h3><p>load_icode_mapper函数</p>
+<p>需要分配所需的物理页面，并在页表中建立映射。若 src 非空，你还需要将该处的 ELF 数据拷贝到物理页面中</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/* Step 1: Allocate a page with &#x27;page_alloc&#x27;. */</span><br><span class="hljs-comment">/* Exercise 3.5: Your code here. (1/2) */</span><br><span class="hljs-keyword">if</span> ((r = page_alloc(p)) != <span class="hljs-number">0</span>) &#123;<br>	<span class="hljs-keyword">return</span> r;<br>&#125;<br><span class="hljs-comment">/* Step 2: If &#x27;src&#x27; is not NULL, copy the &#x27;len&#x27; bytes started at &#x27;src&#x27; into &#x27;offset&#x27; at this</span><br><span class="hljs-comment"> * page. */</span><br><span class="hljs-comment">// Hint: You may want to use &#x27;memcpy&#x27;.</span><br><span class="hljs-keyword">if</span> (src != <span class="hljs-literal">NULL</span>) &#123;<br>	<span class="hljs-comment">/* Exercise 3.5: Your code here. (2/2) */</span><br>	<span class="hljs-built_in">memcpy</span>((<span class="hljs-type">void</span> *)(page2kva(p) + offset), src, len);<br>&#125;<br><br><span class="hljs-comment">/* Step 3: Insert &#x27;p&#x27; into &#x27;env-&gt;env_pgdir&#x27; at &#x27;va&#x27; with &#x27;perm&#x27;. */</span><br><span class="hljs-keyword">return</span> page_insert(env-&gt;env_pgdir, env-&gt;env_asid, p, va, perm);<br></code></pre></td></tr></table></figure>
+<h3 id="Exercise-3-6"><a href="#Exercise-3-6" class="headerlink" title="Exercise 3.6"></a>Exercise 3.6</h3><p>步骤：</p>
+<ul>
+<li>elf_from做类型转化并检查是否为正确的ELF文件头</li>
+<li>接下来使用ELF_FOREACH_PHDR_OFF遍历所有程序表头，在循环中，取出对应的程序头，如果其中的 <code>p_type</code> 类型为 <code>PT_LOAD</code>，说明其对应的程序需要被加载到内存中。我们调用 <code>elf_load_seg</code> 函数来进行加载</li>
+<li>将进程控制块中 trap frame 的 epc cp0 寄存器的值设置为 ELF 文件中设定的程序入口地址</li>
+</ul>
+<h3 id="Exercise-3-7"><a href="#Exercise-3-7" class="headerlink" title="Exercise 3.7"></a>Exercise 3.7</h3><p>直接创建进程</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-keyword">struct</span> Env *<span class="hljs-title function_">env_create</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">void</span> *binary, <span class="hljs-type">size_t</span> size, <span class="hljs-type">int</span> priority)</span> &#123;<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Env</span> *<span class="hljs-title">e</span>;</span><br>	<span class="hljs-comment">/* Step 1: Use &#x27;env_alloc&#x27; to alloc a new env, with 0 as &#x27;parent_id&#x27;. */</span><br>	<span class="hljs-comment">/* Exercise 3.7: Your code here. (1/3) */</span><br>	env_alloc(&amp;e, <span class="hljs-number">0</span>);<br>	<span class="hljs-comment">/* Step 2: Assign the &#x27;priority&#x27; to &#x27;e&#x27; and mark its &#x27;env_status&#x27; as runnable. */</span><br>	<span class="hljs-comment">/* Exercise 3.7: Your code here. (2/3) */</span><br>	e-&gt;env_pri = priority;<br>	e-&gt;env_status = ENV_RUNNABLE;<br>	<span class="hljs-comment">/* Step 3: Use &#x27;load_icode&#x27; to load the image from &#x27;binary&#x27;, and insert &#x27;e&#x27; into</span><br><span class="hljs-comment">	 * &#x27;env_sched_list&#x27; using &#x27;TAILQ_INSERT_HEAD&#x27;. */</span><br>	<span class="hljs-comment">/* Exercise 3.7: Your code here. (3/3) */</span><br>	load_icode(e, binary, size);<br>	TAILQ_INSERT_HEAD(&amp;env_sched_list, e, env_sched_link);<br>	<span class="hljs-keyword">return</span> e;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="Exercise-3-8"><a href="#Exercise-3-8" class="headerlink" title="Exercise 3.8"></a>Exercise 3.8</h3><ul>
+<li>保存当前进程的上下文信息。 </li>
+<li>切换 curenv 为即将运行的进程。</li>
+<li>设置全局变量 cur_pgdir 为当前进程页目录地址，在 TLB 重填时将用到该全局变量。</li>
+<li>调用 env_pop_tf 函数，恢复现场、异常返回。</li>
+</ul>
+<h3 id="Exercise-3-9"><a href="#Exercise-3-9" class="headerlink" title="Exercise 3.9"></a>Exercise 3.9</h3><p>完成异常分发代码</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">SAVE_ALL<br><span class="hljs-comment">#使用 SAVE_ALL 宏将当前上下文保存到内核的异常栈中。</span><br><span class="hljs-keyword">mfc0 </span>   <span class="hljs-built_in">t0</span>, CP0_STATUS<br><span class="hljs-keyword">and </span>    <span class="hljs-built_in">t0</span>, <span class="hljs-built_in">t0</span>, ~(STATUS_UM <span class="hljs-title">| STATUS_EXL |</span> STATUS_IE)<br><span class="hljs-keyword">mtc0 </span>   <span class="hljs-built_in">t0</span>, CP0_STATUS<br><span class="hljs-keyword">andi	</span><span class="hljs-built_in">t0</span>, <span class="hljs-number">0x7c</span><br><span class="hljs-keyword">lw	</span>	<span class="hljs-built_in">t0</span>, exception_handlers(<span class="hljs-built_in">t0</span>)<br><span class="hljs-keyword">jr	</span>	<span class="hljs-built_in">t0</span><br></code></pre></td></tr></table></figure>
+<h3 id="Exercise-3-10"><a href="#Exercise-3-10" class="headerlink" title="Exercise 3.10"></a>Exercise 3.10</h3><p>.text.exc_gen_entry 段和 .text.tlb_miss_entry 段需要被链接器放到特定的位置。</p>
+<p>CPU 发生异常（除了用户态地址的 TLB Miss 异常）后，就会自动跳转 到地址 0x80000180 处；发生用户态地址的 TLB Miss 异常时，会自动跳转到地址 0x80000000 处。开始执行。</p>
+<h3 id="Exercise-3-11"><a href="#Exercise-3-11" class="headerlink" title="Exercise 3.11"></a>Exercise 3.11</h3><p>时钟中断</p>
+<h2 id="难点分析"><a href="#难点分析" class="headerlink" title="难点分析"></a>难点分析</h2><h4 id="进程初始化与分配"><a href="#进程初始化与分配" class="headerlink" title="进程初始化与分配"></a>进程初始化与分配</h4><p>初始化：</p>
+<p>map_segment 函数 $\rightarrow$ env_init 函数</p>
+<p>分配</p>
+<p>env_setup_vm函数：初始化新进程的地址空间 $\rightarrow$ env_alloc函数</p>
+<h4 id="加载二进制镜像"><a href="#加载二进制镜像" class="headerlink" title="加载二进制镜像"></a>加载二进制镜像</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title function_">load_icode</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> Env *e, <span class="hljs-type">const</span> <span class="hljs-type">void</span> *binary, <span class="hljs-type">size_t</span> size)</span>; <br><span class="hljs-comment">//负责加载可执行文件 binary 到进程 e 的内存中。它调用的 elf_from 函数完成了解析 ELF 文件头的部分，elf_load_seg 负责将 ELF 文件的一个 segment 加载到内存。</span><br><br><span class="hljs-type">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">load_icode_mapper</span><span class="hljs-params">(<span class="hljs-type">void</span> *data, u_long va, <span class="hljs-type">size_t</span> offset, u_int perm, <span class="hljs-type">const</span> <span class="hljs-type">void</span> *src, <span class="hljs-type">size_t</span> len)</span><br><span class="hljs-comment">//成作为回调函数的 load_icode_mapper 函数，需要分配所需的物理页面，并在页表中建立映射。若 src 非空，需要将该处的 ELF 数据拷贝到物理页面中</span><br></code></pre></td></tr></table></figure>
+<h4 id="进程创建与切换运行"><a href="#进程创建与切换运行" class="headerlink" title="进程创建与切换运行"></a>进程创建与切换运行</h4><p>创建：分配一个新的 Env 结构体，设置进程控制块，并将程序 载入到该进程的地址空间</p>
+<p>进程切换的时候，为了保证下一次进入这个进程 的时候我们不会再“从头来过”，而是有记忆地从离开的地方继续往后走，我们要保存一些信息， 那么，需要保存什么信息呢？事实上，我们只需要保存进程的上下文信息，包括通用寄存器、HI、 LO 和 CP0 中的 Status，EPC，Cause 和 BadVAddr 寄存器。进程控制块除了 env_tf 其他的字 段在进程切换后还保留在原本的进程控制块中，并不会改变，因此不需要保存。（发生进程调度，或当陷入内 核时，会将当时的进程上下文环境保存在 env_tf 变量中（Trapframe结构体））</p>
+<h4 id="中断与异常"><a href="#中断与异常" class="headerlink" title="中断与异常"></a>中断与异常</h4><p>时间片：比如设定某个进程的时间片的长度为 200 倍的 TIMER_INTERVAL（时钟中断间隔），那么当 MOS 记录到该进程的执行中发生了 200 个时钟中断 时，MOS 就知晓该进程的时间片结束了。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/BUAA-Learning/" class="category-chain-item">BUAA_Learning</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9FOS/" class="print-no-link">#操作系统OS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>BUAA_OS_lab3</div>
+      <div>https://fantasylee21.github.io/2024/04/05/BUAA-OS-lab3/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Fantasylee</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年4月5日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/03/29/BUAA-OO-Unit2/" title="BUAA_OO_Unit2">
+                        <span class="hidden-mobile">BUAA_OO_Unit2</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"pOzFaCObtjkExgzgyXtbzFbm-MdYXbMMI","appKey":"K7PRbHAE1lQy810Gl5gVC0Xl","path":"window.location.pathname","placeholder":"输入你的评论🤖\n","avatar":"retro","meta":["nick","mail"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
