@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://fantasylee21.github.io/2024/03/21/BUAA-OS-lab2/address.png">
 <meta property="og:image" content="https://fantasylee21.github.io/2024/03/21/BUAA-OS-lab2/ctm.png">
 <meta property="article:published_time" content="2024-03-21T11:42:50.000Z">
-<meta property="article:modified_time" content="2024-04-01T01:53:17.721Z">
+<meta property="article:modified_time" content="2024-04-07T13:58:00.152Z">
 <meta property="article:author" content="Fantasylee">
 <meta property="article:tag" content="操作系统OS">
 <meta name="twitter:card" content="summary_large_image">
@@ -364,7 +364,7 @@
 <p>分析：页目录通常指一级页表，以二级页表为例：</p>
 <p>页目录的1024 个表项映射到这 1024 个页表。因此只需要 4MB 的空间即可容纳页表和页目录。</p>
 <p><img src="page.png" srcset="/img/loading.gif" lazyload alt="页目录自映射"></p>
-<p>同理，本题中，三级页表中，页目录的512个二级页表项映射到512个三级页表映射到512个页表。虚拟地址可以化为$2^{39} / 2^{12} = 2 ^ {27}$页，既需要$2^{27}$个页表项接收这么多个页表的映射。</p>
+<p>同理，本题中，三级页表中，页目录的512个二级页表项映射到512个三级页表映射到512个页表。虚拟地址可以化为 $2^{39} / 2^{12} = 2 ^ {27}$ 页，既需要 $2^{27}$ 个页表项接收这么多个页表的映射。</p>
 <p><img src="page3result.png" srcset="/img/loading.gif" lazyload alt="页目录映射关系"></p>
 <p><img src="page3.png" srcset="/img/loading.gif" lazyload alt="page3"></p>
 <p>于是页号： <code>PN = PTBase &gt;&gt; 12</code>;</p>

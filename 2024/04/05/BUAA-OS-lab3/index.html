@@ -24,7 +24,7 @@
 <meta property="og:description" content="BUAA_OS_lab3学习日记Thinking思考题Thinking 3.1问：请结合 MOS 中的页目录自映射应用解释代码中 e-&gt;env_pgdir[PDX(UVPT)] &#x3D; PADDR(e-&gt;env_pgdir) | PTE_V 的含义。  答： UVPT：用户页表的起始处的内核虚拟地址 PDX(UVPT)：UVPT所处的页目录号（即 UVPT 处于第 PDX(UVPT) 个页">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-04-05T01:39:56.000Z">
-<meta property="article:modified_time" content="2024-04-05T15:12:10.095Z">
+<meta property="article:modified_time" content="2024-04-07T14:01:29.736Z">
 <meta property="article:author" content="Fantasylee">
 <meta property="article:tag" content="操作系统OS">
 <meta name="twitter:card" content="summary_large_image">
@@ -234,7 +234,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.7k 字
+          2k 字
         
       </span>
     
@@ -245,7 +245,7 @@
         
         
         
-          14 分钟
+          17 分钟
         
       </span>
     
@@ -323,7 +323,15 @@
 <p>handle_int在genex.S文件中</p>
 <p>handle_mod和handle_tlb，handle_sys藏得比较深，三者都是通过genex.S文件中的宏函数BUILD_HANDLER实现的，代码如下：</p>
 <figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-keyword">BUILD_HANDLER </span>tlb do_tlb_refill<br><br><span class="hljs-comment">#if !defined(LAB) || LAB &gt;= 4</span><br><span class="hljs-keyword">BUILD_HANDLER </span>mod do_tlb_mod<br><span class="hljs-keyword">BUILD_HANDLER </span>sys do_syscall<br><span class="hljs-comment">#endif</span><br><br><span class="hljs-keyword">BUILD_HANDLER </span>reserved do_reserved<br></code></pre></td></tr></table></figure>
-<h3 id="Exercise-3-1"><a href="#Exercise-3-1" class="headerlink" title="Exercise 3.1"></a>Exercise 3.1</h3><p>实现进程控制快的初始化功能，具体实现参考注释即可。</p>
+<h3 id="Thinking-3-6"><a href="#Thinking-3-6" class="headerlink" title="Thinking 3.6"></a>Thinking 3.6</h3><p>问：阅读 entry.S、genex.S 和 env_asm.S 这几个文件，并尝试说出时钟中断 在哪些时候开启，在哪些时候关闭。</p>
+<p>entry.S</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">LEAF(env_pop_tf)<br><span class="hljs-meta">.set</span> reorder<br><span class="hljs-meta">.set</span> <span class="hljs-built_in">at</span><br>	<span class="hljs-keyword">mtc0 </span>   <span class="hljs-built_in">a1</span>, CP0_ENTRYHI<br>	<span class="hljs-keyword">move </span>   <span class="hljs-built_in">sp</span>, <span class="hljs-built_in">a0</span><br>	RESET_KCLOCK<br>	<span class="hljs-keyword">j </span>      ret_from_exception<br>END(env_pop_tf)<br></code></pre></td></tr></table></figure>
+<p>genex.S</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">NESTED(handle_int, TF_SIZE, <span class="hljs-built_in">zero</span>)<br>	<span class="hljs-keyword">mfc0 </span>   <span class="hljs-built_in">t0</span>, CP0_CAUSE<br>	<span class="hljs-keyword">mfc0 </span>   <span class="hljs-built_in">t2</span>, CP0_STATUS<br>	<span class="hljs-keyword">and </span>    <span class="hljs-built_in">t0</span>, <span class="hljs-built_in">t2</span><br>	<span class="hljs-keyword">andi </span>   <span class="hljs-built_in">t1</span>, <span class="hljs-built_in">t0</span>, STATUS_IM7<br>	<span class="hljs-keyword">bnez </span>   <span class="hljs-built_in">t1</span>, timer_irq<br><span class="hljs-symbol">timer_irq:</span><br>	li      <span class="hljs-built_in">a0</span>, <span class="hljs-number">0</span><br>	<span class="hljs-keyword">j </span>      <span class="hljs-keyword">schedule</span><br><span class="hljs-keyword"></span>END(handle_int)<br></code></pre></td></tr></table></figure>
+<p>当中断屏蔽位位为1且，CP0_CAUSE为时钟中断，且CP0_STATUS正常相应，体现为这几个寄存器储存的值做与运算的结果不为0，时钟中断开始，调度完成后结束。</p>
+<h3 id="Thinking-3-7"><a href="#Thinking-3-7" class="headerlink" title="Thinking 3.7"></a>Thinking 3.7</h3><p>问：阅读相关代码，思考操作系统是怎么根据时钟中断切换进程的。</p>
+<p>再调度函数中，如果满足切换条件（<code>yield || count &lt;= 0 || e == NULL || e-&gt;env_status != ENV_RUNNABLE</code>），如果当前进程没有就绪，将其移到调度链表尾部，反之则不用，接着选中调度链表头部进程达到调度目的。</p>
+<h2 id="Exercise"><a href="#Exercise" class="headerlink" title="Exercise"></a>Exercise</h2><h3 id="Exercise-3-1"><a href="#Exercise-3-1" class="headerlink" title="Exercise 3.1"></a>Exercise 3.1</h3><p>实现进程控制快的初始化功能，具体实现参考注释即可。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-comment">/* Step 1: Initialize &#x27;env_free_list&#x27; with &#x27;LIST_INIT&#x27; and &#x27;env_sched_list&#x27; with</span><br><span class="hljs-comment">	 * &#x27;TAILQ_INIT&#x27;. */</span><br>	<span class="hljs-comment">/* Exercise 3.1: Your code here. (1/2) */</span><br>	LIST_INIT(&amp;env_free_list);<br>	TAILQ_INIT(&amp;env_sched_list);<br>	<span class="hljs-comment">/* Step 2: Traverse the elements of &#x27;envs&#x27; array, set their status to &#x27;ENV_FREE&#x27; and insert</span><br><span class="hljs-comment">	 * them into the &#x27;env_free_list&#x27;. Make sure, after the insertion, the order of envs in the</span><br><span class="hljs-comment">	 * list should be the same as they are in the &#x27;envs&#x27; array. */</span><br>	<span class="hljs-keyword">for</span> (i = NENV - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) &#123;<br>		envs-&gt;env_status = ENV_FREE;<br>		LIST_INSERT_HEAD(&amp;env_free_list,&amp;envs[i], env_link);<br>	&#125;<br></code></pre></td></tr></table></figure>
 <h3 id="Exercise-3-2"><a href="#Exercise-3-2" class="headerlink" title="Exercise 3.2"></a>Exercise 3.2</h3><p>段地址的初始化使用 map_segment 函数在该页表中将内核数组 pages 和 envs 映射到了用户空间的 UPAGES 和 UENVS 处</p>
 <p>map_segment功能是在一级页表基地址 pgdir 对应的两级页表结构中做段地址映射，将虚拟地 址段 [va,va+size) 映射到物理地址段 [pa,pa+size)</p>
@@ -360,10 +368,15 @@
 <li>调用 env_pop_tf 函数，恢复现场、异常返回。</li>
 </ul>
 <h3 id="Exercise-3-9"><a href="#Exercise-3-9" class="headerlink" title="Exercise 3.9"></a>Exercise 3.9</h3><p>完成异常分发代码</p>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">SAVE_ALL<br><span class="hljs-comment">#使用 SAVE_ALL 宏将当前上下文保存到内核的异常栈中。</span><br><span class="hljs-keyword">mfc0 </span>   <span class="hljs-built_in">t0</span>, CP0_STATUS<br><span class="hljs-keyword">and </span>    <span class="hljs-built_in">t0</span>, <span class="hljs-built_in">t0</span>, ~(STATUS_UM <span class="hljs-title">| STATUS_EXL |</span> STATUS_IE)<br><span class="hljs-keyword">mtc0 </span>   <span class="hljs-built_in">t0</span>, CP0_STATUS<br><span class="hljs-keyword">andi	</span><span class="hljs-built_in">t0</span>, <span class="hljs-number">0x7c</span><br><span class="hljs-keyword">lw	</span>	<span class="hljs-built_in">t0</span>, exception_handlers(<span class="hljs-built_in">t0</span>)<br><span class="hljs-keyword">jr	</span>	<span class="hljs-built_in">t0</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c">SAVE_ALL<br>#使用 SAVE_ALL 宏将当前上下文保存到内核的异常栈中。<br>mfc0    t0, CP0_STATUS<br>and     t0, t0, ~(STATUS_UM | STATUS_EXL | STATUS_IE)<br>mtc0    t0, CP0_STATUS<br>mfc0	t0, CP0_CAUSE<br>andi	t0, <span class="hljs-number">0x7c</span><br>#获得 Cause 寄存器中的 <span class="hljs-number">2</span>~<span class="hljs-number">6</span> 位，也就是对应的异常码，这是区别不同异常的重要标志<br>lw		t0, exception_handlers(t0)<br>jr		t0<br></code></pre></td></tr></table></figure>
 <h3 id="Exercise-3-10"><a href="#Exercise-3-10" class="headerlink" title="Exercise 3.10"></a>Exercise 3.10</h3><p>.text.exc_gen_entry 段和 .text.tlb_miss_entry 段需要被链接器放到特定的位置。</p>
 <p>CPU 发生异常（除了用户态地址的 TLB Miss 异常）后，就会自动跳转 到地址 0x80000180 处；发生用户态地址的 TLB Miss 异常时，会自动跳转到地址 0x80000000 处。开始执行。</p>
 <h3 id="Exercise-3-11"><a href="#Exercise-3-11" class="headerlink" title="Exercise 3.11"></a>Exercise 3.11</h3><p>时钟中断</p>
+<p>将CP0_COUNT和CP0_COMPARE赋予适当的值</p>
+<p>RESET_KCLOCK 宏将 Count 寄存器清零并将 Compare 寄存器配置为我们所期望的计时器周 期数，这就对 Timer 完成了配置。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs C">mtc0	t0,CP0_COMPARE<br>li		t0,<span class="hljs-number">0</span><br>mtc0	t0,CP0_COUNT<br></code></pre></td></tr></table></figure>
+<h3 id="Exercise-3-12"><a href="#Exercise-3-12" class="headerlink" title="Exercise 3.12"></a>Exercise 3.12</h3><p>进程调度——时间片轮转的算法</p>
+<p>无需进行切换时，我们只需要将剩余时间片长度 count 减去 1，然后调用 env_run 函数，继 续运行当前进程 curenv。在发生切换的情况下，我们还需要判断当前进程是否仍然就绪，如果 是则将其移动到调度链表的尾部。之后，我们选中调度链表首部的进程来调度运行，将剩余时间 片长度设置为其优先级。</p>
 <h2 id="难点分析"><a href="#难点分析" class="headerlink" title="难点分析"></a>难点分析</h2><h4 id="进程初始化与分配"><a href="#进程初始化与分配" class="headerlink" title="进程初始化与分配"></a>进程初始化与分配</h4><p>初始化：</p>
 <p>map_segment 函数 $\rightarrow$ env_init 函数</p>
 <p>分配</p>
