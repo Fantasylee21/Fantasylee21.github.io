@@ -16,19 +16,22 @@
   <meta name="author" content="Fantasylee">
   <meta name="keywords" content="">
   
-    <meta name="description" content="BUAA_OO_Unit1第二单元总结一、第一次作业前言本次作业完成没有耗费多少时间，但由于对多线程的锁的了解不够深刻，将近花了两天时间来debug，中测也是交了五六次才通过。相比第一单元的作业，第二单元作业在代码复杂度，或者说代码量上存在明显下降，但是理解难度却有了更大的提升，以及由于加入了时间戳的原因，对于某些数据需要耗费大量时间在等待结果上。 UML图架构 本次作业中实现了三个线程类：In">
+    <meta name="description" content="BUAA_OO_Unit2第二单元总结一、第一次作业前言本次作业完成没有耗费多少时间，但由于对多线程的锁的了解不够深刻，将近花了两天时间来debug，中测也是交了五六次才通过。相比第一单元的作业，第二单元作业在代码复杂度，或者说代码量上存在明显下降，但是理解难度却有了更大的提升，以及由于加入了时间戳的原因，对于某些数据需要耗费大量时间在等待结果上。 UML图架构 本次作业中实现了三个线程类：In">
 <meta property="og:type" content="article">
 <meta property="og:title" content="BUAA_OO_Unit2">
 <meta property="og:url" content="https://fantasylee21.github.io/2024/03/29/BUAA-OO-Unit2/index.html">
 <meta property="og:site_name" content="Fantasylee&#39;s Blog">
-<meta property="og:description" content="BUAA_OO_Unit1第二单元总结一、第一次作业前言本次作业完成没有耗费多少时间，但由于对多线程的锁的了解不够深刻，将近花了两天时间来debug，中测也是交了五六次才通过。相比第一单元的作业，第二单元作业在代码复杂度，或者说代码量上存在明显下降，但是理解难度却有了更大的提升，以及由于加入了时间戳的原因，对于某些数据需要耗费大量时间在等待结果上。 UML图架构 本次作业中实现了三个线程类：In">
+<meta property="og:description" content="BUAA_OO_Unit2第二单元总结一、第一次作业前言本次作业完成没有耗费多少时间，但由于对多线程的锁的了解不够深刻，将近花了两天时间来debug，中测也是交了五六次才通过。相比第一单元的作业，第二单元作业在代码复杂度，或者说代码量上存在明显下降，但是理解难度却有了更大的提升，以及由于加入了时间戳的原因，对于某些数据需要耗费大量时间在等待结果上。 UML图架构 本次作业中实现了三个线程类：In">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://fantasylee21.github.io/2024/03/29/BUAA-OO-Unit2/UML2_1.png">
 <meta property="og:image" content="https://fantasylee21.github.io/2024/03/29/BUAA-OO-Unit2/Dispatch.png">
 <meta property="og:image" content="https://fantasylee21.github.io/2024/03/29/BUAA-OO-Unit2/UML2_2.png">
 <meta property="og:image" content="https://fantasylee21.github.io/2024/03/29/BUAA-OO-Unit2/Structure.png">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/03/29/BUAA-OO-Unit2/UML2_3.png">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/03/29/BUAA-OO-Unit2/codeLines.png">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/03/29/BUAA-OO-Unit2/SequenceDiagram.svg">
 <meta property="article:published_time" content="2024-03-29T14:46:21.000Z">
-<meta property="article:modified_time" content="2024-04-04T15:14:50.379Z">
+<meta property="article:modified_time" content="2024-04-16T01:10:04.636Z">
 <meta property="article:author" content="Fantasylee">
 <meta property="article:tag" content="面向对象OO">
 <meta name="twitter:card" content="summary_large_image">
@@ -239,7 +242,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.9k 字
+          3.5k 字
         
       </span>
     
@@ -250,7 +253,7 @@
         
         
         
-          16 分钟
+          29 分钟
         
       </span>
     
@@ -301,7 +304,7 @@
               <div class="markdown-body">
                 
                 <hr>
-<h1 id="BUAA-OO-Unit1第二单元总结"><a href="#BUAA-OO-Unit1第二单元总结" class="headerlink" title="BUAA_OO_Unit1第二单元总结"></a>BUAA_OO_Unit1第二单元总结</h1><h2 id="一、第一次作业"><a href="#一、第一次作业" class="headerlink" title="一、第一次作业"></a>一、第一次作业</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>本次作业完成没有耗费多少时间，但由于对多线程的锁的了解不够深刻，将近花了两天时间来debug，中测也是交了五六次才通过。相比第一单元的作业，第二单元作业在代码复杂度，或者说代码量上存在明显下降，但是理解难度却有了更大的提升，以及由于加入了时间戳的原因，对于某些数据需要耗费大量时间在等待结果上。</p>
+<h1 id="BUAA-OO-Unit2第二单元总结"><a href="#BUAA-OO-Unit2第二单元总结" class="headerlink" title="BUAA_OO_Unit2第二单元总结"></a>BUAA_OO_Unit2第二单元总结</h1><h2 id="一、第一次作业"><a href="#一、第一次作业" class="headerlink" title="一、第一次作业"></a>一、第一次作业</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>本次作业完成没有耗费多少时间，但由于对多线程的锁的了解不够深刻，将近花了两天时间来debug，中测也是交了五六次才通过。相比第一单元的作业，第二单元作业在代码复杂度，或者说代码量上存在明显下降，但是理解难度却有了更大的提升，以及由于加入了时间戳的原因，对于某些数据需要耗费大量时间在等待结果上。</p>
 <h3 id="UML图架构"><a href="#UML图架构" class="headerlink" title="UML图架构"></a>UML图架构</h3><p><img src="UML2_1.png" srcset="/img/loading.gif" lazyload alt="UML2_1"></p>
 <p>本次作业中实现了三个线程类：<code>InputThread（输入线程）</code>，<code>Dispather（调度线程）</code>，<code>Elevator（电梯线程）</code></p>
 <p>此外，<code>RequestTable</code>需求表类作为共享对象，所以内部方法全部加上<code>synchronized</code>关键字修饰，Strategy作为Elvator的附属类位电梯提供建议（按照作业提示，虽然本人觉得有点多余，但是确实代码理解起来简单）。</p>
@@ -310,11 +313,7 @@
 <p>然后，如果电梯内部还有人则电梯沿着原方向运行一层，反之，就判断请求表是否为空，如果请求表为空，如果请求表同时Over标志为true则该电梯进程结束，否则该电梯等待请求表填入，如果请求表不为空，则判断是否需要调整运行方向，不需要调整方向则沿着原方向运行一层。</p>
 <p>分配关系如下</p>
 <p><img src="Dispatch.png" srcset="/img/loading.gif" lazyload alt="Dispatch"></p>
-<h3 id="作业体会"><a href="#作业体会" class="headerlink" title="作业体会"></a>作业体会</h3><h4 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h4><p>本次作业，最难的也是最重要的就是如何保证线程安全。其中下面这个bug是我感悟最深。</p>
-<p>我们知道，在我们采用增强for循环遍历时若删除对象是线程不安全的，于是我们引进了迭代器删除的方法，但是在多线程中，对于共享对象即使采用迭代器删除仍然需要采用对对象加锁的方式保证线程安全，如下所示：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">synchronized</span> (requestTable) &#123; <span class="hljs-comment">//同步</span><br>                Iterator&lt;PersonRequest&gt; iterator = personRequests.iterator();<br>                <span class="hljs-keyword">while</span> (iterator.hasNext()) &#123;<br>                    	<span class="hljs-comment">/**/</span><br><span class="hljs-comment">                        iterator.remove();</span><br><span class="hljs-comment">                        requestTable.subRequestNum();</span><br><span class="hljs-comment">                    &#125;</span><br><span class="hljs-comment">                &#125;</span><br><span class="hljs-comment">            &#125;</span><br></code></pre></td></tr></table></figure>
-<p>而不加入对象锁时，运行结果可能正确，而且同意输入可能需要多次运行才能复现bug。</p>
-<h4 id="锁的理解"><a href="#锁的理解" class="headerlink" title="锁的理解"></a>锁的理解</h4><p>由于本次作业对锁理解不够深入，于是我再次学习了相关知识：</p>
+<h3 id="作业体会"><a href="#作业体会" class="headerlink" title="作业体会"></a>作业体会</h3><h4 id="锁的理解"><a href="#锁的理解" class="headerlink" title="锁的理解"></a>锁的理解</h4><p>由于本次作业对锁理解不够深入，于是我再次学习了相关知识：</p>
 <p>java中有方法锁、对象锁、类锁、静态锁，核心都是为了达到访问的有序。</p>
 <p>对象锁：JVM 在创建对象的时候，默认会给每个对象一把唯一的对象锁，一把钥匙</p>
 <p>类锁：每一个类都是一个对象，每个对象都拥有一个对象锁。</p>
@@ -345,7 +344,65 @@
 <p>即待分配队列有两个输入来源：输入线程和每个电梯，这样，如何让线程正确结束成了我亟待解决的问题。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-comment">//调度器Dispatcher的run方法</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) &#123;<br>            <span class="hljs-keyword">if</span> (requestTable.isOver()) &#123;<br>                <span class="hljs-keyword">for</span> (RequestTable requestTable : requestTables) &#123;<br>                    requestTable.setOver(<span class="hljs-literal">true</span>);<br>                &#125;<br>                <span class="hljs-keyword">break</span>;<br>            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!requestTable.hasNext()) &#123;<br>                requestTable.waitRequest();<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                allocate();<br>            &#125;<br>            <span class="hljs-keyword">if</span> (missionComplete()) &#123; <span class="hljs-comment">//任务完成</span><br>                requestTable.setOver(<span class="hljs-literal">true</span>);<br>            &#125;<br>        &#125;<br>    &#125;<br></code></pre></td></tr></table></figure>
 <p>当输入结束时，将输入结束标志变为true，当任务全部完成时（输入结束，且待分配队列和六个已分配队列都为空且不处于reset状态），则将总表的结束标志变为true，当总表的输入标志为true时，则把所有电梯表标为结束，调度器线程结束。</p>
-<h3 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h3><h5 id="ConcurrentModifyException问题的解决"><a href="#ConcurrentModifyException问题的解决" class="headerlink" title="ConcurrentModifyException问题的解决"></a><code>ConcurrentModifyException</code>问题的解决</h5><p><code>getPersonRequestMap()</code>方法调用时可能出现ConcurrentModifyException问题（由于上图所展示的循环导致），解决方法：由于getPersonRequestMap()加锁，所以可以通过，将所有涉及元素增减的都通过调用getPersonRequestMap()方法</p>
+<h3 id="Debug过程"><a href="#Debug过程" class="headerlink" title="Debug过程"></a>Debug过程</h3><p><strong><code>ConcurrentModifyException</code>问题的解决</strong></p>
+<p><code>getPersonRequestMap()</code>方法调用时可能出现ConcurrentModifyException问题（由于上图所展示的循环导致），解决方法：由于getPersonRequestMap()加锁，所以可以通过，将所有涉及元素增减的都通过调用getPersonRequestMap()方法</p>
+<p>互测被刀惨了，由于本人架构采用不给在维修中的电梯分配请求，于是下列方式构造的数据就把我狠狠刀住</p>
+<ol>
+<li>首先将某个电梯速度设为最慢，容量设为最少</li>
+<li>在49.0s作业将其他五部电梯维修，同一时刻加入64条由11层到1层的请求，这样请求就全部加给了同一部电梯了，达到卡tle的作用</li>
+</ol>
+<p>解决方式：电梯分配数量加入考虑因素，当然，这不是一个好的解决方案，于是第三次作业中我换了一种方式</p>
+<h2 id="三、第三次作业"><a href="#三、第三次作业" class="headerlink" title="三、第三次作业"></a>三、第三次作业</h2><h3 id="前言-2"><a href="#前言-2" class="headerlink" title="前言"></a>前言</h3><p>本次的有丝分裂电梯着实令人头疼，想了很多办法依旧没能达到很好的架构，只能不断在原来的代码的基础上一点一点叠，最后真的惨不忍睹，bug也是de完一个又来一个，到周六才大概达到一个自己满意的测试结果</p>
+<h3 id="UML图架构-2"><a href="#UML图架构-2" class="headerlink" title="UML图架构"></a>UML图架构</h3><p><img src="UML2_3.png" srcset="/img/loading.gif" lazyload alt="UML2_3"></p>
+<p>本次总体架构相比上次无较大的改动，主要多了一个TranferFloor作为上下电梯的共同对象。代码增长主要体现在Elevator电梯类和Strategy策略类</p>
+<p>最开始计划将双轿厢电梯作为一个新的类处理，但一直没想好处理方式加上重构面积较大，由于题目中规定了第一类reset后不会出现第二类reset，所以我，最终采取了在电梯类中增加两个Elevator类<code>upElevator</code>和<code>downElevator</code>，接收到第二类reset时，完成reset后启动改电梯的这两个线程并将其加入线程池中。</p>
+<h3 id="作业体会-2"><a href="#作业体会-2" class="headerlink" title="作业体会"></a>作业体会</h3><p>针对上次出现的保持一个电梯不在reset，随后同时加入大量请求出现的超时bug，在bug修复中我采用的是限制单个电梯的加入到请求的数量，但是感觉还是不是特别靠谱，于是我采取调度器直接分配的方式，如果处于reset状态，就加入wait2Recive队列，reset结束后再将请求加入RequestTable中。</p>
+<h3 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h3><p>先谈谈自己debug中遇到的经典问题：</p>
+<p><strong>NullPointerException</strong></p>
+<p>由于双轿厢电梯和普通电梯的策略类以及各种行为的方法相同，所以一不小心涉及getUpElevator之类的方法时就会涉及NullPointerException，当然这一类的bug相对来说比较容易发现</p>
+<p><strong>防止电梯对撞问题</strong></p>
+<p>如何防止电梯出现撞梯现象，是本次作业的核心，也是比较难处理的部分，我采用的是抢共享类中的方法锁和标志位的方式</p>
+<ul>
+<li><p>在决策类中，如果发现当前楼层进行move操作后到达换乘楼层，且当前换乘楼层被占用，就执行stop操作（sleep一小段时间）</p>
+</li>
+<li><p>当上下两电梯同时要到达换乘楼层时（下方电梯在换乘楼层的下一层且方向向上，上方电梯在换乘楼层的上一层且方向向下），就需要采用抢锁的方式了，具体如下的共享类Transferfloor的try2Move方法，当某个线程调用该方法时，将被占用位设为true，另一线程需要等另一线程的该方法结束，再调用该方法的时候就只能等待了，直到换乘楼层不再被占用才被唤醒。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">try2Move</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">while</span> (isFull) &#123;<br>            <span class="hljs-keyword">try</span> &#123;<br>                wait();<br>            &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>                e.printStackTrace();<br>            &#125;<br>        &#125;<br>        setFull(<span class="hljs-literal">true</span>);<br>        notifyAll();<br>    &#125;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>等待换乘楼层不被占用的线程被唤醒后立即就会arrive，所以可能会出现虽然时间戳相同，但该线程的输出可能会先输出，于是我被迫采取休息1ms的方式解决这个问题</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">if</span> (isDoubleCar) &#123;<br>            <span class="hljs-keyword">if</span> (currentFloor == (transferFloor.getFloor() - <span class="hljs-number">1</span>) &amp;&amp; direction.equals(Direction.UP)) &#123;<br>                transferFloor.try2Move();<br>                rest(<span class="hljs-number">1</span>);<br>            &#125;<br>            <span class="hljs-keyword">if</span> (currentFloor == (transferFloor.getFloor() + <span class="hljs-number">1</span>)<br>                    &amp;&amp; direction.equals(Direction.DOWN)) &#123;<br>                transferFloor.try2Move();<br>                rest(<span class="hljs-number">1</span>);<br>            &#125;<br>        &#125;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="总体总结"><a href="#总体总结" class="headerlink" title="总体总结"></a>总体总结</h2><h3 id="前言以及相关图"><a href="#前言以及相关图" class="headerlink" title="前言以及相关图"></a>前言以及相关图</h3><p>由于本人对影子电梯的理解不够，选择的是实现起来极其简单收益也尚可的随机数法，所以代码规模相比使用影子电梯的同学要少，但是最让自己都无法接受的就是电梯类中参杂了太多的因素——既有电梯自身的属性，又有作为线程所包括的各种运行方法，还实现了第二类reset后的线程相关的线程启动，包含了大量的if，着实不是一个好的架构。</p>
+<p><img src="codeLines.png" srcset="/img/loading.gif" lazyload alt="codeLines"></p>
+<p>总体代码时序图：<img src="SequenceDiagram.svg" srcset="/img/loading.gif" lazyload alt="SequenceDiagram"></p>
+<h3 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h3><p>从第一次作业到第三次作业，每次花费时间最多的就是de线程安全的bug，直到最终版本，代码依旧存在极小概率的bug</p>
+<p>其中下面这个bug是我感悟最深。</p>
+<p>我们知道，在我们采用增强for循环遍历时若删除对象是线程不安全的，于是我们引进了迭代器删除的方法，但是在多线程中，对于共享对象即使采用迭代器删除仍然需要采用对对象加锁的方式保证线程安全，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">synchronized</span> (requestTable) &#123; <span class="hljs-comment">//同步</span><br>                Iterator&lt;PersonRequest&gt; iterator = personRequests.iterator();<br>                <span class="hljs-keyword">while</span> (iterator.hasNext()) &#123;<br>                    	<span class="hljs-comment">/**/</span><br><span class="hljs-comment">                        iterator.remove();</span><br><span class="hljs-comment">                        requestTable.subRequestNum();</span><br><span class="hljs-comment">                    &#125;</span><br><span class="hljs-comment">                &#125;</span><br><span class="hljs-comment">            &#125;</span><br></code></pre></td></tr></table></figure>
+<p>而不加入对象锁时，运行结果可能正确，而且输入可能需要多次运行才能复现bug。</p>
+<p>总的来说，单纯的方法锁和对象锁不足以满足后续更加复杂的情况，于是我们也又有了互斥锁（一次最多只能有一个线程持有的锁）、读写锁，可重入锁（可重复可递归调用的锁，在内层仍然可以使用，并且不发生死锁（前提得是同一个对象或者class））与不可重入锁……</p>
+<h3 id="层次化设计"><a href="#层次化设计" class="headerlink" title="层次化设计"></a>层次化设计</h3><p><strong>线程设计</strong></p>
+<ul>
+<li>输入线程</li>
+<li>调度线程</li>
+<li>轿厢线程</li>
+</ul>
+<p>总体来说，经过总结思考，把轿厢而不是电梯作为线程更加可靠，也更加能够适应第三次作业，我的架构仅支持第二类reset后无任何reset，但是倘若可以来回reset，将轿厢作为线程，并将单轿厢电梯和双轿厢电梯作为两个类保证其自身特性可以更适应后续迭代（倘若有的话）</p>
+<p><strong>共享类设计</strong></p>
+<ul>
+<li>请求表</li>
+<li>换乘楼层</li>
+</ul>
+<p>将请求表作为共享类毫无争议，第三次作业中将换乘楼层作为双轿厢的共享类着实方便，可以通过抢锁十分方便的实现避免撞梯。</p>
+<p><strong>枚举类</strong></p>
+<ul>
+<li>方向</li>
+<li>电梯策略</li>
+</ul>
+<p>将方向作为枚举是我考虑到可能会出现上下左右乱移动设计的（可惜没有），虽然便于理解代码，但是远不如+-1代表方向来的方便。电梯策略作为枚举十分有必要，处理不同策略，用英文枚举着实提高可阅读性。</p>
+<p>经过一个单元的学习，让我对多线程知识的了解增进了不少，从简单的方法锁对象锁的使用到抢锁实现交互的实现，对并行程序的书写不仅让我的OO水平狠狠提高（虽然预判的迭代都失败了，但是希望下届可以有hhh），对OS的帮助也是多多。</p>
 
                 
               </div>
