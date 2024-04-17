@@ -1,0 +1,1062 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon.png">
+  <link rel="icon" href="/img/icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Fantasylee">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="期中复习 这是什么样的微风，我找不到准确的表述语句，只找到一连串的不是，不是杜甫“细草微风岸”的风，不是高骈“水晶帘动微风起”的风，冯延巳的“吹皱一池春水”是因为“风乍起”，过于突然，也不是，更不是“风萧萧兮易水寒”里的风，山谷微风不是壮志凌云之风，不会去送别荆轲，它知道自已普通微小，所以低调，其低调有点像我少年时期在炎热夏天里寻找的穿堂风。  概述与启动分布式系统 在整个系统中有一个全局的操作系">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OS理论学习">
+<meta property="og:url" content="https://fantasylee21.github.io/2024/04/17/OS%E7%90%86%E8%AE%BA/index.html">
+<meta property="og:site_name" content="Fantasylee&#39;s Blog">
+<meta property="og:description" content="期中复习 这是什么样的微风，我找不到准确的表述语句，只找到一连串的不是，不是杜甫“细草微风岸”的风，不是高骈“水晶帘动微风起”的风，冯延巳的“吹皱一池春水”是因为“风乍起”，过于突然，也不是，更不是“风萧萧兮易水寒”里的风，山谷微风不是壮志凌云之风，不会去送别荆轲，它知道自已普通微小，所以低调，其低调有点像我少年时期在炎热夏天里寻找的穿堂风。  概述与启动分布式系统 在整个系统中有一个全局的操作系">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/04/17/OS%E7%90%86%E8%AE%BA/exception.png">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/04/17/OS%E7%90%86%E8%AE%BA/tlb.png">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/04/17/OS%E7%90%86%E8%AE%BA/reversepage.png">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/04/17/OS%E7%90%86%E8%AE%BA/segement.png">
+<meta property="article:published_time" content="2024-04-17T13:17:07.000Z">
+<meta property="article:modified_time" content="2024-04-17T15:04:01.895Z">
+<meta property="article:author" content="Fantasylee">
+<meta property="article:tag" content="操作系统OS">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://fantasylee21.github.io/2024/04/17/OS%E7%90%86%E8%AE%BA/exception.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>OS理论学习 - Fantasylee&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"fantasylee21.github.io","root":"/","version":"1.9.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fantasylee&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="OS理论学习"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-04-17 21:17" pubdate>
+          2024年4月17日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          34 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">OS理论学习</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="期中复习"><a href="#期中复习" class="headerlink" title="期中复习"></a>期中复习</h1><blockquote>
+<p>这是什么样的微风，我找不到准确的表述语句，只找到一连串的不是，不是杜甫“细草微风岸”的风，不是高骈“水晶帘动微风起”的风，冯延巳的“吹皱一池春水”是因为“风乍起”，过于突然，也不是，更不是“风萧萧兮易水寒”里的风，山谷微风不是壮志凌云之风，不会去送别荆轲，它知道自已普通微小，所以低调，其低调有点像我少年时期在炎热夏天里寻找的穿堂风。</p>
+</blockquote>
+<h3 id="概述与启动"><a href="#概述与启动" class="headerlink" title="概述与启动"></a>概述与启动</h3><p><strong>分布式系统</strong></p>
+<p>在整个系统中有一个全局的操作系统</p>
+<p>有网络作为底层支持</p>
+<p>特性</p>
+<ul>
+<li>模块性</li>
+<li>并行性</li>
+<li>自治性</li>
+<li>通信性</li>
+</ul>
+<p>操作系统作用：管理资源，提供硬件访问的统一接口</p>
+<p>操作系统的发展：</p>
+<ul>
+<li>单任务串行 - 多任务并发</li>
+<li>单处理器 - 多处理器 - 分布式网络化</li>
+</ul>
+<p>多任务操作系统基本原理</p>
+<p>分时——多个用户/任务互不干扰地使用资源</p>
+<p>分时的基本方式（隔离手段）</p>
+<p>虚拟：隔离所有资源</p>
+<p>抽象：进程（隔离处理器、储存器）</p>
+<p>TRAP指令：目态 - 管态 （用户 - 内核态）</p>
+<p>异常：陷阱和中断</p>
+<ul>
+<li>中断主要由I/O设备、处理器时钟或定时器等硬件产生，可以被启用和禁用</li>
+<li>陷阱/陷入是用户进程中某一特定指令执行的结果，在相同条件下，异常可以重现。例如内存访问错误、调试指 令以及被零除</li>
+<li>系统调用是同步异常</li>
+<li>陷阱帧：完整的线程描述表的自己，用于陷阱保护</li>
+<li>陷阱处理程序处理少量事件，多数转交给其他的内核或 执行体模块处理</li>
+</ul>
+<p><img src="exception.png" srcset="/img/loading.gif" lazyload alt="异常"></p>
+<p>操作系统特征</p>
+<ul>
+<li>并发</li>
+<li>共享（互斥共享（打印机、变量），同时访问（宏观））</li>
+<li>虚拟</li>
+<li>异步性</li>
+</ul>
+<p>OS功能</p>
+<ul>
+<li>处理机管理——分配CPU时间</li>
+<li>储存器管理——管理缓存、主存、磁盘等所 形成的多级存储架构，为多道程序的并 发提供良好的环境</li>
+<li>设备管理——管理输入/输出设备，屏蔽差 异性，提供并发访问</li>
+<li>文件系统——将磁盘变成一个很容易使用的 存储媒介提供给用户使用</li>
+<li>作业控制——作业调度</li>
+</ul>
+<p><strong>操作系统的基本类型</strong></p>
+<ul>
+<li>工作方式：批处理系统、分时系统、实时系统、混合型</li>
+<li>架构：微内核、宏内核、外内核</li>
+</ul>
+<p>微内核</p>
+<p>内核中只包括中断处理、进程通信（IPC）、 基本调度等</p>
+<p>优点：内核易于实现、可靠性高、可移植性好、配置灵活、 适应分布式环境</p>
+<p>缺点：速度慢</p>
+<p>引导加载程序是系统加电后运行的第一段程序，称为Bootloader</p>
+<p><strong>Bios</strong></p>
+<p>bios设置程序是被固化到电脑主板上的ROM芯片中的一组程序（断电后不会丢失的只读程序）</p>
+<ul>
+<li>硬件自检</li>
+<li>读取启动顺序</li>
+</ul>
+<p>例题：在传统x86体系结构下，计算机引导过程中以下哪项不是 BIOS负责的任务？</p>
+<ul>
+<li>读取MBR并装载到内存特定地址（Bootloader）</li>
+<li>自检系统，当有设备故障时暂停启动过程并告警（Bios）</li>
+<li>选择引导磁盘（Bios）</li>
+<li>装载打印机驱动（没必要）</li>
+<li>启动显示器（Bios）</li>
+<li>解压缩操作系统Kernel（Bootloader）</li>
+</ul>
+<p><strong>系统引导</strong></p>
+<p>MBR（Master Boot Record）：磁盘的第0磁头第0磁道的第一个扇区</p>
+<p>Boot loader：操作系统内核运行前执行的一小段程序</p>
+<p><strong>BootLoader</strong></p>
+<p>操作系统内核运行前的一小段程序</p>
+<h3 id="储存与管理"><a href="#储存与管理" class="headerlink" title="储存与管理"></a>储存与管理</h3><p>储存管理至少要解决分配与回收</p>
+<ul>
+<li>地址空间：逻辑地址的集合</li>
+<li>储存空间：逻辑地址的集合</li>
+</ul>
+<p><strong>单道程序的内存管理</strong></p>
+<p>内存中只有两个程序——用户程序和操作系统</p>
+<p>用户程序的地址再运行之前可以运算</p>
+<p>优点：简单</p>
+<p>缺点：比物理内存大的程序无法加载、小程序会造成空间浪费</p>
+<p><strong>多道程序设计</strong></p>
+<p>空间的分配：分区式分配，把内存分为一些大小相等或者不等的分区</p>
+<ul>
+<li>固定式分区分配（静态）：程序适应分区</li>
+<li>可变式分区分配（动态）：分区适应程序</li>
+</ul>
+<p><strong>固定式分区</strong></p>
+<p>系统初始化时，把储存空间划分为若干个任意大小的区域，然后将这些区域分配个每个用户作业。</p>
+<ul>
+<li>分区大小相等：只适用于多个相同程序的并发执行（处理多个类型相同的对象）</li>
+<li>分区大小不等：多个小分区、适量的中等分区、少量 的大分区。根据程序的大小，分配当前空闲的、适当 大小的分区</li>
+</ul>
+<p>优点：易于实现，开销小</p>
+<p>缺点：内碎片造成浪费，分区总数固定，限制并发执行的程序数量</p>
+<ul>
+<li>单一队列的分配方式</li>
+</ul>
+<p>多个用户程序排在一个 共同的队列里面等待分区</p>
+<ul>
+<li>对队列分配方式</li>
+</ul>
+<p>每个分区一个 队列，程序按照大小排在相应的队列里，避免给小程序分配大空间</p>
+<p><strong>可变式分区</strong></p>
+<p>分区的边界可以移动，即分区大小可变</p>
+<p>优点：没有内碎片，缺点：有外碎片</p>
+<p><strong>碎片</strong></p>
+<p>内存中无法被利用的储存空间</p>
+<ul>
+<li>内碎片</li>
+</ul>
+<p>分配给作业的储存空间中未被利用的部分，已分配只是未被使用，完成后会得到释放</p>
+<ul>
+<li>外碎片</li>
+</ul>
+<p>分区与分区之间存在的碎片。外部碎片是造成内存系统性能下降的主要原因，外部碎片可以被整理后消除（消除外部碎片的方法：紧凑技术）</p>
+<p><strong>闲置空间的管理</strong></p>
+<ul>
+<li>位图表示法</li>
+</ul>
+<p>字位取值为0表示闲置，为1表示占用</p>
+<p>空间成本固定，时间成本低，没有容错</p>
+<ul>
+<li>链表表示法</li>
+</ul>
+<p>将分配单元链接起来</p>
+<p>空间成本取决于程序的数量，时间成本扫描速度较慢，有一点容错能力</p>
+<p><strong>分配算法</strong></p>
+<ul>
+<li>首次适应（First Fit）</li>
+</ul>
+<p>从空白区域链的始端开始查找，选择第一个满足情况的空白快</p>
+<p>低地址肯留下难以利用的小空间</p>
+<ul>
+<li>下次适应算法（Next Fit）</li>
+</ul>
+<p>从上次查找结束的地方开始，找到一个足够大的空白区将它划分后分配出去</p>
+<p>利用更均衡，可能导致缺乏大空间</p>
+<ul>
+<li>最佳适应算法（Best Fit）</li>
+</ul>
+<p>大小最合适的储存区域</p>
+<p>使得剩下的空闲区非常小，从而留下许多难以利用的碎片</p>
+<ul>
+<li>最坏适应算法（Worst Fit）</li>
+</ul>
+<p>总是寻找最大空白区</p>
+<p>后续可能不能应对大空闲区</p>
+<ul>
+<li><p>索引搜索分配</p>
+</li>
+<li><p>快速适应分配（分类搜索）</p>
+</li>
+</ul>
+<p>按空闲分区的大小进行分类，经常用到长度的空闲区设立单独的空闲区链表。系统为多个空闲链表设立 一张管理索引表。</p>
+<p>优点：查找效率高，不会对任何分区产生分割，能保留大的分区，也不会产生内存碎片</p>
+<p>缺点：算法复杂，分配分区时以进程为单位，一个分区只属于一个进程，造成浪费。</p>
+<p><strong>伙伴系统</strong></p>
+<p>伙伴系统是介于固定分区与可变分区的动态分区技术</p>
+<p>规定：大小均为2的k次幂</p>
+<p>内存释放首先将被释放块与其伙伴合并为一个大的空闲块，直到不能合并。</p>
+<p>注意：如果两个储存快大小相等且地址相邻但不是由一个大块分裂出来的，则不可以被合并起来。</p>
+<p>即会产生内碎片又会产生外碎片</p>
+<p><strong>可重定位分区分配</strong></p>
+<p>定时的或内存紧张时，移动某些已分配区中的信息，把储存空间中所有的空白区合并为一个大的连续区。</p>
+<p>缺点：性能开销大，依赖DMA，间接寻址</p>
+<p><strong>程序处理流程</strong></p>
+<p>编译 - 链接 - 装入</p>
+<p><strong>程序的链接</strong></p>
+<ul>
+<li>静态链接</li>
+</ul>
+<p>用户一个工程中所需的多个程序采用静态链接的方式链接在一起。当我们希望共享库的函数代码直接链接入程序代码中，也采用静态链接方式</p>
+<ul>
+<li>动态链接</li>
+</ul>
+<p>用于链接共享库代码。当程序运行中需要某些目标模块时，才对它们进行链接，具有高效且节省内存空间的优点。但相比静态链接， 使用动态链接库的程序相对慢</p>
+<p><strong>程序装入</strong></p>
+<p>未来保证程序地址可以改变，程序运行时才把相对地址转化为绝对地址</p>
+<p>多重分区分配：一个作业往往由相对独立 的程序段和数据段组成，将这些片断分别 装入到存储空间中不同的区域内的分配方式。</p>
+<ul>
+<li>bss段 存放未初始化的全局变量</li>
+<li>data段 存放已经初始化的全局变量</li>
+<li>text段 代码段</li>
+</ul>
+<p><strong>程序链接</strong></p>
+<p>将.o文件链接在一起，形成最终的可执行文件，链接时会扫描各个文件，将之前未填写的地址田神，形成一个可执行的文件。</p>
+<p><strong>程序的装载与运行</strong></p>
+<ul>
+<li>shell调用fork系统调用</li>
+<li>创建出一个子进程</li>
+<li>子进程调用execve（）加载program</li>
+</ul>
+<p>一个segment在文件中的大小小于等于在内存中的大小</p>
+<p><strong>程序装载过程</strong></p>
+<ul>
+<li>读取ELF头部的魔数确认是ELF文件</li>
+<li>找到段表项</li>
+<li>对于每个段表项解析出各个段应对被加载到虚拟地址、在文件中的偏移，以及在内存中的大小和在文件中的大小（段在文件中的大小小于等于内存中的大小）</li>
+</ul>
+<p><strong>程序、进程和作业</strong></p>
+<ul>
+<li>程序：静止的，存放在磁盘上的可执行文件（静态概念）</li>
+<li>进程：包括程序和程序处理对象，是程序对某个数据集的执行过程，是分配资源的基本单位。进程是竞争计算机系统有限资源的基本单位。 进程更能真实地描述并发，而程序不能。每一个进程由进程控制块PCB、程序和数据集合组成。<ul>
+<li>完成操作系统功能的进程是系统进程</li>
+<li>完成用户功能的是用户进程</li>
+</ul>
+</li>
+<li>作业时计算机所做工作的集合。作业时任务实体，进程是执行实体</li>
+</ul>
+<p>一个程序可以作为多个进程的运行程序，一个进程也可以运行多个程序</p>
+<h4 id="页式储存管理"><a href="#页式储存管理" class="headerlink" title="页式储存管理"></a>页式储存管理</h4><ul>
+<li>页：把每个作业的地址空间分为一些大小相等的片成为页面或页</li>
+<li>储存块：把主存的存储空间也分成与页面相同大小的片，这些片称为存储块，或称为页框。</li>
+</ul>
+<p><strong>纯分页系统</strong></p>
+<p>不具备页面置换功能，必须把它的所有页一次装到主存的页框内；如果当时页框数不足，则该作业必须等待，系统再调度另外作业。</p>
+<p>没有外碎片，每个内碎片不超过页大小</p>
+<p>程序不必连续存放，便于改变程序占用空间大小</p>
+<p><strong>页面大小分析</strong></p>
+<ul>
+<li>大<ul>
+<li>优点：页面数减少，页表长度减少，内存减少，I/O减少</li>
+<li>缺点：内碎片增大，不利于提高内存利用率</li>
+</ul>
+</li>
+<li>小<ul>
+<li>优点：减少页内碎片和总的内存碎片，有利于提高内存利用率</li>
+<li>缺点：页面数增大，页表长度增加，内存增大，I/O增大</li>
+</ul>
+</li>
+</ul>
+<p>逻辑上相邻，物理上不一定相邻</p>
+<ul>
+<li>进程页表，每个进程都有的一个页表，描述进程占用的物理空间和逻辑排列顺序</li>
+<li>物理页面表，整个系统有一个物理页面表，描述物理内存空间的的分配使用情况</li>
+<li>请求表，整个系统有一个请求表描述系统内进程表的位置和大小</li>
+</ul>
+<p> 假定进程平均占用s个字节，页面大小是p个字节，一个页表项约占e字节 </p>
+<ul>
+<li>分页的开销为：se/p+p/2</li>
+</ul>
+<p><strong>页表机制</strong></p>
+<p>分级越多，内存空间确实使用少了，但访问时间大大增加。于是引入了MMU，组成如下</p>
+<ul>
+<li>页表Cache（TLB）</li>
+<li>页表查找单元</li>
+</ul>
+<p><img src="tlb.png" srcset="/img/loading.gif" lazyload alt="tlb"></p>
+<p>某些TLB还包括地址空间标识码（ASID）</p>
+<p>哈希页表、反置页表</p>
+<p>反置页表介绍（解决消耗大量物理内存的问题）</p>
+<ul>
+<li>按照物理页号排序，表项的内容是逻辑页号 P 及隶属进程标志符 pid</li>
+<li>大小只与物理内存的大小相关</li>
+</ul>
+<p><img src="reversepage.png" srcset="/img/loading.gif" lazyload alt="反置页表"></p>
+<p><strong>页保护</strong></p>
+<ul>
+<li>地址越界保护</li>
+<li>设置保护位（只读等）</li>
+</ul>
+<p><strong>页共享</strong></p>
+<p>分段储存管理</p>
+<h4 id="段式储存管理"><a href="#段式储存管理" class="headerlink" title="段式储存管理"></a>段式储存管理</h4><p>页式储存信息的物理单元，段是信息的逻辑单位</p>
+<p><strong>信息保护</strong></p>
+<ul>
+<li>页式管理中，一个页面中可能装有 2 个不同的子程序 段的指令代码，不能通过页面共享实现共享一个逻辑 上完整的子程序或数据块</li>
+<li>一个页面中可能装有 2 个不同的子程序 段的指令代码，不能通过页面共享实现共享一个逻辑 上完整的子程序或数据块</li>
+</ul>
+<p>逻辑地址结构：段号 + 位移量W ，但不一定是32位</p>
+<p><img src="segement.png" srcset="/img/loading.gif" lazyload alt="segement"></p>
+<p><strong>可重入代码</strong></p>
+<p>可重入代码(Reentrant Code) 又称为“纯代码”(Pure Code)，是一种 允许多个进程同时访问的代码。为使各个进程所执行的代码完全相同， 绝对不允许可重入代码在执行中有任何改变。因此，可重入代码是一 种不允许任何进程对它进行修改的代码。</p>
+<p>优点：分段系统已于实现段的共享，对段的保护也十分简单</p>
+<p>缺点：地址转换耗时，空间问题</p>
+<h4 id="段页式储存管理"><a href="#段页式储存管理" class="headerlink" title="段页式储存管理"></a>段页式储存管理</h4><p>分段和分页结合</p>
+<p>先把用户程序分为若干个段，再把每个段分为若干页</p>
+<p>格式：段号 - 段内页号 - 页内地址</p>
+<p><strong>X86的段页式地址映射</strong></p>
+<p>段映射机制，将逻辑地址映射到线性地址</p>
+<p>页映射机制，将线性地址映射到物理地址</p>
+<p><strong>X86的控制寄存器</strong></p>
+<ul>
+<li>CR0中含有控制处理器操作模式和状态的系统 控制标志；</li>
+<li>CR1保留不用</li>
+<li>CR2含有导致页错误的线性地址</li>
+<li>CR3中含有页目录表物理内存基地址（PDBR）</li>
+</ul>
+<p><strong>虚拟内存管理</strong></p>
+<ul>
+<li>覆盖（时间，时间上扩展）</li>
+</ul>
+<p>把程序执行时并不要求同时装入主存的覆盖组成一组，称其为覆盖段，这个覆盖段被分配到同一个存储区域。这个存储区域称之为覆盖区，它与覆盖段一一对应。</p>
+<ul>
+<li>交换（借用，空间上扩展）</li>
+</ul>
+<p>是把暂时不用的某个（或某些）程序及其数据的部分或全部从主存 移到辅存中去，以便腾出必要的存储空间</p>
+<p><strong>局部性原理</strong></p>
+<ul>
+<li>时间局部性</li>
+</ul>
+<p>一条指令的一次执行和下次执行，一个数据的一次访问和下次访问都集中在 一个较短时期内</p>
+<ul>
+<li>空间局部性</li>
+</ul>
+<p>即当前指令和邻近的几条指令， 当前访问的数据和邻近的数据都集中在一个较小区域内</p>
+<p><strong>虚拟内存</strong></p>
+<ul>
+<li>按需装入</li>
+<li>缺页装入</li>
+<li>不用调出</li>
+</ul>
+<p>特征</p>
+<ul>
+<li>离散性</li>
+<li>多次性</li>
+<li>对换性</li>
+<li>虚拟</li>
+</ul>
+<p>虚拟性以多次性和对换性为基础， 多次性和对换性必须以离散分配为基础</p>
+<p>优点：</p>
+<ul>
+<li>较小的内存中执行较大的用户程序</li>
+<li>容纳更多程序并发执行</li>
+</ul>
+<p>代价：牺牲CPU</p>
+<p>限制：虚拟内存的最大容量有计算机的地址结构决定（32位-4G）</p>
+<p><strong>实存与虚存</strong></p>
+<p>实存</p>
+<ul>
+<li>分区</li>
+<li>分页</li>
+<li>分段</li>
+<li>段页式</li>
+</ul>
+<p>虚存</p>
+<ul>
+<li>请求分页</li>
+<li>请求分段</li>
+<li>请求段页式</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/BUAA-Learning/" class="category-chain-item">BUAA_Learning</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9FOS/" class="print-no-link">#操作系统OS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>OS理论学习</div>
+      <div>https://fantasylee21.github.io/2024/04/17/OS理论/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Fantasylee</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年4月17日</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2024年4月17日</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/04/05/BUAA-OS-lab3/" title="BUAA_OS_lab3">
+                        <span class="hidden-mobile">BUAA_OS_lab3</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"pOzFaCObtjkExgzgyXtbzFbm-MdYXbMMI","appKey":"K7PRbHAE1lQy810Gl5gVC0Xl","path":"window.location.pathname","placeholder":"输入你的评论🤖\n","avatar":"retro","meta":["nick","mail"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
