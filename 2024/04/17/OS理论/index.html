@@ -27,8 +27,10 @@
 <meta property="og:image" content="https://fantasylee21.github.io/2024/04/17/OS%E7%90%86%E8%AE%BA/tlb.png">
 <meta property="og:image" content="https://fantasylee21.github.io/2024/04/17/OS%E7%90%86%E8%AE%BA/reversepage.png">
 <meta property="og:image" content="https://fantasylee21.github.io/2024/04/17/OS%E7%90%86%E8%AE%BA/segement.png">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/04/17/OS%E7%90%86%E8%AE%BA/pageFault.png">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/04/17/OS%E7%90%86%E8%AE%BA/stateChange.png">
 <meta property="article:published_time" content="2024-04-17T13:17:07.000Z">
-<meta property="article:modified_time" content="2024-04-17T15:04:01.895Z">
+<meta property="article:modified_time" content="2024-04-18T07:50:34.709Z">
 <meta property="article:author" content="Fantasylee">
 <meta property="article:tag" content="操作系统OS">
 <meta name="twitter:card" content="summary_large_image">
@@ -239,7 +241,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4k 字
+          6.5k 字
         
       </span>
     
@@ -250,7 +252,7 @@
         
         
         
-          34 分钟
+          55 分钟
         
       </span>
     
@@ -376,7 +378,7 @@
 </ul>
 <p><strong>系统引导</strong></p>
 <p>MBR（Master Boot Record）：磁盘的第0磁头第0磁道的第一个扇区</p>
-<p>Boot loader：操作系统内核运行前执行的一小段程序</p>
+<p>Bootloader：操作系统内核运行前执行的一小段程序</p>
 <p><strong>BootLoader</strong></p>
 <p>操作系统内核运行前的一小段程序</p>
 <h3 id="储存与管理"><a href="#储存与管理" class="headerlink" title="储存与管理"></a>储存与管理</h3><p>储存管理至少要解决分配与回收</p>
@@ -575,13 +577,13 @@
 <h4 id="段式储存管理"><a href="#段式储存管理" class="headerlink" title="段式储存管理"></a>段式储存管理</h4><p>页式储存信息的物理单元，段是信息的逻辑单位</p>
 <p><strong>信息保护</strong></p>
 <ul>
-<li>页式管理中，一个页面中可能装有 2 个不同的子程序 段的指令代码，不能通过页面共享实现共享一个逻辑 上完整的子程序或数据块</li>
-<li>一个页面中可能装有 2 个不同的子程序 段的指令代码，不能通过页面共享实现共享一个逻辑 上完整的子程序或数据块</li>
+<li>页式管理中，一个页面中可能装有 2 个不同的子程序段的指令代码，不能通过页面共享实现共享一个逻辑上完整的子程序或数据块</li>
+<li>段式管理中，可以以信息的逻辑单位进行保护。</li>
 </ul>
 <p>逻辑地址结构：段号 + 位移量W ，但不一定是32位</p>
 <p><img src="segement.png" srcset="/img/loading.gif" lazyload alt="segement"></p>
 <p><strong>可重入代码</strong></p>
-<p>可重入代码(Reentrant Code) 又称为“纯代码”(Pure Code)，是一种 允许多个进程同时访问的代码。为使各个进程所执行的代码完全相同， 绝对不允许可重入代码在执行中有任何改变。因此，可重入代码是一 种不允许任何进程对它进行修改的代码。</p>
+<p>可重入代码(Reentrant Code) 又称为“纯代码”(Pure Code)，是一种允许多个进程同时访问的代码。为使各个进程所执行的代码完全相同， 绝对不允许可重入代码在执行中有任何改变。因此，可重入代码是一 种不允许任何进程对它进行修改的代码。</p>
 <p>优点：分段系统已于实现段的共享，对段的保护也十分简单</p>
 <p>缺点：地址转换耗时，空间问题</p>
 <h4 id="段页式储存管理"><a href="#段页式储存管理" class="headerlink" title="段页式储存管理"></a>段页式储存管理</h4><p>分段和分页结合</p>
@@ -650,6 +652,236 @@
 <li>请求分段</li>
 <li>请求段页式</li>
 </ul>
+<p><strong>请求式分页</strong></p>
+<p>虚拟存储系统：控制自动页面交换而用户页面意识不到的那个机构</p>
+<p>进程的虚拟地址空间为进程在内存中存放的逻辑视图，因此一个进程的虚拟地址空间的大小和该进程的虚拟储存空间相同。（从0开始的编址的虚拟储存空间又称虚拟内存空间）</p>
+<p>调入问题</p>
+<ul>
+<li><p>什么程序和数据调入</p>
+<ul>
+<li>OS的核心部分的程序和数据</li>
+<li>正在运行的用户程序相关的程序和数据</li>
+</ul>
+</li>
+<li><p>何时调入</p>
+<ul>
+<li><p>OS系统启动时调入</p>
+</li>
+<li><p>用户程序调用取决与策略</p>
+<ul>
+<li>预调页（pre-paging）</li>
+</ul>
+<p>预调页同时 将所需要的所有页一起调入内存，从而阻止 了大量的页错误</p>
+<ul>
+<li>按需调页</li>
+</ul>
+<p>当且仅当需要某页时才将该页调入内存的技术称为按需调页，使用懒惰交换（lazy swapper），按需调页需要使用备份存储，保存不在内存中的 页，通常为快速磁盘，用于和内存交换页的部分空间称为交换空间</p>
+</li>
+</ul>
+</li>
+<li><p>如何调入</p>
+<ul>
+<li>缺页错误处理机制</li>
+</ul>
+</li>
+</ul>
+<p><strong>缺页错误处理机制</strong></p>
+<p><img src="pageFault.png" srcset="/img/loading.gif" lazyload alt="pageFault"></p>
+<p>处理过程</p>
+<ul>
+<li>陷入内核，保护现场</li>
+<li>查找页面</li>
+<li>权限检查，发生保护错误则杀死进程</li>
+<li>查找空闲页框，如果没有则需要通过页面置换算法找到一个需要换出的页框</li>
+<li>如果找到页框被修改了，则需要将修改的内容保护到磁盘上</li>
+<li>页面干净后，操作系统将保存在磁盘上的页面内容复制到该页框</li>
+<li>当磁盘中的页面内容全部装入页框后，向操作系统发送一个中断。操作系统更新内存中的页表项，将虚拟页面映射的页框号更新为写入的页框，并将页框标记为正常状态。（更新页表）</li>
+<li>恢复进程</li>
+<li>继续执行</li>
+</ul>
+<p><strong>页面置换策略</strong></p>
+<ul>
+<li>最优置换（OPT算法）</li>
+</ul>
+<p>置换未来最久不被使用的，最完美但是不现实</p>
+<ul>
+<li>先进先出（FIFO）</li>
+</ul>
+<p>性能较差，会出现Belady现象</p>
+<p>FIFO算法的置换特征与进程访问内存的动态特征是矛盾的</p>
+<ul>
+<li>改进FIFO（Second Chance）</li>
+</ul>
+<p>每个页面增加一个访问位，A是FIFO队列中最旧的页面，且其放入队列后没有被再次访问，则A被立刻淘汰否则如果放入队列后被访问过，则将A移到FIFO队列头，并且将访问标志位清除。如果所有的页面都被访问过，则经过一次循环后就会按照FIFO的原则淘汰。</p>
+<ul>
+<li>改进FIFO（Clock），最近未使用算法</li>
+</ul>
+<p>使用环形队列</p>
+<p>产生缺页错误时，当前指针指向C，如果C被访问过，则清除C的访问标志，并将指针指向D；如果C没有被访问过，则将新页面放入到C的位置，置访问标志， 并将指针指向D</p>
+<ul>
+<li>最近最少使用（LRU）</li>
+</ul>
+<p>性能接近最优算法，设置一个特殊的栈，保存当前使用的各个页面的页面号。每当进程访问某页面时，便将该页面的页面号从栈中移出，将它压入栈顶。栈底始终是最近最久未使用页面的页面号</p>
+<ul>
+<li>老化算法（AGING）</li>
+</ul>
+<p>为每个页面设置一个移位寄存器，并设置一位访问位R， 每隔一段时间，所有寄存器右移1位，并将R值从左移入。</p>
+<p><strong>Belady现象</strong></p>
+<p>分配的页面增多，缺页率反而提高的现象</p>
+<p>进程的工作集：当前正在使用的页面集合</p>
+<p>进程的驻留集：虚拟存储系统中，每个进程驻留在内存的页面集合或进程分到的物理页框集合</p>
+<p><strong>抖动</strong></p>
+<p>随着驻留内存的进程数目增加，或者说进程并发水平的上升，处理器利用率先是上升，然后下降。(常驻集减少，缺页率增加，频繁调页)</p>
+<p><strong>写时复制（copy-on-write）</strong></p>
+<p>资源的复制只有在需要写入的时候才进行。</p>
+<p><strong>自映射</strong>！！！</p>
+<p>详见作业3类似于不动点</p>
+<h3 id="进程与并发程序"><a href="#进程与并发程序" class="headerlink" title="进程与并发程序"></a>进程与并发程序</h3><p><strong>并发与并行</strong></p>
+<p>并发：直要都在各自起点与重点之间就是并发执行，程序的并发执行是指若干个程序（或程序段） 同时在系统中运行，这些程序（或程序段）的 执行在时间上是重叠的。</p>
+<p>并行：两程序在同一时间量度下同时运行在不同的处理机上，则称这两个程序是并行执行的</p>
+<p>并发可能是伪并行</p>
+<p>顺序执行</p>
+<ul>
+<li>顺序性</li>
+<li>封闭性</li>
+<li>可再现性</li>
+</ul>
+<p>并发执行</p>
+<ul>
+<li>间断性</li>
+<li>非封闭性</li>
+<li>不可再现性</li>
+</ul>
+<p><strong>Bernstein条件</strong></p>
+<p>以下条件同时成立时，S1与S2可并发</p>
+<ul>
+<li>$R(S1) \cap W(S2) = \emptyset$</li>
+<li>$W(S1) \cap R(S2) = \emptyset$</li>
+<li>$W(S1) \cap W(S2) = \emptyset$</li>
+</ul>
+<p><strong>进程</strong></p>
+<p>进程是程序的一次执行</p>
+<ul>
+<li>动态性</li>
+<li>并发性</li>
+<li>独立性</li>
+<li>异步性（进程之间相互制约）</li>
+</ul>
+<p>结构特征：程序段、数据段、进程控制块（PCB）</p>
+<p><strong>进程控制</strong></p>
+<p>主要任务：创建和撤销进程，实现进程的状态转化（内核实现）</p>
+<p>进程控制实现：原语（由若干条指令所组成的指令序列，来 实现某个特定的操作功能）</p>
+<ul>
+<li>指令序列执行是连续的不可分割</li>
+<li>操作系统核心组成部分</li>
+<li>必须在管态执行，且常驻内存</li>
+</ul>
+<p><strong>Fork（）函数</strong></p>
+<p>在fork函数执行完毕后，如果创建新进程成功，则出 现两个进程，一个是子进程，一个是父进程。在子进 程中，fork函数返回0，在父进程中，fork返回新创建 子进程的进程ID。我们可以通过fork返回的值来判断 当前进程是子进程还是父进程。</p>
+<p>fork被调用一次，但返回两次</p>
+<p><strong>进程的状态</strong></p>
+<ul>
+<li>就绪：等待分配处理机资源</li>
+<li>执行：占用处理机资源</li>
+<li>阻塞：放弃处理机处于暂停状态</li>
+</ul>
+<p><img src="stateChange.png" srcset="/img/loading.gif" lazyload alt="stateChange"></p>
+<p>运行 $\rightarrow$ 就绪</p>
+<ul>
+<li>运行进程用完时间片</li>
+<li>运行进程被中断，因为一高优先级进程处于就绪状态</li>
+</ul>
+<p>运行 $\rightarrow$ 阻塞</p>
+<ul>
+<li>进程所需资源必须等待</li>
+<li>OS尚未完成服务</li>
+<li>对一资源访问不能进行</li>
+<li>初始化I/O必须等待</li>
+<li>等待某一进程提供输出</li>
+</ul>
+<p><strong>线程</strong></p>
+<p>进程包括了两个概念：资源拥有者和可执行单元</p>
+<p>资源拥有者为进程，可执行单元为线程</p>
+<p>线程：将资源与计算分离，提高并发效率</p>
+<ul>
+<li>减小线程切换开销</li>
+<li>提高进程内的并发程度</li>
+<li>共享资源</li>
+</ul>
+<p>线程是进程中的一个实体，是一个CPU调度和分配的单元</p>
+<p>容易创建和撤销</p>
+<p>一个进程可以拥有多个线程，而一个线程同时只能被一 个进程所拥有</p>
+<p>进程是资源分配的基本单位，线程是处理机调度的基本单位</p>
+<p><strong>线程安全</strong></p>
+<p>多个线程调用同一个对象的行为都可以获得正确的结果</p>
+<p>可重入不一定线程安全，线程安全不一定可重入</p>
+<p><strong>Linux下的线程创建</strong></p>
+<p>fork用于创建普通进程，clone可用于创建线程</p>
+<p>fork和clone都调用do_fork函数执行创建进程的操作</p>
+<p><strong>用户级线程</strong></p>
+<ul>
+<li>线程切换与内核无关，易优化，例子：java threads，但是易阻塞</li>
+</ul>
+<p><strong>内核级线程</strong></p>
+<ul>
+<li>内核级线程就是kernel有 好几个分身,一个分身可 以处理一件事</li>
+<li>内核可以在多个处理器上调度一个进程的多个线程实现同步并执行，但切换过程会降低效率</li>
+</ul>
+<p><strong>线程模型</strong></p>
+<ul>
+<li>Many-to-One </li>
+</ul>
+<p>将多个用户级线程映射到一个内核级线程，线程管理在用户空间完成。线程管理在用户空间进行，效率较高，但某个线程在使用内核服务被阻塞时i，整个进程都会被阻塞</p>
+<ul>
+<li>One-to-One</li>
+</ul>
+<p>将每个用户级线程映射到一个内核级线程。并发能力抢，但创建线程开销大，没创建一个内核级线程都需要创建一个内核级线程与其对应</p>
+<ul>
+<li>Many-to-Many</li>
+</ul>
+<p>将 n 个用户级线程映射到 m 个内核级线程上，要求 m &lt;= n。</p>
+<p><strong>临界资源与临界区</strong></p>
+<p>临界资源：一次仅允许一个线程访问的资源称为临界资源</p>
+<p>临界区：每个进程中访问临界资源的那段代码</p>
+<p><strong>互斥与同步</strong></p>
+<ul>
+<li>进程互斥，间接制约关系，访问是无序访问，两个或两个以上的进程，不能同时进入关于同一组共享变量的临界区域</li>
+<li>进程同步，直接制约关系，通过机制实现有序访问</li>
+</ul>
+<p><strong>互斥区管理条件</strong></p>
+<ul>
+<li>没有进程在临界区是，想进入临界区的进程可以进入</li>
+<li>任何两个进程不能同时进入临界区</li>
+<li>当一个进程在它的临界区外面外面时，不能妨碍其他进程进入临界区</li>
+<li>任何一个进程进入临界区的要求应该在有限的时间内得到满足</li>
+</ul>
+<p><strong>设计原则</strong></p>
+<ul>
+<li>空闲让进</li>
+<li>忙则等待</li>
+<li>有限等待</li>
+<li>让权等待</li>
+</ul>
+<p><strong>面包店算法</strong></p>
+<p>设置一个发号器，按由小到大的次序发放号码。进程进入临界区前先抓取一个号码，然后按号码从小到大的次序依次进入临界区。若多个进程抓到相同的号码则按进程编号依次进入</p>
+<p><strong>硬件方案</strong></p>
+<ul>
+<li>中断屏蔽</li>
+</ul>
+<p>使用“开关中断”，简单但不适用于多CPU系统，可能会造成很大的性能损失</p>
+<ul>
+<li>test and set指令</li>
+</ul>
+<p>在多进程可同时 存取内存的情况下，如果一个进程正在执行检查并设置， 在它执行完成前，其它的进程不可以执行检查并设置</p>
+<ul>
+<li>swap指令</li>
+</ul>
+<p>和ts类似会循环交换两个变量</p>
+<p><strong>以上软硬件方案共性问题</strong></p>
+<ul>
+<li>忙等待：浪费CPU</li>
+<li>优先级反转：低优先级进程先进入临界区，高优先级进程一直忙等</li>
+</ul>
 
                 
               </div>
@@ -714,7 +946,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2024年4月17日</div>
+          <div>2024年4月18日</div>
         </div>
       
       
@@ -850,6 +1082,12 @@
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -1039,6 +1277,49 @@
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 
