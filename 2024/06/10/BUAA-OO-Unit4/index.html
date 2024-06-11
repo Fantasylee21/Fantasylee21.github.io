@@ -1,0 +1,791 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon.png">
+  <link rel="icon" href="/img/icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Fantasylee">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="BUAA_OO_第四单元总结前言首先，祝贺2206全体同学顺利完成COOOOS！！！正值高考结束，感触良多。 本单元作业是模拟一个图书馆管理系统，代码难度较低，主要是训练我们的建模架构能力，并运用好UML工具帮助我们更好的理解题目需求。 本单元架构分析类图 状态图 架构分析个人认为本次作业的架构还是十分满意的，基本可以满足“高内聚、低耦合”的要求。 本单元作业，根据书籍存放的位置，我对应建立Boo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BUAA_OO_Unit4">
+<meta property="og:url" content="https://fantasylee21.github.io/2024/06/10/BUAA-OO-Unit4/index.html">
+<meta property="og:site_name" content="Fantasylee&#39;s Blog">
+<meta property="og:description" content="BUAA_OO_第四单元总结前言首先，祝贺2206全体同学顺利完成COOOOS！！！正值高考结束，感触良多。 本单元作业是模拟一个图书馆管理系统，代码难度较低，主要是训练我们的建模架构能力，并运用好UML工具帮助我们更好的理解题目需求。 本单元架构分析类图 状态图 架构分析个人认为本次作业的架构还是十分满意的，基本可以满足“高内聚、低耦合”的要求。 本单元作业，根据书籍存放的位置，我对应建立Boo">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/06/10/BUAA-OO-Unit4/uml.png">
+<meta property="og:image" content="https://fantasylee21.github.io/2024/06/10/BUAA-OO-Unit4/state.png">
+<meta property="article:published_time" content="2024-06-10T15:04:30.000Z">
+<meta property="article:modified_time" content="2024-06-11T03:50:11.166Z">
+<meta property="article:author" content="Fantasylee">
+<meta property="article:tag" content="面向对象OO">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://fantasylee21.github.io/2024/06/10/BUAA-OO-Unit4/uml.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>BUAA_OO_Unit4 - Fantasylee&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"fantasylee21.github.io","root":"/","version":"1.9.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fantasylee&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="BUAA_OO_Unit4"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-06-10 23:04" pubdate>
+          2024年6月10日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">BUAA_OO_Unit4</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="BUAA-OO-第四单元总结"><a href="#BUAA-OO-第四单元总结" class="headerlink" title="BUAA_OO_第四单元总结"></a>BUAA_OO_第四单元总结</h1><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>首先，祝贺2206全体同学顺利完成COOOOS！！！正值高考结束，感触良多。</p>
+<p>本单元作业是模拟一个图书馆管理系统，代码难度较低，主要是训练我们的建模架构能力，并运用好UML工具帮助我们更好的理解题目需求。</p>
+<h3 id="本单元架构分析"><a href="#本单元架构分析" class="headerlink" title="本单元架构分析"></a>本单元架构分析</h3><h4 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h4><p><img src="uml.png" srcset="/img/loading.gif" lazyload alt="uml"></p>
+<h4 id="状态图"><a href="#状态图" class="headerlink" title="状态图"></a>状态图</h4><p><img src="state.png" srcset="/img/loading.gif" lazyload alt="state"></p>
+<h4 id="架构分析"><a href="#架构分析" class="headerlink" title="架构分析"></a>架构分析</h4><p>个人认为本次作业的架构还是十分满意的，基本可以满足“高内聚、低耦合”的要求。</p>
+<p>本单元作业，根据书籍存放的位置，我对应建立<code>Bookshelf</code>、<code>User</code>、<code>BorrowAndReturnedOffice</code>、<code>AppointmentOffice</code>、<code>BookDriftOffice</code>这个五个类，并在内部使用HashMap存放对应书籍,虽然都是HashMap，但是由于各部分负责内容不同，所以具体上还是存在一定差异，例如，在AppointmentOffice中，我采用<code>HashMap&lt;LibraryBookId, HashMap&lt;String, Integer&gt;&gt; appointedBooks</code>，这样就可以记录这么书为谁保留、还剩几天。在User类中，我采用<code>HashMap&lt;LibraryBookId, LocalDate&gt; books</code>的结构，这样可以记录用户借阅的书籍还有几天截止。这五个类中方法大致相同，基本都是是否存在某本书、增加书、删除书，在第三次作业时，在User类中增加了信誉分以及涉及信誉分的查询、是否允许借阅操作。</p>
+<p>此外，我在<code>Library</code>类中实例化了上述几个类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Bookshelf bs;<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> BorrowAndReturnOffice bro;<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> AppointmentOffice ao;<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> BookDriftCorner bdc;<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> HashMap&lt;String, User&gt; users;<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> ArrayList&lt;LibraryReqCmd&gt; orderRequests;<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> List&lt;LibraryMoveInfo&gt; info;<br><span class="hljs-keyword">private</span> LocalDate date;<br></code></pre></td></tr></table></figure>
+<p>具体操作方面，我将各种操作写成方法函数，这样每种操作都只对于一个方法:<code>returnBook(request)</code>、<code>borrowBook(request)</code>、<code>queryBook(request)</code>、<code>orderBook(request)</code>，<code>pickBook(request)</code>、<code>renewedBook(request)</code>、<code>donateBook(request)</code>、，并使用一个switch函数，根据操作类型判断使用哪个函数 。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">solveRequest</span><span class="hljs-params">(LibraryReqCmd request)</span> &#123;<br>        <span class="hljs-keyword">switch</span> (request.getType()) &#123;<br>            <span class="hljs-keyword">case</span> RETURNED:<br>                returnBook(request);<br>                <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">case</span> BORROWED:<br>                borrowBook(request);<br>                <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">case</span> QUERIED:<br>                queryBook(request);<br>                <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">case</span> ORDERED:<br>                orderBook(request);<br>                <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">case</span> PICKED:<br>                pickBook(request);<br>                <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">case</span> RENEWED:<br>                renewedBook(request);<br>                <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">case</span> DONATED:<br>                donateBook(request);<br>                <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">default</span>:<br>                <span class="hljs-keyword">break</span>;<br>        &#125;<br>    &#125;<br></code></pre></td></tr></table></figure>
+<h3 id="正向建模和开发"><a href="#正向建模和开发" class="headerlink" title="正向建模和开发"></a>正向建模和开发</h3><p>正向建模和开发是指从需求出发,通过分析、设计和实现的过程,最终生成满足需求的软件产品。这种方法强调从上到下的思路,先定义需求,然后进行设计和开发。</p>
+<p>本单元其实相对考察正向建模能力的是第一次作业，在第一次作业中，我先是在草稿纸上有了大致的UML图后就开始写代码了，在写完代码后才进行具体的UML图的绘制，后两次作业中，主要都是在对应类中增加方法，和正向建模关系不大，但是这些都是建立在第一次作业的基础上，我在第一次作业时也考虑了后续用户不只学生，可能还包括老师、外校学生等，所以命名没有和官方包一致，有老师、外校学生等用户时直接采用继承。可以说，没有第一次的合理建模，就没有二三次作业的顺利完成。</p>
+<h3 id="四个单元中架构设计思维的演进"><a href="#四个单元中架构设计思维的演进" class="headerlink" title="四个单元中架构设计思维的演进"></a>四个单元中架构设计思维的演进</h3><ul>
+<li>U1中，我学习了层次化的设计，初识词法解析，学习过程举步维艰，更别谈架构，第一次作业主要参考了学长们的架构，一边写一边改进自己的架构，虽然这并不是一个比较好的思路，但对于一个新手来说，这是理解题目和提高自己能力的最好方式，但是最后总体架构较为理想，有了第一次作业的基础，二三次作业的迭代显得没那么困难了。</li>
+<li>U2中，我学习了多线程程序设计，多线程程序设计会产生非常多奇怪的bug，所以我个人认为第二次作业中，体现在架构中最重要的是时序逻辑的设计，本单元中我还是同第一单元相同，一边写一边改进自己的架构，比起一步到达一个比较理想的架构，或许，重构的过程才是学习架构分析最重要的步骤。</li>
+<li>U3中，我学习了JML语言，说实话，这个单元我打心底不太喜欢，或许让我们完成JML语言的书写意义更大，对着JML书写，完全失去了架构设计的学习，我知道针对某一特点函数写出一个效率较好的方法即可，甚至不需要了解题目要求</li>
+<li>U4中，我学习了UML类图、状态图、顺序图的绘制，不得不说，提前做好这些的大致草稿，再写起代码来可以说如有神助，也是这一单元，让我加深了好的架构设计的优越性，二三次作业每次只有一两百行代码的增加。</li>
+</ul>
+<p>完成四个单元的作业后，我开始反思，为什么课程组一再强调架构设计，再看这么课程的名字“面向对象设计与构造”，而不是叫“Java程序设计”，或许这门课用什么语言都无所谓,可以指java,也可以是C++，因为重点始终是如何让我在“面向对象”中达到设计与构造。</p>
+<h3 id="四个单元中测试思维的演进"><a href="#四个单元中测试思维的演进" class="headerlink" title="四个单元中测试思维的演进"></a>四个单元中测试思维的演进</h3><p>我不是一个擅长做全面测试的人，或者说我的测试更偏向于代码没有什么bug让自己心安的一种方式，由于一般完成作业较晚，所以中测数据就成了一个比较重要的部分，此外，针对个人代码，我会捏造一些奇怪的数据。此外测试过程中我也比较偏向于黑盒测试，相对单元测试，构造测试耗费的时间确实比较少，但是覆盖的范围和数据的有效性直接挂钩。</p>
+<ul>
+<li>U1中，数据构造比较简单，随机生成和结果检查都十分简单，评测构造不难，但是貌似意义不大，因为大家都问题基本都集中在效率上，所以还是人造点更靠谱。</li>
+<li>U2中，使用随机策略+多线程，简直是debug的噩梦，bug定位也十分困难。</li>
+<li>U3、U4，bug定位简单问题也主要集中在CPU超时上</li>
+</ul>
+<p>每一单元我的测试大致流程大致如下：</p>
+<ul>
+<li>利用样例和中测数据完成测试</li>
+<li>利用随机生成数据简单轰炸</li>
+<li>和他人手搓恶心数据，用于自己也用于他人（互测）</li>
+</ul>
+<h3 id="课程收获"><a href="#课程收获" class="headerlink" title="课程收获"></a>课程收获</h3><p>八次实验、十六次作业，首先，OO对代码能力的提升是巨大，其次，OO带我们打开了大规模代码架构的大门，或许，OO作业规模的代码不足以体现出架构设计的优越性，但我相信这么课带给我们的在今后的日子里一定会闪着它的光芒。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/BUAA-Learning/" class="category-chain-item">BUAA_Learning</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1OO/" class="print-no-link">#面向对象OO</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>BUAA_OO_Unit4</div>
+      <div>https://fantasylee21.github.io/2024/06/10/BUAA-OO-Unit4/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Fantasylee</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年6月10日</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2024年6月11日</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/05/29/BUAA-OS-lab6/" title="BUAA_OS_lab6">
+                        <span class="hidden-mobile">BUAA_OS_lab6</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"pOzFaCObtjkExgzgyXtbzFbm-MdYXbMMI","appKey":"K7PRbHAE1lQy810Gl5gVC0Xl","path":"window.location.pathname","placeholder":"输入你的评论🤖\n","avatar":"retro","meta":["nick","mail"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
