@@ -1,0 +1,983 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon.png">
+  <link rel="icon" href="/img/icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Fantasylee">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前端学习记录Es6学习let  let声明变量，没有变量提升 是一个作用块域 不可以重复声明  const 不可重复声明 模板字符串 使用&#96;,插入变量$(变量) 带默认值的函数 a &#x3D; a || 10 剩余参数 123function pick(obj,...keys) &#123;&#125; 扩展运算符——... 将数组分割，将各个项作为分离参数传给函数 12const arr &#x3D; [10,2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端学习记录">
+<meta property="og:url" content="https://fantasylee21.github.io/2024/07/11/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:site_name" content="Fantasylee&#39;s Blog">
+<meta property="og:description" content="前端学习记录Es6学习let  let声明变量，没有变量提升 是一个作用块域 不可以重复声明  const 不可重复声明 模板字符串 使用&#96;,插入变量$(变量) 带默认值的函数 a &#x3D; a || 10 剩余参数 123function pick(obj,...keys) &#123;&#125; 扩展运算符——... 将数组分割，将各个项作为分离参数传给函数 12const arr &#x3D; [10,2">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-07-11T14:28:01.000Z">
+<meta property="article:modified_time" content="2024-07-14T10:51:37.364Z">
+<meta property="article:author" content="Fantasylee">
+<meta property="article:tag" content="前端">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>前端学习记录 - Fantasylee&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"fantasylee21.github.io","root":"/","version":"1.9.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fantasylee&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="前端学习记录"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-11 22:28" pubdate>
+          2024年7月11日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">前端学习记录</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="前端学习记录"><a href="#前端学习记录" class="headerlink" title="前端学习记录"></a>前端学习记录</h1><h3 id="Es6学习"><a href="#Es6学习" class="headerlink" title="Es6学习"></a>Es6学习</h3><p><strong>let</strong></p>
+<ol>
+<li>let声明变量，没有变量提升</li>
+<li>是一个作用块域</li>
+<li>不可以重复声明</li>
+</ol>
+<p><strong>const</strong></p>
+<p>不可重复声明</p>
+<p><strong>模板字符串</strong></p>
+<p>使用`,插入变量$(变量)</p>
+<p><strong>带默认值的函数</strong></p>
+<p>a = a || 10</p>
+<p><strong>剩余参数</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">pick</span>(<span class="hljs-params">obj,...keys</span>) &#123;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>扩展运算符——<code>...</code></strong></p>
+<p>将数组分割，将各个项作为分离参数传给函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> arr = [<span class="hljs-number">10</span>,<span class="hljs-number">20</span>,<span class="hljs-number">30</span>]<br><span class="hljs-title class_">Math</span>.<span class="hljs-title function_">max</span>(...arr)<br></code></pre></td></tr></table></figure>
+<p><strong>箭头函数</strong></p>
+<p>使用<code>=&gt;</code>定义function(){} 等于()=&gt;{}</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> <span class="hljs-title function_">add</span> = (<span class="hljs-params">a,b</span>)=&gt;&#123;<br>	<span class="hljs-keyword">return</span> a + b;<br>&#125;<br><br><span class="hljs-keyword">let</span> <span class="hljs-title function_">add</span> = val =&gt;val; <span class="hljs-comment">// 返回val</span><br></code></pre></td></tr></table></figure>
+<p>没有内部指向，内部this的值只能通过查找作用域链，一旦使用箭头函数，当前就不存在作用域</p>
+<p>function函数也是一个对象，但箭头函数不是一个对象，实际是一个语法糖</p>
+<p><strong>结构赋值</strong></p>
+<p>针对代码和对象进行操作</p>
+<p><code>let &#123;type, name &#125; = node</code></p>
+<p>可以不完全结构，忽略某些属性，但必须变量名和内部相同</p>
+<p>可以使用剩余运算符</p>
+<p><strong>扩展的对象功能</strong></p>
+<ul>
+<li><p>is() ，和 ===相同，严格相同</p>
+</li>
+<li><p>assign，对象合并</p>
+<ul>
+<li>let o = Object.assign(target, obj1, obj2….)，将对象的属性合并到target并返回，但注意这里是浅拷贝</li>
+</ul>
+</li>
+</ul>
+<p><strong>Symbol数据类型</strong></p>
+<p>表示对是独一无二的值，用于定义对象的私有变量 </p>
+<p>使用Symbol中对象取值时一定要用变量名作为对象的key</p>
+<p> <strong>集合set</strong></p>
+<p>和java很像！！！</p>
+<p>set中的对象无法没释放</p>
+<p>obj = null</p>
+<p>weakset</p>
+<ul>
+<li>不可传入非对象类型参数</li>
+<li>不可迭代</li>
+<li>没有foreach（）</li>
+<li>没有size属性</li>
+</ul>
+<p><strong>数组转换</strong></p>
+<ul>
+<li>from——let arr = Array.from(arguments)</li>
+<li>of()——将任意的数据类型转换为数组</li>
+<li>copywithin()——复制数组内部元素赋值到其他位置</li>
+<li>find(),findIndex()</li>
+</ul>
+<p><strong>生成器</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><br><span class="hljs-keyword">function</span>* <span class="hljs-title function_">func</span>(<span class="hljs-params">a</span>) &#123;<br>	<span class="hljs-keyword">yield</span> a;<span class="hljs-comment">//挂起函数，使用next恢复执行</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>有点类似于同步化操作</p>
+<p><strong>promise</strong></p>
+<p>相当于一个保存未来才会结束事件的容器</p>
+<ul>
+<li>对象状态不受外界影响，处理异步操作的三个状态<ul>
+<li>Pending（进行）Resolved（成功） Rejected（失败）</li>
+</ul>
+</li>
+</ul>
+<p><strong>then</strong></p>
+<ul>
+<li>第一个参数时resolve回调函数，第二个参数可选，时reject的状态回调函数</li>
+<li>then返回一个promise实例，可以采用链式编程</li>
+</ul>
+<p><strong>resolve</strong></p>
+<p>可以将现有对象转换为promise对象</p>
+<p><strong>race</strong></p>
+<p>设置超时时间并在超时后执行相应操作</p>
+<p><strong>async（是Generator的语法糖）</strong></p>
+<p>返回一个Promise对象，内部使用await</p>
+<p>await的作用之一就是获取后面Promise对象成功状态传递出来的参数传给 then 函数。</p>
+<p>then中如果有多个await则then会等待全部await</p>
+<p>遇到错误就不往下执行了只能使用try和catch解决</p>
+<p><strong>模块化编程</strong></p>
+<p>export和import</p>
+<h3 id="Vue框架学习"><a href="#Vue框架学习" class="headerlink" title="Vue框架学习"></a>Vue框架学习</h3><ul>
+<li>选项式API</li>
+<li>组合式API</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">cd</span> &lt;your-project-name&gt;</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash">npm install</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash">npm run dev</span><br></code></pre></td></tr></table></figure>
+<p><strong>文本插值</strong></p>
+<p>Mustache语法——双大括号语法</p>
+<p>但是必须插入可以求值的结果</p>
+<p>使用原始html必须用v-html</p>
+<p><strong>属性绑定</strong></p>
+<p>通过<code>v-bind:</code>给其绑定上某些属性——使其上下保持一致</p>
+<p>可以简写为<code>:</code></p>
+<ul>
+<li>动态绑定多个值——<code>v-bind =</code></li>
+</ul>
+<p><strong>条件渲染</strong></p>
+<ul>
+<li>v-if ：返回真值时才会渲染</li>
+<li>v-else ：结合上面</li>
+<li>v-else-if ：结合上面</li>
+<li>v-show：和if类似，但是v-if是惰性的，v-show有着更高的初始渲染开销</li>
+</ul>
+<p><strong>列表渲染</strong></p>
+<ul>
+<li><p>v-for基于一个数组来渲染一个列表</p>
+<ul>
+<li>需要写成<code>v-for = item in xxx</code>或者<code>v-for = item of xxx</code>的形式</li>
+</ul>
+</li>
+<li><p>网络请求一般都是json文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs vue">//json文件<br>result:[<br>	&#123;<br>		&quot;id&quot;:12<br>		&quot;title&quot;:&quot;dass&quot;<br>		&quot;avator&quot;:&quot;https://dsaf&quot;<br>	&#125;<br>]<br><br>//.vue文件<br>&lt;div v-for= &quot;(item, index) in result&quot;&gt;<br>&lt;img :src = &quot;item.avator&quot;&gt;<br>&lt;/div&gt;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>遍历对象：v-for = “(value, key, index) of obj”，别改顺序</p>
+</li>
+</ul>
+<p><strong>通过key索引</strong></p>
+<p>推荐使用<code>key = &quot;item.id&quot;</code>进行索引而不是index</p>
+<p><strong>事件处理器</strong></p>
+<ul>
+<li>内联事件——简单场景</li>
+</ul>
+<p>v-on添加事件处理器，如下例子</p>
+<p><code>&lt;button v-on:click = &quot;count++&quot;&gt; ADD &lt;/botton&gt;</code></p>
+<p><code>&lt;button @click = &quot;count++&quot;&gt; ADD &lt;/botton&gt;</code></p>
+<ul>
+<li>方法事件</li>
+</ul>
+<p><code>&lt;button @click = &quot;addCount</code>“&gt; ADD &lt;/botton&gt;`</p>
+<p>在default中增加methods下的addCount()</p>
+<p><strong>事件参数</strong></p>
+<p>事件可以直接在方法中传参 ，需要传递event时需要使用<code>$event</code></p>
+<p><strong>事件修饰符</strong></p>
+<p>也可以在函数中执行</p>
+<ul>
+<li>@click.prevent()</li>
+<li>@click.stopPropagation()阻止事件冒泡</li>
+</ul>
+<p><strong>数组变更与替换</strong></p>
+<ul>
+<li>变更——会引UI变化</li>
+<li>更新——不会引起UI变化，但是可以通过重新赋值解决<ul>
+<li>filter()</li>
+<li>concat()</li>
+<li>slice()</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vue">this.name = this.names.concat([&quot;sakaru&quot;]);<br></code></pre></td></tr></table></figure>
+<p><strong>计算属性</strong></p>
+<p>优化下面的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vue">&lt;p&gt;&#123;&#123;content.length &gt; 0 ? &quot;yes&quot; : &quot;No&quot;&#125;&#125;&lt;/p&gt;<br></code></pre></td></tr></table></figure>
+<p>计算属性：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs vue">computed:&#123;<br>        func() &#123;<br>        return this.content.length &gt; 0 ? &quot;yes&quot; : &quot;No&quot;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>和方法很类似，但是计算属性会基于其响应式被缓存</p>
+<p><strong>Class绑定</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs vue">&lt;p :class = &quot;&#123;&#x27;active&#x27; : isActive,&#x27;text-danger&#x27;:hasError&#125;&quot;&gt;class样式绑定&lt;/p&gt;<br><br>//修饰<br>.active&#123;<br>	font-size: 30px;<br>&#125;<br><br>.text-danger&#123;<br>	color:red;<br>&#125;<br><br>//绑定对象<br>&lt;p :class = &quot;classObj&quot;&gt;class样式绑定&lt;/p&gt;<br><br>//也可以绑定数组<br></code></pre></td></tr></table></figure>
+<p>数组和对象嵌套只能是数组嵌套对象</p>
+<p><strong>style绑定</strong></p>
+<p>和class绑定类似 </p>
+<p><strong>监听</strong></p>
+<p>在default中添加watch</p>
+<p>watch的方法名要与data中相同</p>
+<figure class="highlight wren"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs wren"><span class="hljs-variable">watch</span>: &#123;<br>	<span class="hljs-title function_">message</span>(<span class="hljs-params">newValue</span>, <span class="hljs-params">oldValue</span>) &#123;<br>		<span class="hljs-comment">//数据发生变化自动执行的函数</span><br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>表单输入绑定</strong></p>
+<p>v-model = “message”不断读取输入表单</p>
+<ul>
+<li>.lazy</li>
+<li>.number</li>
+<li>.trim</li>
+</ul>
+<p><strong>模板引用</strong></p>
+<p>通过<code>this.$ref.item.value</code>获取DOM</p>
+<p><strong>组件学习</strong></p>
+<p>先引入组件——注入组件—— 显示组件</p>
+<p>scoped限制作用域在当前组件</p>
+<p><strong>全局注册</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js">app.<span class="hljs-title function_">component</span>(<span class="hljs-string">&quot;Header&quot;</span>,<span class="hljs-title class_">Header</span>)<br><br>app.<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#x27;#app&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p>但是较为臃肿</p>
+<p><strong>组件传递数据</strong></p>
+<p>组件之间是可以通过<code>props</code>传递数据的</p>
+<p>props和data同级</p>
+<p>但是只能从父级传递到子集</p>
+<p>可以传递任何形式的数据</p>
+<p>可以校验</p>
+<blockquote>
+<p>警告：pros是只读的</p>
+</blockquote>
+<p><strong>组件事件</strong></p>
+<p>使用<code>$emit</code>方法触发事件传递</p>
+<p>综上：</p>
+<ul>
+<li>父传子（props）</li>
+<li>子传父（$emit）</li>
+</ul>
+<p>函数方法也可以子传父</p>
+<p><strong>插槽slots</strong></p>
+<p>组件之中添加各种东西</p>
+<p><code>&lt;slot&gt; &lt;\slot&gt;</code>是一个插槽出口</p>
+<p>v-slot实现具名插槽简写为<code>#</code></p>
+<p>插槽其实就是在写 slot 的地方挖个坑，等着组件的使用者，即父组件，进行填充。子组件中使用插槽 slot 后，父组件可以在这个占位符中填充内容，包括数据、html代码、组件等，也就是说，当子组件的某部分内容是根父组件填充的不同而变化的，那我们就可以使用插槽slot，具体填充什么，由父组件而定。</p>
+<p>子组件中，使用 <strong><slot :games="games"></slot></strong> 指明使用什么数据，并将数据传给插槽的使用者</p>
+<p><strong>生命周期</strong></p>
+<p>组件周期切换组件会被卸载</p>
+<p>可以通过keep-alive实现组件存活</p>
+<p>异步加载组件：</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs coffeescript">const Compnont = defineAsyncComponent(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <br><span class="hljs-keyword">import</span>(<span class="hljs-string">&quot;./component/Component.vue&quot;</span>)<br>)<br></code></pre></td></tr></table></figure>
+<p><strong>依赖注入</strong></p>
+<p>provide、inject实现</p>
+<p>只能由上而下注入</p>
+<p><strong>路由对象</strong></p>
+<p>实现页面跳转</p>
+<p>通过createApp(App).use来使用其功能</p>
+<p>引入页面——引入路由到项目——指定路由显示入口——指定路由跳转</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45532305/article/details/104720186">Vue配置——vue-router的详细配置_vue router配置参数-CSDN博客</a></p>
+<h3 id="Ajax"><a href="#Ajax" class="headerlink" title="Ajax"></a>Ajax</h3><p>无刷新获取数据</p>
+<ul>
+<li>没有浏览历史，没能回退</li>
+<li>存在跨域</li>
+<li>SEO不友好</li>
+</ul>
+<p><strong>HTTP协议</strong></p>
+<blockquote>
+<p>请求报文</p>
+</blockquote>
+<ul>
+<li>行<ul>
+<li>GET /s?ie=utf8(url路径) HTTP/1.1</li>
+</ul>
+</li>
+<li>头<ul>
+<li>Host :  at.com</li>
+<li>Cookie: name - guigu</li>
+<li>Content-Type:</li>
+<li>User-Agent: chrome 83</li>
+</ul>
+</li>
+<li>空行</li>
+<li>体 （GET时可以为空）</li>
+</ul>
+<blockquote>
+<p>响应报文</p>
+</blockquote>
+<ul>
+<li>行<ul>
+<li>HTTP/1.1 200 OK</li>
+</ul>
+</li>
+<li>头<ul>
+<li>Content-Type: text/html;charset = utf8</li>
+<li>Content-length:2048</li>
+<li>Content-encoding: gzip</li>
+</ul>
+</li>
+<li>空行</li>
+<li>体<ul>
+<li>html源码</li>
+</ul>
+</li>
+</ul>
+<p><strong>GET请求</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">//创建对象</span><br><span class="hljs-keyword">const</span> xhr = <span class="hljs-keyword">new</span> <span class="hljs-title class_">XMLHttpRequest</span>();<br>xhr.<span class="hljs-title function_">open</span>(<span class="hljs-string">&#x27;GET&#x27;</span>, <span class="hljs-string">&#x27;http://127.0.0.1:8000/serve?a=100&amp;b=200&#x27;</span>);<span class="hljs-comment">//?后面进行参数传递</span><br>xhr.<span class="hljs-title function_">send</span>();<br><span class="hljs-comment">//事件绑定,处理服务端返回结果</span><br>xhr.<span class="hljs-property">onreadystatechange</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123;<br>	<span class="hljs-comment">//状态有0,1,2,3,4此时表示返回了所有结果</span><br>	<span class="hljs-keyword">if</span> (xhr.<span class="hljs-property">readystate</span> == <span class="hljs-number">4</span>) &#123;<br>		<span class="hljs-comment">//判断响应状态码200,404,403,401,500</span><br>		<span class="hljs-keyword">if</span> (xhr.<span class="hljs-property">status</span> &gt;= <span class="hljs-number">200</span> &amp;&amp; xhr.<span class="hljs-property">status</span> &lt; <span class="hljs-number">300</span>) &#123;<br>            <span class="hljs-comment">//处理结果</span><br>            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(xhr.<span class="hljs-property">status</span>);<br>            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(xhr.<span class="hljs-property">statustext</span>);<br>            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(xhr.<span class="hljs-property">getAllResponseHeader</span>);<br>            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(xhr.<span class="hljs-property">response</span>);<br>		&#125; <span class="hljs-keyword">else</span> &#123;<br>            <br>        &#125;<br>	&#125;<br>&#125;	<br></code></pre></td></tr></table></figure>
+<p><strong>POST请求</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs javascript">app.<span class="hljs-title function_">post</span>(<span class="hljs-string">&#x27;/server&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">request, response</span>)=&gt;</span> &#123;<br><br>&#125;)<br><br><span class="hljs-comment">//传递参数</span><br>xhr.<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;a = 100 &amp; b =100&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p><strong>设置请求头</strong></p>
+<p><code>xhr.setRequestHeader(&#39;Content-type&#39;, &#39;application/x-www-form-urlencoded&#39;)</code></p>
+<p><strong>响应json数据</strong></p>
+<p>xhr.responseType = ‘json’可以自动将结果转换为json</p>
+<p><strong>nodemon</strong></p>
+<p>实现不需要自己重复重启服务</p>
+<p><code>nodemon serve.js</code>代替原来的即可</p>
+<p><strong>IE缓存问题</strong></p>
+<p>通过加上参数Data.now()实现</p>
+<p><strong>请求超时处理</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs javascript">xhr.<span class="hljs-property">ontimeout</span> = <span class="hljs-keyword">function</span> &#123;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>请求取消</strong></p>
+<p>调用abort()方法即可</p>
+<p><strong>重复发送请求</strong></p>
+<p>增加isSending变量,当状态为4结束时将其标记</p>
+<p>if (isSending) x.abort() // 保证只有一个请求</p>
+<p><strong>Jquery发送ajax请求</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs javascript">$.ajax&#123;<br>	<span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;http://127.0.0.1:8000/server&#x27;</span>,<br>    <span class="hljs-attr">data</span>: &#123;a : <span class="hljs-number">100</span>&#125;,<br>    <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;GET&#x27;</span>,<br>    <span class="hljs-attr">success</span>:<span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>) &#123;<br>		<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(data);<br>    &#125;<br>    <span class="hljs-attr">dataType</span>: <span class="hljs-string">&#x27;json&#x27;</span><br>    <span class="hljs-attr">timeout</span>: <span class="hljs-number">2000</span>,<br>    <span class="hljs-attr">error</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;出错了&#x27;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>较为复杂和个性化</p>
+<p>$.post和$.get请求直接发送较为简单</p>
+<p><strong>axios</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">//GET请求</span><br>axios.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;http://127.0.0.1:8000/server&#x27;</span>,&#123;<br>    <span class="hljs-comment">//url参数</span><br>    <span class="hljs-attr">params</span>: &#123;<br>		id : <span class="hljs-number">100</span>,<br>        vip : <span class="hljs-number">7</span><br>    &#125;<br>    <span class="hljs-attr">headers</span>: &#123;<br>    	<span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;atg&#x27;</span>,<br>    	<span class="hljs-attr">age</span>: <span class="hljs-number">20</span><br>	&#125;<br>&#125;).<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">value</span> =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(value);<br>&#125;);<br><br><br><span class="hljs-comment">//POST请求</span><br>axios.<span class="hljs-title function_">post</span>(<span class="hljs-string">&#x27;http://127.0.0.1:8000/server&#x27;</span>,&#123;<br>    <span class="hljs-comment">//url参数</span><br>    <span class="hljs-attr">params</span>: &#123;<br>		id : <span class="hljs-number">100</span>,<br>        vip : <span class="hljs-number">7</span><br>    &#125;<br>    <span class="hljs-attr">headers</span>: &#123;<br>    	<span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;atg&#x27;</span>,<br>    	<span class="hljs-attr">age</span>: <span class="hljs-number">20</span><br>	&#125;<br>    <span class="hljs-attr">data</span>: &#123;<br>          <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;admin&#x27;</span> <br>    &#125;<br>&#125;).<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">value</span> =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(value);<br>&#125;);<br></code></pre></td></tr></table></figure>
+<p><strong>fetch发送请求</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;http://127.0.0.1:8000/server&#x27;</span>,&#123;<br>    <span class="hljs-comment">//url参数</span><br>    <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;POST&#x27;</span><br>    <span class="hljs-attr">headers</span>: &#123;<br>    	<span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;atg&#x27;</span>,<br>    	<span class="hljs-attr">age</span>: <span class="hljs-number">20</span><br>	&#125;<br>    <span class="hljs-attr">data</span>: &#123;<br>          <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;admin&#x27;</span> <br>    &#125;<br>	<span class="hljs-attr">body</span>: <span class="hljs-string">&#x27;username=admin&#x27;</span><br>&#125;).<span class="hljs-title function_">then</span>( <span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(response.<span class="hljs-title function_">json</span>());<br>&#125;);<br></code></pre></td></tr></table></figure>
+<p><strong>跨域请求</strong></p>
+<p>script标签本身具备跨域</p>
+<p>response.end(`handle(${str})`);</p>
+<p>设置CORS响应头实现跨域</p>
+<h3 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a><strong>Promise</strong></h3><p><strong>axios</strong></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%89%8D%E7%AB%AF/" class="print-no-link">#前端</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>前端学习记录</div>
+      <div>https://fantasylee21.github.io/2024/07/11/前端学习记录/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Fantasylee</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年7月11日</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2024年7月14日</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/06/13/OS-shell%E5%AE%9E%E7%8E%B0%E6%96%87%E6%A1%A3/" title="OS_shell实现文档">
+                        <span class="hidden-mobile">OS_shell实现文档</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"pOzFaCObtjkExgzgyXtbzFbm-MdYXbMMI","appKey":"K7PRbHAE1lQy810Gl5gVC0Xl","path":"window.location.pathname","placeholder":"输入你的评论🤖\n","avatar":"retro","meta":["nick","mail"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
